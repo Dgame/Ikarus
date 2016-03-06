@@ -24,10 +24,14 @@ namespace ik {
 
         u32_t _stack_offset = 0;
 
+        u32_t getStackOffset() const {
+            return _stack_offset;
+        }
+
         void assignVariable(u32_t, Value*);
 
         void pushStack(Value*);
-        const Value* popStack();
+        Value* popStack();
 
         const Value* fetchVariable(u32_t) const;
         const Value* fetchStack(u32_t) const;
@@ -37,6 +41,7 @@ namespace ik {
 
         void assign(const Command*);
         void push(const Command*);
+        void pop(const Command*);
         void print(const Command*);
 
         void add(const Command*);
@@ -44,6 +49,10 @@ namespace ik {
         void mul(const Command*);
         void div(const Command*);
         void mod(const Command*);
+        void op_not(const Command*);
+        void op_neg(const Command*);
+        void op_inc(const Command*);
+        void op_dec(const Command*);
 
         const Expression* makeExpression(const Command*);
 

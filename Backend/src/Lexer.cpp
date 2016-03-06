@@ -76,7 +76,7 @@ namespace ik {
         if (std::isdigit(*_ptr) || *_ptr == '-')
             return new NumericValue(this->parseNumber());
 
-        error("Unexpected Value");
+        error("Unexpected Value ", *_ptr);
 
         return nullptr;
     }

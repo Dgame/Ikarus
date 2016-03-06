@@ -13,6 +13,8 @@ namespace ik {
     class ModExpression;
     class NotExpression;
     class NegExpression;
+    class IncExpression;
+    class DecExpression;
 
     class ExpressionVisitor {
     public:
@@ -23,6 +25,8 @@ namespace ik {
         virtual void visit(const ModExpression*) = 0;
         virtual void visit(const NotExpression*) = 0;
         virtual void visit(const NegExpression*) = 0;
+        virtual void visit(const IncExpression*) = 0;
+        virtual void visit(const DecExpression*) = 0;
     };
 }
 

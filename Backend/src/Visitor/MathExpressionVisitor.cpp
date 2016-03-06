@@ -10,6 +10,8 @@
 #include "ModExpression.hpp"
 #include "NotExpression.hpp"
 #include "NegExpression.hpp"
+#include "IncExpression.hpp"
+#include "DecExpression.hpp"
 #include "NumericValue.hpp"
 
 namespace ik {
@@ -75,5 +77,19 @@ namespace ik {
         enforce(value != nullptr, "...");
 
         _value = value->getValue() * -1;
+    }
+
+    void MathExpressionVisitor::visit(const IncExpression* expr) {
+        const NumericValue* value = expr->getValue()->isNumeric();
+        enforce(value != nullptr, "...");
+
+        _value = value->getValue() + 1;
+    }
+
+    void MathExpressionVisitor::visit(const DecExpression* expr) {
+        const NumericValue* value = expr->getValue()->isNumeric();
+        enforce(value != nullptr, "...");
+
+        _value = value->getValue() - 1;
     }
 }

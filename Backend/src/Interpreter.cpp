@@ -15,6 +15,8 @@
 #include "ModExpression.hpp"
 #include "NotExpression.hpp"
 #include "NegExpression.hpp"
+#include "IncExpression.hpp"
+#include "DecExpression.hpp"
 
 namespace ik {
     Interpreter::Interpreter(const std::string& str) : _variables(8), _stack(8) {
@@ -40,10 +42,10 @@ namespace ik {
         _stack_offset++;
     }
 
-    const Value* Interpreter::popStack() {
+    Value* Interpreter::popStack() {
         _stack_offset--;
 
-        return this->fetchStack(_stack_offset);
+        return _stack.at(_stack_offset).release();
     }
 
     const Value* Interpreter::fetchStack(u32_t index) const {
@@ -102,6 +104,10 @@ namespace ik {
                     writeln("CMD PUSH");
                     this->push(cmd);
                     break;
+                case Command::POP:
+                    writeln("CMD POP");
+                    this->pop(cmd);
+                    break;
                 case Command::PRINT:
                     writeln("CMD PRINT");
                     this->print(cmd);
@@ -126,6 +132,22 @@ namespace ik {
                     writeln("CMD MOD");
                     this->mod(cmd);
                     break;
+                case Command::NOT:
+                    writeln("CMD NOT");
+                    this->op_not(cmd);
+                    break;
+                case Command::NEG:
+                    writeln("CMD NEG");
+                    this->op_neg(cmd);
+                    break;
+                case Command::INC:
+                    writeln("CMD INC");
+                    this->op_inc(cmd);
+                    break;
+                case Command::DEC:
+                    writeln("CMD DEC");
+                    this->op_dec(cmd);
+                    break;
                 case Command::GOTO:
                     writeln("CMD GOTO");
                     this->jump(cmd, i);
@@ -141,6 +163,7 @@ namespace ik {
 
     void Interpreter::assign(const Command* cmd) {
         enforce(cmd->getType() == Command::ASSIGN, "Expected ASSIGN");
+        enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
         enforce(cmd->getLeft()->getType() == OpCode::VARIABLE, "Left OpCode must be a Variable");
         enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
 
@@ -168,6 +191,20 @@ namespace ik {
         this->pushStack(value->clone());
     }
 
+    void Interpreter::pop(const Command* cmd) {
+        enforce(cmd->getType() == Command::POP, "Expected POP");
+        enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
+        enforce(cmd->getLeft()->getType() == OpCode::VARIABLE, "Left OpCode must not be empty");
+        enforce(cmd->getRight() == nullptr, "Right OpCode must be empty");
+
+        const NumericValue* nv = cmd->getLeft()->getValue()->isNumeric();
+        enforce(nv != nullptr, "Variable must be integer");
+
+        const u32_t index = nv->get<u32_t>();
+
+        this->assignVariable(index, this->popStack());
+    }
+
     void Interpreter::print(const Command* cmd) {
         enforce(cmd->getType() == Command::PRINT, "Expected PRINT");
         enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
@@ -181,30 +218,72 @@ namespace ik {
 
     void Interpreter::add(const Command* cmd) {
         enforce(cmd->getType() == Command::ADD, "Expected ADD");
+        enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
+        enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
 
         this->math(cmd);
     }
 
     void Interpreter::sub(const Command* cmd) {
         enforce(cmd->getType() == Command::SUB, "Expected SUB");
+        enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
+        enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
 
         this->math(cmd);
     }
 
     void Interpreter::mul(const Command* cmd) {
         enforce(cmd->getType() == Command::MUL, "Expected MUL");
+        enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
+        enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
 
         this->math(cmd);
     }
 
     void Interpreter::div(const Command* cmd) {
         enforce(cmd->getType() == Command::DIV, "Expected DIV");
+        enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
+        enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
 
         this->math(cmd);
     }
 
     void Interpreter::mod(const Command* cmd) {
         enforce(cmd->getType() == Command::MOD, "Expected MOD");
+        enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
+        enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
+
+        this->math(cmd);
+    }
+
+    void Interpreter::op_not(const Command* cmd) {
+        enforce(cmd->getType() == Command::NOT, "Expected NOT");
+        enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
+        enforce(cmd->getRight() == nullptr, "Right OpCode must be empty");
+
+        this->math(cmd);
+    }
+
+    void Interpreter::op_neg(const Command* cmd) {
+        enforce(cmd->getType() == Command::NEG, "Expected NEG");
+        enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
+        enforce(cmd->getRight() == nullptr, "Right OpCode must be empty");
+
+        this->math(cmd);
+    }
+
+    void Interpreter::op_inc(const Command* cmd) {
+        enforce(cmd->getType() == Command::INC, "Expected INC");
+        enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
+        enforce(cmd->getRight() == nullptr, "Right OpCode must be empty");
+
+        this->math(cmd);
+    }
+
+    void Interpreter::op_dec(const Command* cmd) {
+        enforce(cmd->getType() == Command::DEC, "Expected DEC");
+        enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
+        enforce(cmd->getRight() == nullptr, "Right OpCode must be empty");
 
         this->math(cmd);
     }
@@ -251,6 +330,16 @@ namespace ik {
 
                 return new NegExpression(value);
             }
+            case Command::INC: {
+                const Value* value = this->getValue(cmd->getLeft());
+
+                return new IncExpression(value);
+            }
+            case Command::DEC: {
+                const Value* value = this->getValue(cmd->getLeft());
+
+                return new DecExpression(value);
+            }
             default:
                 error("Invalid math expression");
         }
@@ -259,9 +348,6 @@ namespace ik {
     }
 
     void Interpreter::math(const Command* cmd) {
-        enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
-        enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
-
         std::unique_ptr<const Expression> expr(this->makeExpression(cmd));
 
         MathExpressionVisitor mev;

@@ -25,6 +25,8 @@ namespace ik {
         virtual void visit(const ModExpression*);
         virtual void visit(const NotExpression*);
         virtual void visit(const NegExpression*);
+        virtual void visit(const IncExpression*);
+        virtual void visit(const DecExpression*);
     };
 }
 
