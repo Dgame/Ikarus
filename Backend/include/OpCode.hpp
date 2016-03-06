@@ -11,7 +11,6 @@
 class OpCode {
 public:
     enum Type {
-        NONE,
         VARIABLE,
         OFFSET,
         VALUE
@@ -20,10 +19,10 @@ public:
 private:
     Type _type;
 
-    std::unique_ptr<Value> _value;
+    std::unique_ptr<const Value> _value;
 
 public:
-    explicit OpCode(Type, Value*);
+    explicit OpCode(Type, const Value*);
 
     const Type getType() const {
         return _type;
