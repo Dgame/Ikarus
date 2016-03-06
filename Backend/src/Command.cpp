@@ -64,12 +64,12 @@ namespace {
 
 u32_t Command::Amount = 0;
 
-Command::Command(const std::string& token, OpCode* lhs, OpCode* rhs) : _left(lhs), _right(rhs) {
+Command::Command(const std::string& token, const OpCode* lhs, const OpCode* rhs) : _left(lhs), _right(rhs) {
     _type = this->determineType(token);
     _id   = Command::Amount++;
 }
 
-Command::Command(const std::string& token, OpCode* opc) : _left(opc) {
+Command::Command(const std::string& token, const OpCode* opc) : _left(opc) {
     _type = this->determineType(token);
     _id   = Command::Amount++;
 }

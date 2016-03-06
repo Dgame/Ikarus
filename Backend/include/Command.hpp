@@ -43,8 +43,8 @@ public:
     };
 
 private:
-    std::unique_ptr<OpCode> _left;
-    std::unique_ptr<OpCode> _right;
+    std::unique_ptr<const OpCode> _left;
+    std::unique_ptr<const OpCode> _right;
 
     Type  _type;
     u32_t _id = 0;
@@ -52,9 +52,9 @@ private:
     Type determineType(const std::string&) const;
 
 public:
-    explicit Command(const std::string&, OpCode*, OpCode*);
+    explicit Command(const std::string&, const OpCode*, const OpCode*);
 
-    explicit Command(const std::string&, OpCode*);
+    explicit Command(const std::string&, const OpCode*);
 
     Type getType() const {
         return _type;
