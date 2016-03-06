@@ -6,10 +6,7 @@
 #include "ImmutableValueVisitor.hpp"
 #include "MutableValueVisitor.hpp"
 
-ArrayValue::ArrayValue(u32_t amount) {
-    amount = amount > 0 ? amount : 8;
-    _values.reserve(amount);
-}
+ArrayValue::ArrayValue(u32_t amount) : _values(amount) { }
 
 void ArrayValue::assign(const Value* value) {
     if (_index >= _values.size()) {
