@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="CPP_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/src/Interpreter.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/src/Visitor/OutputValueVisitor.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/src/Lexer.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/src/Value/IntegerValue.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/src/Command.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/src/Expression/AddExpression.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/src/OpCode.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Expression/AddExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Expression/Expression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/util.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Interpreter.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Value/IntegerValue.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Value/Value.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/src/Visitor/MathExpressionVisitor.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Visitor/OutputValueVisitor.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Visitor/ExpressionVisitor.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Visitor/ValueVisitor.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Visitor/MathExpressionVisitor.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Lexer.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/OpCode.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Command.hpp" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="Header Search Paths">
+        <CLASSES>
+          <root url="file://E:/MinGW/mingw32/lib/gcc/i686-w64-mingw32/5.2.0/include-fixed" />
+          <root url="file://E:/MinGW/mingw32/lib/gcc/i686-w64-mingw32/5.2.0/include" />
+          <root url="file://E:/MinGW/mingw32/i686-w64-mingw32/include" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://E:/MinGW/mingw32/lib/gcc/i686-w64-mingw32/5.2.0/include-fixed" />
+          <root url="file://E:/MinGW/mingw32/lib/gcc/i686-w64-mingw32/5.2.0/include" />
+          <root url="file://E:/MinGW/mingw32/i686-w64-mingw32/include" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+  </component>
+</module>
