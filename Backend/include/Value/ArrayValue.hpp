@@ -14,7 +14,7 @@ class ArrayValue : public Value {
 private:
     u32_t _index = 0;
 
-    std::vector<std::unique_ptr<Value>> _values;
+    std::vector<std::unique_ptr<const Value>> _values;
 
 public:
     explicit ArrayValue(u32_t amount = 8);
@@ -23,7 +23,7 @@ public:
         _index = index;
     }
 
-    void assign(Value*);
+    void assign(const Value*);
 
     u32_t getAmount() const {
         return _values.size();

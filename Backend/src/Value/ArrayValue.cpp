@@ -11,7 +11,7 @@ ArrayValue::ArrayValue(u32_t amount) {
     _values.reserve(amount);
 }
 
-void ArrayValue::assign(Value* value) {
+void ArrayValue::assign(const Value* value) {
     if (_index >= _values.size()) {
         _values.resize(_index * 2);
     }
