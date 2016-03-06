@@ -9,7 +9,7 @@
 
 namespace ik {
     class OutputValueVisitor : public ValueVisitor {
-        virtual void visit(const IntegerValue*);
+        virtual void visit(const NumericValue*);
     };
 }
 

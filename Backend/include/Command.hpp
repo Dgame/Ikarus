@@ -7,7 +7,7 @@
 
 #include <string>
 #include <memory>
-#include "../include/OpCode.hpp"
+#include <OpCode.hpp>
 
 namespace ik {
     class Command {

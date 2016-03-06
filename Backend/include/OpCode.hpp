@@ -6,7 +6,7 @@
 #define IKARUS_OPCODE_HPP
 
 #include <memory>
-#include "Value/Value.hpp"
+#include <Value.hpp>
 
 namespace ik {
     class OpCode {

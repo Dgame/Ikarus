@@ -6,14 +6,15 @@
 #define IKARUS_MATHEXPRESSIONVISITOR_HPP
 
 #include "ExpressionVisitor.hpp"
+#include <types.hpp>
 
 namespace ik {
     class MathExpressionVisitor : public ExpressionVisitor {
     private:
-        int _value = 0;
+        f32_t _value = 0;
 
     public:
-        int getValue() const {
+        f32_t getValue() const {
             return _value;
         }
 

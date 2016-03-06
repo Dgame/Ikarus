@@ -6,14 +6,14 @@
 #define IKARUS_VALUE_VISITOR_HPP
 
 namespace ik {
-    class IntegerValue;
+    class NumericValue;
     class Decimal;
     class Boolean;
     class String;
 
     class ValueVisitor {
     public:
-        virtual void visit(const IntegerValue*) = 0;
+        virtual void visit(const NumericValue*) = 0;
 
         //virtual void visit(const Decimal*) = 0;
 

@@ -7,7 +7,7 @@
 
 #include "Expression.hpp"
 #include <memory>
-#include "../Value/IntegerValue.hpp"
+#include <NumericValue.hpp>
 
 namespace ik {
     class AddExpression : public Expression {

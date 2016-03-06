@@ -3,9 +3,9 @@
 //
 
 #include <locale>
-#include "../include/Lexer.hpp"
-#include "../include/util.hpp"
-#include "../include/Value/IntegerValue.hpp"
+#include <Lexer.hpp>
+#include <util.hpp>
+#include <NumericValue.hpp>
 
 namespace ik {
     void Lexer::skipSpaces() {
@@ -54,7 +54,7 @@ namespace ik {
     }
 
     Value* Lexer::parseValue() {
-        return new IntegerValue(this->parseNumber());
+        return new NumericValue(this->parseNumber());
     }
 
     OpCode* Lexer::parseOpCode() {

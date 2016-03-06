@@ -2,8 +2,8 @@
 // Created by Randy on 05.03.2016.
 //
 
-#include "../include/Command.hpp"
-#include "../include/util.hpp"
+#include <Command.hpp>
+#include <util.hpp>
 #include <map>
 
 namespace {

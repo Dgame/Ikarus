@@ -6,12 +6,12 @@
 #define IKARUS_VALUE_HPP
 
 namespace ik {
-    class IntegerValue;
+    class NumericValue;
     class ValueVisitor;
 
     class Value {
     public:
-        virtual const IntegerValue* isInteger() const {
+        virtual const NumericValue* isNumeric() const {
             return nullptr;
         }
 

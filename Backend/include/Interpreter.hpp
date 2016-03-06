@@ -9,7 +9,8 @@
 #include <vector>
 #include <memory>
 #include "Command.hpp"
-#include "Value/Value.hpp"
+#include <Value.hpp>
+#include "types.hpp"
 
 namespace ik {
     class OpCode;
@@ -19,7 +20,14 @@ namespace ik {
         std::vector<std::unique_ptr<Value>> _variables;
         std::vector<std::unique_ptr<Value>> _stack;
 
-        int _stack_offset = 0;
+        u32_t _stack_offset = 0;
+
+        void assignVariable(u32_t, Value*);
+        void pushStack(Value*);
+        const Value* popStack();
+
+        const Value* fetchVariable(u32_t) const;
+        const Value* fetchStack(u32_t) const;
 
         const Value* getValue(const OpCode*) const;
 
