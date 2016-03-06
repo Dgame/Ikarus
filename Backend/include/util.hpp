@@ -20,11 +20,16 @@ namespace ik {
     }
 
     template <typename ...Args>
+    void error(const Args ...args) {
+        writeln(args...);
+
+        throw "An error occured";
+    }
+
+    template <typename ...Args>
     void enforce(bool cond, const Args ...args) {
         if (!cond) {
-            writeln(args...);
-
-            throw "An error occured";
+            error(args...);
         }
     }
 }

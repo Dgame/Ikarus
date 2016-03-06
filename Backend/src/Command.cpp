@@ -26,7 +26,7 @@ namespace {
             {"neg",    Command::NEG},
             {"inc",    Command::INC},
             {"dec",    Command::DEC},
-            {"je",     Command::SKIP_IF_EQUAL},
+            {"je",     Command::JUMP_IF_EQUAL},
             {"jne",    Command::JUMP_IF_NOT_EQUAL},
             {"jg",     Command::JUMP_IF_GREATER},
             {"jl",     Command::JUMP_IF_LOWER},
@@ -51,7 +51,7 @@ namespace {
             {Command::NEG,                      "neg"},
             {Command::INC,                      "inc"},
             {Command::DEC,                      "dec"},
-            {Command::SKIP_IF_EQUAL,            "je"},
+            {Command::JUMP_IF_EQUAL,            "je"},
             {Command::JUMP_IF_NOT_EQUAL,        "jne"},
             {Command::JUMP_IF_GREATER,          "jg"},
             {Command::JUMP_IF_LOWER,            "jl"},
@@ -79,13 +79,14 @@ namespace ik {
             return it->second;
         }
 
-        enforce(false, "No type for: ", token);
-        exit(1);
+        error("No type for: ", token);
+
+        return Command::NONE;
     }
 
     Command::Type Command::isJump() const {
         switch (_type) {
-            case Command::SKIP_IF_EQUAL:
+            case Command::JUMP_IF_EQUAL:
             case Command::JUMP_IF_NOT_EQUAL:
             case Command::JUMP_IF_GREATER:
             case Command::JUMP_IF_LOWER:

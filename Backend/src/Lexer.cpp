@@ -76,8 +76,9 @@ namespace ik {
         if (std::isdigit(*_ptr) || *_ptr == '-')
             return new NumericValue(this->parseNumber());
 
-        enforce(false, "Unexpected Value");
-        exit(1);
+        error("Unexpected Value");
+
+        return nullptr;
     }
 
     OpCode* Lexer::parseOpCode() {

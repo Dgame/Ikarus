@@ -75,10 +75,10 @@ namespace ik {
             case OpCode::VALUE:
                 return opc->getValue();
             default:
-                enforce(false, "Expected Variable or Offset");
+                error("Expected Variable or Offset");
         }
 
-        exit(1);
+        return nullptr;
     }
 
     void Interpreter::interpret(const std::vector<std::unique_ptr<Command>>& commands) {
@@ -110,7 +110,7 @@ namespace ik {
                     break;
                 default:
                     writeln("UNKNOWN");
-                    enforce(false, "WTF");
+                    error("WTF");
             }
         }
 
@@ -168,17 +168,17 @@ namespace ik {
         const Value* rhs = this->getValue(cmd->getRight());
 
         switch (cmd->getType()) {
-            case Command::Type::ADD:
+            case Command::ADD:
                 return new AddExpression(lhs, rhs);
 //            case Command::SUB:
 //            case Command::MUL:
 //            case Command::DIV:
 //            case Command::MOD:
             default:
-                enforce(false, "Invalid math expression");
+                error("Invalid math expression");
         }
 
-        exit(1);
+        return nullptr;
     }
 
     void Interpreter::math(const Command* cmd) {
@@ -197,7 +197,7 @@ namespace ik {
         enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
         enforce(cmd->getRight() == nullptr, "Right OpCode must be empty");
 
-        const Command::Type jt = cmd->isJump();
+        auto jt = cmd->isJump();
         enforce(jt != Command::NONE, "Invalid jump command");
 
         switch (jt) {
@@ -213,7 +213,7 @@ namespace ik {
             }
                 break;
             default:
-                enforce(false, "Unexpected jump command");
+                error("Unexpected jump command");
         }
     }
 }

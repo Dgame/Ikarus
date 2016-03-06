@@ -33,7 +33,7 @@ namespace ik {
             NEG,
             INC,
             DEC,
-            SKIP_IF_EQUAL,
+            JUMP_IF_EQUAL,
             JUMP_IF_NOT_EQUAL,
             JUMP_IF_GREATER,
             JUMP_IF_LOWER,
