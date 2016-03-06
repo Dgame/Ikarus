@@ -5,10 +5,8 @@
 #include "NegExpression.hpp"
 #include "ExpressionVisitor.hpp"
 
-namespace ik {
-    NegExpression::NegExpression(const Value* value) : UnaryExpression(value) { }
+NegExpression::NegExpression(const Value* value) : UnaryExpression(value) { }
 
-    void NegExpression::accept(ExpressionVisitor* v) const {
-        v->visit(this);
-    }
+void NegExpression::accept(ExpressionVisitor* v) const {
+    v->visit(this);
 }

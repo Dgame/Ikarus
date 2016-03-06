@@ -5,12 +5,11 @@
 #ifndef IKARUS_OUTPUT_VALUE_VISITOR_HPP
 #define IKARUS_OUTPUT_VALUE_VISITOR_HPP
 
-#include "ValueVisitor.hpp"
+#include "ImmutableValueVisitor.hpp"
 
-namespace ik {
-    class OutputValueVisitor : public ValueVisitor {
-        virtual void visit(const NumericValue*);
-    };
-}
+class OutputValueVisitor : public ImmutableValueVisitor {
+    virtual void visit(const NumericValue*);
+    virtual void visit(const ArrayValue*);
+};
 
 #endif //IKARUS_OUTPUTVISITOR_HPP

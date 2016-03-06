@@ -8,26 +8,24 @@
 #include "ExpressionVisitor.hpp"
 #include <types.hpp>
 
-namespace ik {
-    class MathExpressionVisitor : public ExpressionVisitor {
-    private:
-        f32_t _value = 0;
+class MathExpressionVisitor : public ExpressionVisitor {
+private:
+    f32_t _value = 0;
 
-    public:
-        f32_t getValue() const {
-            return _value;
-        }
+public:
+    f32_t getValue() const {
+        return _value;
+    }
 
-        virtual void visit(const AddExpression*);
-        virtual void visit(const SubExpression*);
-        virtual void visit(const MulExpression*);
-        virtual void visit(const DivExpression*);
-        virtual void visit(const ModExpression*);
-        virtual void visit(const NotExpression*);
-        virtual void visit(const NegExpression*);
-        virtual void visit(const IncExpression*);
-        virtual void visit(const DecExpression*);
-    };
-}
+    virtual void visit(const AddExpression*);
+    virtual void visit(const SubExpression*);
+    virtual void visit(const MulExpression*);
+    virtual void visit(const DivExpression*);
+    virtual void visit(const ModExpression*);
+    virtual void visit(const NotExpression*);
+    virtual void visit(const NegExpression*);
+    virtual void visit(const IncExpression*);
+    virtual void visit(const DecExpression*);
+};
 
 #endif //IKARUS_MATHEXPRESSIONVISITOR_HPP

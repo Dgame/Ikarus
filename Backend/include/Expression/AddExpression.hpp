@@ -7,13 +7,11 @@
 
 #include "BinaryExpression.hpp"
 
-namespace ik {
-    class AddExpression : public BinaryExpression {
-    public:
-        explicit AddExpression(const Value*, const Value*);
+class AddExpression : public BinaryExpression {
+public:
+    explicit AddExpression(const Value*, const Value*);
 
-        virtual void accept(ExpressionVisitor*) const;
-    };
-}
+    virtual void accept(ExpressionVisitor*) const;
+};
 
 #endif //IKARUS_INTEGEREXPRESSION_HPP

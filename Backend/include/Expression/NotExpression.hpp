@@ -7,13 +7,11 @@
 
 #include "UnaryExpression.hpp"
 
-namespace ik {
-    class NotExpression : public UnaryExpression {
-    public:
-        explicit NotExpression(const Value*);
+class NotExpression : public UnaryExpression {
+public:
+    explicit NotExpression(const Value*);
 
-        virtual void accept(ExpressionVisitor*) const;
-    };
-}
+    virtual void accept(ExpressionVisitor*) const;
+};
 
 #endif //IKARUS_NOTEXPRESSION_HPP

@@ -5,19 +5,15 @@
 #ifndef IKARUS_VALUE_HPP
 #define IKARUS_VALUE_HPP
 
-namespace ik {
-    class NumericValue;
-    class ValueVisitor;
+class MutableValueVisitor;
 
-    class Value {
-    public:
-        virtual const NumericValue* isNumeric() const {
-            return nullptr;
-        }
+class ImmutableValueVisitor;
 
-        virtual Value* clone() const = 0;
-        virtual void accept(ValueVisitor*) const = 0;
-    };
-}
+class Value {
+public:
+    virtual Value* clone() const = 0;
+    virtual void accept(ImmutableValueVisitor*) const = 0;
+    virtual void accept(MutableValueVisitor*)         = 0;
+};
 
 #endif //IKARUS_VALUE_HPP

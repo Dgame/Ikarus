@@ -4,6 +4,4 @@
 
 #include "UnaryExpression.hpp"
 
-namespace ik {
-    UnaryExpression::UnaryExpression(const Value* value) : _value(value) { }
-}
+UnaryExpression::UnaryExpression(const Value* value) : _value(value) { }

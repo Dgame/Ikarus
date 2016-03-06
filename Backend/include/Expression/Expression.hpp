@@ -5,13 +5,11 @@
 #ifndef IKARUS_EXPRESSION_HPP
 #define IKARUS_EXPRESSION_HPP
 
-namespace ik {
-    class ExpressionVisitor;
+class ExpressionVisitor;
 
-    class Expression {
-    public:
-        virtual void accept(ExpressionVisitor*) const = 0;
-    };
-}
+class Expression {
+public:
+    virtual void accept(ExpressionVisitor*) const = 0;
+};
 
 #endif //IKARUS_EXPRESSION_HPP

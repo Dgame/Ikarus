@@ -5,10 +5,8 @@
 #include "NotExpression.hpp"
 #include "ExpressionVisitor.hpp"
 
-namespace ik {
-    NotExpression::NotExpression(const Value* value) : UnaryExpression(value) { }
+NotExpression::NotExpression(const Value* value) : UnaryExpression(value) { }
 
-    void NotExpression::accept(ExpressionVisitor* v) const {
-        v->visit(this);
-    }
+void NotExpression::accept(ExpressionVisitor* v) const {
+    v->visit(this);
 }

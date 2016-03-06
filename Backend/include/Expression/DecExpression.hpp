@@ -7,13 +7,11 @@
 
 #include "UnaryExpression.hpp"
 
-namespace ik {
-    class DecExpression : public UnaryExpression {
-    public:
-        explicit DecExpression(const Value*);
+class DecExpression : public UnaryExpression {
+public:
+    explicit DecExpression(const Value*);
 
-        virtual void accept(ExpressionVisitor*) const;
-    };
-}
+    virtual void accept(ExpressionVisitor*) const;
+};
 
 #endif //IKARUS_DECEXPRESSION_HPP

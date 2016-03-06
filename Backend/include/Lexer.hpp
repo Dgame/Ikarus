@@ -10,32 +10,29 @@
 #include "OpCode.hpp"
 #include "Command.hpp"
 
-namespace ik {
-    class Lexer {
-    private:
-        std::vector<std::unique_ptr<Command>> _commands;
-        const char* _ptr = nullptr;
+class Lexer {
+private:
+    std::vector<std::unique_ptr<Command>> _commands;
+    const char* _ptr = nullptr;
 
-        void skipSpaces();
+    void skipSpaces();
 
-        bool accept(char);
+    bool accept(char);
 
-        std::string parseString();
+    std::string parseString();
 
-        f32_t parseNumber();
+    f32_t parseNumber();
 
-        Value* parseValue();
+    Value* parseValue();
 
-        OpCode* parseOpCode();
+    OpCode* parseOpCode();
 
-    public:
-        explicit Lexer(const std::string&);
+public:
+    explicit Lexer(const std::string&);
 
-        const std::vector<std::unique_ptr<Command>>& getCommands() const {
-            return _commands;
-        }
-    };
-}
-
+    auto& getCommands() const {
+        return _commands;
+    }
+};
 
 #endif //IKARUS_LEXER_HPP

@@ -7,13 +7,11 @@
 
 #include "BinaryExpression.hpp"
 
-namespace ik {
-    class DivExpression : public BinaryExpression {
-    public:
-        explicit DivExpression(const Value*, const Value*);
+class DivExpression : public BinaryExpression {
+public:
+    explicit DivExpression(const Value*, const Value*);
 
-        virtual void accept(ExpressionVisitor*) const;
-    };
-}
+    virtual void accept(ExpressionVisitor*) const;
+};
 
 #endif //IKARUS_DIVEXPRESSION_HPP

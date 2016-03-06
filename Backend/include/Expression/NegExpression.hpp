@@ -7,13 +7,11 @@
 
 #include "UnaryExpression.hpp"
 
-namespace ik {
-    class NegExpression : public UnaryExpression {
-    public:
-        explicit NegExpression(const Value*);
+class NegExpression : public UnaryExpression {
+public:
+    explicit NegExpression(const Value*);
 
-        virtual void accept(ExpressionVisitor*) const;
-    };
-}
+    virtual void accept(ExpressionVisitor*) const;
+};
 
 #endif //IKARUS_NEGEXPRESSION_HPP

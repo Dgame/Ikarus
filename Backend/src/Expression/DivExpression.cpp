@@ -5,10 +5,8 @@
 #include "DivExpression.hpp"
 #include <ExpressionVisitor.hpp>
 
-namespace ik {
-    DivExpression::DivExpression(const Value* lhs, const Value* rhs) : BinaryExpression(lhs, rhs) { }
+DivExpression::DivExpression(const Value* lhs, const Value* rhs) : BinaryExpression(lhs, rhs) { }
 
-    void DivExpression::accept(ExpressionVisitor* v) const {
-        v->visit(this);
-    }
+void DivExpression::accept(ExpressionVisitor* v) const {
+    v->visit(this);
 }

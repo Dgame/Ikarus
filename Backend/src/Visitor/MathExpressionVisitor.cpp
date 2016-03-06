@@ -3,6 +3,7 @@
 //
 
 #include "MathExpressionVisitor.hpp"
+#include "NumericValueVisitor.hpp"
 #include "AddExpression.hpp"
 #include "SubExpression.hpp"
 #include "MulExpression.hpp"
@@ -14,84 +15,90 @@
 #include "DecExpression.hpp"
 #include "NumericValue.hpp"
 
-#include <cmath>
+void MathExpressionVisitor::visit(const AddExpression* expr) {
+    NumericValueVisitor nvv;
 
-namespace ik {
-    void MathExpressionVisitor::visit(const AddExpression* expr) {
-        const NumericValue* iv_lhs = expr->getLeft()->isNumeric();
-        enforce(iv_lhs != nullptr, "...");
+    expr->getLeft()->accept(&nvv);
+    const f32_t lhs = nvv.getNumber();
 
-        const NumericValue* iv_rhs = expr->getRight()->isNumeric();
-        enforce(iv_rhs != nullptr, "...");
+    expr->getRight()->accept(&nvv);
+    const f32_t rhs = nvv.getNumber();
 
-        _value = iv_lhs->getValue() + iv_rhs->getValue();
-    }
+    _value = lhs + rhs;
+}
 
-    void MathExpressionVisitor::visit(const SubExpression* expr) {
-        const NumericValue* iv_lhs = expr->getLeft()->isNumeric();
-        enforce(iv_lhs != nullptr, "...");
+void MathExpressionVisitor::visit(const SubExpression* expr) {
+    NumericValueVisitor nvv;
 
-        const NumericValue* iv_rhs = expr->getRight()->isNumeric();
-        enforce(iv_rhs != nullptr, "...");
+    expr->getLeft()->accept(&nvv);
+    const f32_t lhs = nvv.getNumber();
 
-        _value = iv_lhs->getValue() - iv_rhs->getValue();
-    }
+    expr->getRight()->accept(&nvv);
+    const f32_t rhs = nvv.getNumber();
 
-    void MathExpressionVisitor::visit(const MulExpression* expr) {
-        const NumericValue* iv_lhs = expr->getLeft()->isNumeric();
-        enforce(iv_lhs != nullptr, "...");
+    _value = lhs - rhs;
+}
 
-        const NumericValue* iv_rhs = expr->getRight()->isNumeric();
-        enforce(iv_rhs != nullptr, "...");
+void MathExpressionVisitor::visit(const MulExpression* expr) {
+    NumericValueVisitor nvv;
 
-        _value = iv_lhs->getValue() * iv_rhs->getValue();
-    }
+    expr->getLeft()->accept(&nvv);
+    const f32_t lhs = nvv.getNumber();
 
-    void MathExpressionVisitor::visit(const DivExpression* expr) {
-        const NumericValue* iv_lhs = expr->getLeft()->isNumeric();
-        enforce(iv_lhs != nullptr, "...");
+    expr->getRight()->accept(&nvv);
+    const f32_t rhs = nvv.getNumber();
 
-        const NumericValue* iv_rhs = expr->getRight()->isNumeric();
-        enforce(iv_rhs != nullptr, "...");
+    _value = lhs * rhs;
+}
 
-        _value = iv_lhs->getValue() / iv_rhs->getValue();
-    }
+void MathExpressionVisitor::visit(const DivExpression* expr) {
+    NumericValueVisitor nvv;
 
-    void MathExpressionVisitor::visit(const ModExpression* expr) {
-        const NumericValue* iv_lhs = expr->getLeft()->isNumeric();
-        enforce(iv_lhs != nullptr, "...");
+    expr->getLeft()->accept(&nvv);
+    const f32_t lhs = nvv.getNumber();
 
-        const NumericValue* iv_rhs = expr->getRight()->isNumeric();
-        enforce(iv_rhs != nullptr, "...");
+    expr->getRight()->accept(&nvv);
+    const f32_t rhs = nvv.getNumber();
 
-        _value = std::fmod(iv_lhs->getValue(), iv_rhs->getValue());
-    }
+    _value = lhs / rhs;
+}
 
-    void MathExpressionVisitor::visit(const NotExpression* expr) {
-        const NumericValue* value = expr->getValue()->isNumeric();
-        enforce(value != nullptr, "...");
+void MathExpressionVisitor::visit(const ModExpression* expr) {
+    NumericValueVisitor nvv;
 
-        _value = !value->getValue();
-    }
+    expr->getLeft()->accept(&nvv);
+    const f32_t lhs = nvv.getNumber();
 
-    void MathExpressionVisitor::visit(const NegExpression* expr) {
-        const NumericValue* value = expr->getValue()->isNumeric();
-        enforce(value != nullptr, "...");
+    expr->getRight()->accept(&nvv);
+    const f32_t rhs = nvv.getNumber();
 
-        _value = value->getValue() * -1;
-    }
+    _value = std::fmod(lhs, rhs);
+}
 
-    void MathExpressionVisitor::visit(const IncExpression* expr) {
-        const NumericValue* value = expr->getValue()->isNumeric();
-        enforce(value != nullptr, "...");
+void MathExpressionVisitor::visit(const NotExpression* expr) {
+    NumericValueVisitor nvv;
+    expr->getValue()->accept(&nvv);
 
-        _value = value->getValue() + 1;
-    }
+    _value = !nvv.getNumber();
+}
 
-    void MathExpressionVisitor::visit(const DecExpression* expr) {
-        const NumericValue* value = expr->getValue()->isNumeric();
-        enforce(value != nullptr, "...");
+void MathExpressionVisitor::visit(const NegExpression* expr) {
+    NumericValueVisitor nvv;
+    expr->getValue()->accept(&nvv);
 
-        _value = value->getValue() - 1;
-    }
+    _value = nvv.getNumber() * -1;
+}
+
+void MathExpressionVisitor::visit(const IncExpression* expr) {
+    NumericValueVisitor nvv;
+    expr->getValue()->accept(&nvv);
+
+    _value = nvv.getNumber() + 1;
+}
+
+void MathExpressionVisitor::visit(const DecExpression* expr) {
+    NumericValueVisitor nvv;
+    expr->getValue()->accept(&nvv);
+
+    _value = nvv.getNumber() - 1;
 }

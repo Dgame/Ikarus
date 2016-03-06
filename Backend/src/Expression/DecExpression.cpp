@@ -5,10 +5,8 @@
 #include "DecExpression.hpp"
 #include "ExpressionVisitor.hpp"
 
-namespace ik {
-    DecExpression::DecExpression(const Value* value) : UnaryExpression(value) { }
+DecExpression::DecExpression(const Value* value) : UnaryExpression(value) { }
 
-    void DecExpression::accept(ExpressionVisitor* v) const {
-        v->visit(this);
-    }
+void DecExpression::accept(ExpressionVisitor* v) const {
+    v->visit(this);
 }

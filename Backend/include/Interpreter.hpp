@@ -12,56 +12,55 @@
 #include <Value.hpp>
 #include "types.hpp"
 
-namespace ik {
-    class OpCode;
+class OpCode;
 
-    class Expression;
+class Expression;
 
-    class Interpreter {
-    private:
-        std::vector<std::unique_ptr<Value>> _variables;
-        std::vector<std::unique_ptr<Value>> _stack;
+class Interpreter {
+private:
+    std::vector<std::unique_ptr<Value>> _variables;
+    std::vector<std::unique_ptr<Value>> _stack;
 
-        u32_t _stack_offset = 0;
+    u32_t _stack_offset = 0;
 
-        u32_t getStackOffset() const {
-            return _stack_offset;
-        }
+    u32_t getStackOffset() const {
+        return _stack_offset;
+    }
 
-        void assignVariable(u32_t, Value*);
+    void assignVariable(u32_t, Value*);
 
-        void pushStack(Value*);
-        Value* popStack();
+    void pushStack(Value*);
+    Value* popStack();
 
-        const Value* fetchVariable(u32_t) const;
-        const Value* fetchStack(u32_t) const;
-        const Value* getValue(const OpCode*) const;
+    Value      * fetchVariable(u32_t) const;
+    const Value* fetchStack(u32_t) const;
+    const Value* getValue(const OpCode*) const;
 
-        void interpret(const std::vector<std::unique_ptr<Command>>&);
+    void interpret(const std::vector<std::unique_ptr<Command>>&);
 
-        void assign(const Command*);
-        void push(const Command*);
-        void pop(const Command*);
-        void print(const Command*);
+    void assign(const Command*);
+    void push(const Command*);
+    void pop(const Command*);
+    void print(const Command*);
+    void append(const Command*);
 
-        void add(const Command*);
-        void sub(const Command*);
-        void mul(const Command*);
-        void div(const Command*);
-        void mod(const Command*);
-        void op_not(const Command*);
-        void op_neg(const Command*);
-        void op_inc(const Command*);
-        void op_dec(const Command*);
+    void add(const Command*);
+    void sub(const Command*);
+    void mul(const Command*);
+    void div(const Command*);
+    void mod(const Command*);
+    void op_not(const Command*);
+    void op_neg(const Command*);
+    void op_inc(const Command*);
+    void op_dec(const Command*);
 
-        const Expression* makeExpression(const Command*);
+    const Expression* makeExpression(const Command*);
 
-        void math(const Command*);
-        void jump(const Command*, u32_t&);
+    void math(const Command*);
+    void jump(const Command*, u32_t&);
 
-    public:
-        explicit Interpreter(const std::string&);
-    };
-}
+public:
+    explicit Interpreter(const std::string&);
+};
 
 #endif //IKARUS_INTERPRETER_HPP

@@ -7,11 +7,11 @@
 #include <map>
 
 namespace {
-    using ik::Command;
-
     const std::map<std::string, Command::Type> String2Command = {
             {"assign", Command::ASSIGN},
-            {"append", Command::APPEND},
+            {"assign", Command::APPEND},
+            {"index",  Command::INDEX},
+            {"fetch",  Command::FETCH},
             {"push",   Command::PUSH},
             {"pop",    Command::POP},
             {"add",    Command::ADD},
@@ -36,7 +36,9 @@ namespace {
 
     const std::map<Command::Type, std::string> Command2String = {
             {Command::ASSIGN,                   "assign"},
-            {Command::APPEND,                   "append"},
+            {Command::APPEND,                   "assign"},
+            {Command::INDEX,                    "index"},
+            {Command::FETCH,                    "fetch"},
             {Command::PUSH,                     "push"},
             {Command::POP,                      "pop"},
             {Command::ADD,                      "add"},
@@ -60,42 +62,40 @@ namespace {
     };
 }
 
-namespace ik {
-    u32_t Command::Amount = 0;
+u32_t Command::Amount = 0;
 
-    Command::Command(const std::string& token, OpCode* lhs, OpCode* rhs) : _left(lhs), _right(rhs) {
-        _type = this->determineType(token);
-        _id   = Command::Amount++;
+Command::Command(const std::string& token, OpCode* lhs, OpCode* rhs) : _left(lhs), _right(rhs) {
+    _type = this->determineType(token);
+    _id   = Command::Amount++;
+}
+
+Command::Command(const std::string& token, OpCode* opc) : _left(opc) {
+    _type = this->determineType(token);
+    _id   = Command::Amount++;
+}
+
+Command::Type Command::determineType(const std::string& token) const {
+    auto it = String2Command.find(token);
+    if (it != String2Command.end()) {
+        return it->second;
     }
 
-    Command::Command(const std::string& token, OpCode* opc) : _left(opc) {
-        _type = this->determineType(token);
-        _id   = Command::Amount++;
-    }
+    error("No type for: ", token);
 
-    Command::Type Command::determineType(const std::string& token) const {
-        auto it = String2Command.find(token);
-        if (it != String2Command.end()) {
-            return it->second;
-        }
+    return Command::NONE;
+}
 
-        error("No type for: ", token);
-
-        return Command::NONE;
-    }
-
-    Command::Type Command::isJump() const {
-        switch (_type) {
-            case Command::JUMP_IF_EQUAL:
-            case Command::JUMP_IF_NOT_EQUAL:
-            case Command::JUMP_IF_GREATER:
-            case Command::JUMP_IF_LOWER:
-            case Command::JUMP_IF_LOWER_OR_EQUAL:
-            case Command::JUMP_IF_GREATER_OR_EQUAL:
-            case Command::GOTO:
-                return _type;
-            default:
-                return Command::NONE;
-        }
+Command::Type Command::isJump() const {
+    switch (_type) {
+        case Command::JUMP_IF_EQUAL:
+        case Command::JUMP_IF_NOT_EQUAL:
+        case Command::JUMP_IF_GREATER:
+        case Command::JUMP_IF_LOWER:
+        case Command::JUMP_IF_LOWER_OR_EQUAL:
+        case Command::JUMP_IF_GREATER_OR_EQUAL:
+        case Command::GOTO:
+            return _type;
+        default:
+            return Command::NONE;
     }
 }
