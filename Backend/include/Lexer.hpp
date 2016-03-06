@@ -22,7 +22,7 @@ namespace ik {
 
         std::string parseString();
 
-        int parseNumber();
+        f32_t parseNumber();
 
         Value* parseValue();
 

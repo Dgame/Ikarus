@@ -39,22 +39,45 @@ namespace ik {
         return value;
     }
 
-    int Lexer::parseNumber() {
+    f32_t Lexer::parseNumber() {
         this->skipSpaces();
 
-        int value = 0;
+        const bool negate = this->accept('-');
+
+        enforce(std::isdigit(*_ptr), "Expected number");
+
+        f32_t value = 0;
         while (isdigit(*_ptr)) {
             value *= 10;
-            value += static_cast<int>(*_ptr - '0');
+            value += static_cast<i32_t>(*_ptr - '0');
 
             _ptr++;
         }
 
-        return value;
+        if (this->accept('.')) {
+            f32_t pot = 1;
+            f32_t dec = 0;
+
+            while (isdigit(*_ptr)) {
+                pot *= 10;
+                dec *= 10;
+                dec += static_cast<i32_t>(*_ptr - '0');
+
+                _ptr++;
+            }
+
+            value += dec / pot;
+        }
+
+        return negate ? value * -1 : value;
     }
 
     Value* Lexer::parseValue() {
-        return new NumericValue(this->parseNumber());
+        if (std::isdigit(*_ptr) || *_ptr == '-')
+            return new NumericValue(this->parseNumber());
+
+        enforce(false, "Unexpected Value");
+        exit(1);
     }
 
     OpCode* Lexer::parseOpCode() {
