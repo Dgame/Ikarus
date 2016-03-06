@@ -8,7 +8,13 @@
 #include <NumericValue.hpp>
 #include <OutputValueVisitor.hpp>
 #include <MathExpressionVisitor.hpp>
-#include <AddExpression.hpp>
+#include "AddExpression.hpp"
+#include "SubExpression.hpp"
+#include "MulExpression.hpp"
+#include "DivExpression.hpp"
+#include "ModExpression.hpp"
+#include "NotExpression.hpp"
+#include "NegExpression.hpp"
 
 namespace ik {
     Interpreter::Interpreter(const std::string& str) : _variables(8), _stack(8) {
@@ -104,6 +110,22 @@ namespace ik {
                     writeln("CMD ADD");
                     this->add(cmd);
                     break;
+                case Command::SUB:
+                    writeln("CMD SUB");
+                    this->sub(cmd);
+                    break;
+                case Command::MUL:
+                    writeln("CMD MUL");
+                    this->mul(cmd);
+                    break;
+                case Command::DIV:
+                    writeln("CMD DIV");
+                    this->div(cmd);
+                    break;
+                case Command::MOD:
+                    writeln("CMD MOD");
+                    this->mod(cmd);
+                    break;
                 case Command::GOTO:
                     writeln("CMD GOTO");
                     this->jump(cmd, i);
@@ -163,17 +185,72 @@ namespace ik {
         this->math(cmd);
     }
 
-    const Expression* Interpreter::makeExpression(const Command* cmd) {
-        const Value* lhs = this->getValue(cmd->getLeft());
-        const Value* rhs = this->getValue(cmd->getRight());
+    void Interpreter::sub(const Command* cmd) {
+        enforce(cmd->getType() == Command::SUB, "Expected SUB");
 
+        this->math(cmd);
+    }
+
+    void Interpreter::mul(const Command* cmd) {
+        enforce(cmd->getType() == Command::MUL, "Expected MUL");
+
+        this->math(cmd);
+    }
+
+    void Interpreter::div(const Command* cmd) {
+        enforce(cmd->getType() == Command::DIV, "Expected DIV");
+
+        this->math(cmd);
+    }
+
+    void Interpreter::mod(const Command* cmd) {
+        enforce(cmd->getType() == Command::MOD, "Expected MOD");
+
+        this->math(cmd);
+    }
+
+    const Expression* Interpreter::makeExpression(const Command* cmd) {
         switch (cmd->getType()) {
-            case Command::ADD:
+            case Command::ADD: {
+                const Value* lhs = this->getValue(cmd->getLeft());
+                const Value* rhs = this->getValue(cmd->getRight());
+
                 return new AddExpression(lhs, rhs);
-//            case Command::SUB:
-//            case Command::MUL:
-//            case Command::DIV:
-//            case Command::MOD:
+            }
+            case Command::SUB: {
+                const Value* lhs = this->getValue(cmd->getLeft());
+                const Value* rhs = this->getValue(cmd->getRight());
+
+                return new SubExpression(lhs, rhs);
+            }
+            case Command::MUL: {
+                const Value* lhs = this->getValue(cmd->getLeft());
+                const Value* rhs = this->getValue(cmd->getRight());
+
+                return new MulExpression(lhs, rhs);
+            }
+            case Command::DIV: {
+                const Value* lhs = this->getValue(cmd->getLeft());
+                const Value* rhs = this->getValue(cmd->getRight());
+
+                return new DivExpression(lhs, rhs);
+            }
+            case Command::MOD: {
+                const Value* lhs = this->getValue(cmd->getLeft());
+                const Value* rhs = this->getValue(cmd->getRight());
+
+                return new ModExpression(lhs, rhs);
+            }
+            case Command::NOT: {
+                const Value* value = this->getValue(cmd->getLeft());
+
+                return new NotExpression(value);
+            }
+            case Command::NEG: {
+                const Value* value = this->getValue(cmd->getLeft());
+
+                return new NegExpression(value);
+            }
             default:
                 error("Invalid math expression");
         }

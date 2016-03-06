@@ -14,6 +14,7 @@
 
 namespace ik {
     class OpCode;
+
     class Expression;
 
     class Interpreter {
@@ -24,28 +25,29 @@ namespace ik {
         u32_t _stack_offset = 0;
 
         void assignVariable(u32_t, Value*);
+
         void pushStack(Value*);
         const Value* popStack();
 
         const Value* fetchVariable(u32_t) const;
         const Value* fetchStack(u32_t) const;
-
         const Value* getValue(const OpCode*) const;
 
         void interpret(const std::vector<std::unique_ptr<Command>>&);
 
         void assign(const Command*);
-
         void push(const Command*);
-
         void print(const Command*);
 
         void add(const Command*);
+        void sub(const Command*);
+        void mul(const Command*);
+        void div(const Command*);
+        void mod(const Command*);
 
         const Expression* makeExpression(const Command*);
 
         void math(const Command*);
-
         void jump(const Command*, u32_t&);
 
     public:
