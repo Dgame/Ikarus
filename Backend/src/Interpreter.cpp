@@ -82,23 +82,25 @@ namespace ik {
     }
 
     void Interpreter::interpret(const std::vector<std::unique_ptr<Command>>& commands) {
-        for (auto& cmd : commands) {
+        for (u32_t i = 0; i < commands.size(); i++) {
+            const Command* cmd = commands.at(i).get();
+
             switch (cmd->getType()) {
                 case Command::ASSIGN:
                     writeln("CMD ASSIGN");
-                    this->assign(cmd.get());
+                    this->assign(cmd);
                     break;
                 case Command::PUSH:
                     writeln("CMD PUSH");
-                    this->push(cmd.get());
+                    this->push(cmd);
                     break;
                 case Command::PRINT:
                     writeln("CMD PRINT");
-                    this->print(cmd.get());
+                    this->print(cmd);
                     break;
                 case Command::ADD:
                     writeln("CMD ADD");
-                    this->add(cmd.get());
+                    this->add(cmd);
                     break;
                 default:
                     writeln("UNKNOWN");
@@ -116,7 +118,7 @@ namespace ik {
         enforce(iv != nullptr, "Variable must be integer");
 
         const Value* value = this->getValue(cmd->getRight());
-        const u32_t index = iv->getValue();
+        const u32_t index = iv->get<u32_t>();
 
         writeln("assign variable ", index, " with value: ");
 
@@ -149,13 +151,33 @@ namespace ik {
 
     void Interpreter::add(const Command* cmd) {
         enforce(cmd->getType() == Command::ADD, "Expected ADD");
-        enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
-        enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
 
+        this->math(cmd);
+    }
+
+    const Expression* Interpreter::makeExpression(const Command* cmd) {
         const Value* lhs = this->getValue(cmd->getLeft());
         const Value* rhs = this->getValue(cmd->getRight());
 
-        std::unique_ptr<AddExpression> expr(new AddExpression(lhs, rhs));
+        switch (cmd->getType()) {
+            case Command::Type::ADD:
+                return new AddExpression(lhs, rhs);
+//            case Command::SUB:
+//            case Command::MUL:
+//            case Command::DIV:
+//            case Command::MOD:
+            default:
+                enforce(false, "Invalid math expression");
+        }
+
+        exit(1);
+    }
+
+    void Interpreter::math(const Command* cmd) {
+        enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
+        enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
+
+        std::unique_ptr<const Expression> expr(this->makeExpression(cmd));
 
         MathExpressionVisitor mev;
         expr->accept(&mev);

@@ -61,12 +61,16 @@ namespace {
 }
 
 namespace ik {
+    u32_t Command::Amount = 0;
+
     Command::Command(const std::string& token, OpCode* lhs, OpCode* rhs) : _left(lhs), _right(rhs) {
         _type = this->determineType(token);
+        _id   = Command::Amount++;
     }
 
     Command::Command(const std::string& token, OpCode* opc) : _left(opc) {
         _type = this->determineType(token);
+        _id   = Command::Amount++;
     }
 
     Command::Type Command::determineType(const std::string& token) const {
@@ -76,5 +80,21 @@ namespace ik {
         }
 
         enforce(false, "No type for: ", token);
+        exit(1);
+    }
+
+    Command::Type Command::isJump() const {
+        switch (_type) {
+            case Command::JUMP_IF_EQUAL:
+            case Command::JUMP_IF_NOT_EQUAL:
+            case Command::JUMP_IF_GREATER:
+            case Command::JUMP_IF_LOWER:
+            case Command::JUMP_IF_LOWER_OR_EQUAL:
+            case Command::JUMP_IF_GREATER_OR_EQUAL:
+            case Command::GOTO:
+                return _type;
+            default:
+                return Command::NONE;
+        }
     }
 }

@@ -8,11 +8,15 @@
 #include <string>
 #include <memory>
 #include <OpCode.hpp>
+#include <types.hpp>
 
 namespace ik {
     class Command {
     public:
+        static u32_t Amount;
+
         enum Type {
+            NONE,
             ASSIGN,
             APPEND,
             POP,
@@ -41,6 +45,7 @@ namespace ik {
         std::unique_ptr<OpCode> _left;
         std::unique_ptr<OpCode> _right;
         Type                    _type;
+        u32_t                   _id = 0;
 
         Type determineType(const std::string&) const;
 
@@ -49,8 +54,12 @@ namespace ik {
 
         explicit Command(const std::string&, OpCode*);
 
-        const Type getType() const {
+        Type getType() const {
             return _type;
+        }
+
+        u32_t getId() const {
+            return _id;
         }
 
         const OpCode* getLeft() const {
@@ -60,6 +69,8 @@ namespace ik {
         const OpCode* getRight() const {
             return _right.get();
         }
+
+        Type isJump() const;
     };
 }
 

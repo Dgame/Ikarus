@@ -14,6 +14,7 @@
 
 namespace ik {
     class OpCode;
+    class Expression;
 
     class Interpreter {
     private:
@@ -40,6 +41,10 @@ namespace ik {
         void print(const Command*);
 
         void add(const Command*);
+
+        const Expression* makeExpression(const Command*);
+
+        void math(const Command*);
 
     public:
         explicit Interpreter(const std::string&);
