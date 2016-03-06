@@ -33,7 +33,7 @@ namespace ik {
             NEG,
             INC,
             DEC,
-            JUMP_IF_EQUAL,
+            SKIP_IF_EQUAL,
             JUMP_IF_NOT_EQUAL,
             JUMP_IF_GREATER,
             JUMP_IF_LOWER,
@@ -44,8 +44,9 @@ namespace ik {
     private:
         std::unique_ptr<OpCode> _left;
         std::unique_ptr<OpCode> _right;
-        Type                    _type;
-        u32_t                   _id = 0;
+
+        Type  _type;
+        u32_t _id = 0;
 
         Type determineType(const std::string&) const;
 

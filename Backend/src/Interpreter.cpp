@@ -57,18 +57,18 @@ namespace ik {
     const Value* Interpreter::getValue(const OpCode* opc) const {
         switch (opc->getType()) {
             case OpCode::VARIABLE: {
-                const NumericValue* iv = opc->getValue()->isNumeric();
-                enforce(iv != nullptr, "Variable must be numeric offset");
+                const NumericValue* nv = opc->getValue()->isNumeric();
+                enforce(nv != nullptr, "Variable must be numeric offset");
 
-                const u32_t index = iv->get<u32_t>();
+                const u32_t index = nv->get<u32_t>();
 
                 return this->fetchVariable(index);
             }
             case OpCode::OFFSET: {
-                const NumericValue* iv = opc->getValue()->isNumeric();
-                enforce(iv != nullptr, "Variable must be integer offset");
+                const NumericValue* nv = opc->getValue()->isNumeric();
+                enforce(nv != nullptr, "Variable must be integer offset");
 
-                const u32_t index = iv->get<u32_t>();
+                const u32_t index = nv->get<u32_t>();
 
                 return this->fetchStack(index);
             }
@@ -82,6 +82,8 @@ namespace ik {
     }
 
     void Interpreter::interpret(const std::vector<std::unique_ptr<Command>>& commands) {
+        writeln("---- INTERPRETER START ----");
+
         for (u32_t i = 0; i < commands.size(); i++) {
             const Command* cmd = commands.at(i).get();
 
@@ -102,11 +104,17 @@ namespace ik {
                     writeln("CMD ADD");
                     this->add(cmd);
                     break;
+                case Command::GOTO:
+                    writeln("CMD GOTO");
+                    this->jump(cmd, i);
+                    break;
                 default:
                     writeln("UNKNOWN");
                     enforce(false, "WTF");
             }
         }
+
+        writeln("---- INTERPRETER FINISHED ----");
     }
 
     void Interpreter::assign(const Command* cmd) {
@@ -114,11 +122,11 @@ namespace ik {
         enforce(cmd->getLeft()->getType() == OpCode::VARIABLE, "Left OpCode must be a Variable");
         enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
 
-        const NumericValue* iv = cmd->getLeft()->getValue()->isNumeric();
-        enforce(iv != nullptr, "Variable must be integer");
+        const NumericValue* nv = cmd->getLeft()->getValue()->isNumeric();
+        enforce(nv != nullptr, "Variable must be integer");
 
         const Value* value = this->getValue(cmd->getRight());
-        const u32_t index = iv->get<u32_t>();
+        const u32_t index = nv->get<u32_t>();
 
         writeln("assign variable ", index, " with value: ");
 
@@ -183,5 +191,29 @@ namespace ik {
         expr->accept(&mev);
 
         this->pushStack(new NumericValue(mev.getValue()));
+    }
+
+    void Interpreter::jump(const Command* cmd, u32_t& index) {
+        enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
+        enforce(cmd->getRight() == nullptr, "Right OpCode must be empty");
+
+        const Command::Type jt = cmd->isJump();
+        enforce(jt != Command::NONE, "Invalid jump command");
+
+        switch (jt) {
+            case Command::GOTO: {
+                const Value* value = this->getValue(cmd->getLeft());
+
+                const NumericValue* nv = value->isNumeric();
+                enforce(nv != nullptr, "Need numeric value");
+
+                writeln("GOTO ", nv->get<u32_t>());
+
+                index = nv->get<u32_t>();
+            }
+                break;
+            default:
+                enforce(false, "Unexpected jump command");
+        }
     }
 }

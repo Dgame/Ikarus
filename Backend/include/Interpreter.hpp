@@ -46,6 +46,8 @@ namespace ik {
 
         void math(const Command*);
 
+        void jump(const Command*, u32_t&);
+
     public:
         explicit Interpreter(const std::string&);
     };

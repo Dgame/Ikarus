@@ -92,6 +92,8 @@ namespace ik {
     }
 
     Lexer::Lexer(const std::string& str) {
+        writeln("---- LEXER START ----");
+
         _ptr = &str.front();
         const char* const ep = &str.back();
 
@@ -108,5 +110,7 @@ namespace ik {
                 _commands.emplace_back(new Command(cmd, lhs));
             }
         }
+
+        writeln("---- LEXER FINISHED ----");
     }
 }
