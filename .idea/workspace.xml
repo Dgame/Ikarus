@@ -16,20 +16,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6d5f7542-dfc0-48cf-8183-cf33d686b8cf" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Backend/include/Expression/DecExpression.hpp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Backend/include/Expression/IncExpression.hpp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Backend/src/Expression/DecExpression.cpp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Backend/src/Expression/IncExpression.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Ikarus.iml" afterPath="$PROJECT_DIR$/.idea/Ikarus.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Backend/include/Interpreter.hpp" afterPath="$PROJECT_DIR$/Backend/include/Interpreter.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Backend/include/Visitor/ExpressionVisitor.hpp" afterPath="$PROJECT_DIR$/Backend/include/Visitor/ExpressionVisitor.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Backend/include/Visitor/MathExpressionVisitor.hpp" afterPath="$PROJECT_DIR$/Backend/include/Visitor/MathExpressionVisitor.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Backend/src/Interpreter.cpp" afterPath="$PROJECT_DIR$/Backend/src/Interpreter.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Backend/src/Lexer.cpp" afterPath="$PROJECT_DIR$/Backend/src/Lexer.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Backend/src/Visitor/MathExpressionVisitor.cpp" afterPath="$PROJECT_DIR$/Backend/src/Visitor/MathExpressionVisitor.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/main.cpp" />
     </list>
     <ignored path="Ikarus.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -50,21 +37,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MathExpressionVisitor.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MathExpressionVisitor.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Backend/src/Visitor/MathExpressionVisitor.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.26050422">
+              <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Interpreter.hpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Interpreter.hpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Backend/include/Interpreter.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7579832">
-              <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="28" column="9" selection-start-line="28" selection-start-column="9" selection-end-line="28" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -74,7 +61,7 @@
         <entry file="file://$PROJECT_DIR$/Backend/src/Interpreter.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="248" column="5" selection-start-line="248" selection-start-column="5" selection-end-line="248" selection-end-column="5" />
+              <caret line="259" column="64" selection-start-line="259" selection-start-column="64" selection-end-line="259" selection-end-column="64" />
               <folding />
             </state>
           </provider>
@@ -152,13 +139,13 @@
         <option value="$PROJECT_DIR$/Backend/src/Expression/IncExpression.cpp" />
         <option value="$PROJECT_DIR$/Backend/include/Visitor/ExpressionVisitor.hpp" />
         <option value="$PROJECT_DIR$/Backend/include/Visitor/MathExpressionVisitor.hpp" />
-        <option value="$PROJECT_DIR$/Backend/src/Visitor/MathExpressionVisitor.cpp" />
         <option value="$PROJECT_DIR$/Backend/include/Expression/DecExpression.hpp" />
         <option value="$PROJECT_DIR$/Backend/src/Expression/DecExpression.cpp" />
         <option value="$PROJECT_DIR$/Backend/src/Lexer.cpp" />
         <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/Backend/src/Interpreter.cpp" />
         <option value="$PROJECT_DIR$/Backend/include/Interpreter.hpp" />
+        <option value="$PROJECT_DIR$/Backend/src/Visitor/MathExpressionVisitor.cpp" />
       </list>
     </option>
   </component>
@@ -865,14 +852,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Backend/src/Visitor/MathExpressionVisitor.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Backend/src/Lexer.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -889,18 +868,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Backend/src/Interpreter.cpp">
+    <entry file="file://$PROJECT_DIR$/Backend/include/Interpreter.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="248" column="5" selection-start-line="248" selection-start-column="5" selection-end-line="248" selection-end-column="5" />
+          <caret line="28" column="9" selection-start-line="28" selection-start-column="9" selection-end-line="28" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Backend/include/Interpreter.hpp">
+    <entry file="file://$PROJECT_DIR$/Backend/src/Interpreter.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7579832">
-          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="259" column="64" selection-start-line="259" selection-start-column="64" selection-end-line="259" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Backend/src/Visitor/MathExpressionVisitor.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.26050422">
+          <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
           <folding />
         </state>
       </provider>

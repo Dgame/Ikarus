@@ -14,6 +14,8 @@
 #include "DecExpression.hpp"
 #include "NumericValue.hpp"
 
+#include <cmath>
+
 namespace ik {
     void MathExpressionVisitor::visit(const AddExpression* expr) {
         const NumericValue* iv_lhs = expr->getLeft()->isNumeric();
@@ -32,7 +34,7 @@ namespace ik {
         const NumericValue* iv_rhs = expr->getRight()->isNumeric();
         enforce(iv_rhs != nullptr, "...");
 
-        _value = iv_lhs->getValue() + iv_rhs->getValue();
+        _value = iv_lhs->getValue() - iv_rhs->getValue();
     }
 
     void MathExpressionVisitor::visit(const MulExpression* expr) {
@@ -42,7 +44,7 @@ namespace ik {
         const NumericValue* iv_rhs = expr->getRight()->isNumeric();
         enforce(iv_rhs != nullptr, "...");
 
-        _value = iv_lhs->getValue() + iv_rhs->getValue();
+        _value = iv_lhs->getValue() * iv_rhs->getValue();
     }
 
     void MathExpressionVisitor::visit(const DivExpression* expr) {
@@ -52,7 +54,7 @@ namespace ik {
         const NumericValue* iv_rhs = expr->getRight()->isNumeric();
         enforce(iv_rhs != nullptr, "...");
 
-        _value = iv_lhs->getValue() + iv_rhs->getValue();
+        _value = iv_lhs->getValue() / iv_rhs->getValue();
     }
 
     void MathExpressionVisitor::visit(const ModExpression* expr) {
@@ -62,7 +64,7 @@ namespace ik {
         const NumericValue* iv_rhs = expr->getRight()->isNumeric();
         enforce(iv_rhs != nullptr, "...");
 
-        _value = iv_lhs->getValue() + iv_rhs->getValue();
+        _value = std::fmod(iv_lhs->getValue(), iv_rhs->getValue());
     }
 
     void MathExpressionVisitor::visit(const NotExpression* expr) {
