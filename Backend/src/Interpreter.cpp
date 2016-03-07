@@ -86,13 +86,19 @@ const Value* Interpreter::getValue(const OpCode* opc) const {
     return nullptr;
 }
 
-void Interpreter::interpret(const std::vector<std::unique_ptr<Command>>& commands) {
+i32_t Interpreter::interpret(const std::vector<std::unique_ptr<Command>>& commands) {
     writeln("---- INTERPRETER START ----");
 
     for (u32_t i = 0; i < commands.size(); i++) {
         const Command* cmd = commands.at(i).get();
 
         switch (cmd->getType()) {
+            default:
+                writeln("UNKNOWN");
+                error("WTF");
+                return 1;
+            case Command::EXIT:
+                return this->exit(cmd);
             case Command::ASSIGN:
                 writeln("CMD ASSIGN");
                 this->assign(cmd);
@@ -145,8 +151,10 @@ void Interpreter::interpret(const std::vector<std::unique_ptr<Command>>& command
                 writeln("CMD DEC");
                 this->op_dec(cmd);
                 break;
-            case Command::GOTO:
-                writeln("CMD GOTO");
+            case Command::JUMP:
+            case Command::JUMP_IF:
+            case Command::JUMP_IF_NOT:
+                writeln("CMD JUMP");
                 this->jump(cmd, i);
                 break;
             case Command::APPEND:
@@ -161,13 +169,21 @@ void Interpreter::interpret(const std::vector<std::unique_ptr<Command>>& command
                 writeln("CMD FETCH");
                 this->fetch(cmd);
                 break;
-            default:
-                writeln("UNKNOWN");
-                error("WTF");
         }
     }
 
     writeln("---- INTERPRETER FINISHED ----");
+
+    return 0;
+}
+
+i32_t Interpreter::exit(const Command* cmd) {
+    enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
+
+    NumericValueVisitor nvv;
+    cmd->getLeft()->getValue()->accept(&nvv);
+
+    return static_cast<i32_t>(nvv.getNumber());
 }
 
 void Interpreter::assign(const Command* cmd) {
@@ -444,11 +460,11 @@ void Interpreter::jump(const Command* cmd, u32_t& index) {
     enforce(jt != Command::NONE, "Invalid jump command");
 
     switch (jt) {
-        case Command::GOTO: {
+        case Command::JUMP: {
             NumericValueVisitor nvv;
             cmd->getLeft()->getValue()->accept(&nvv);
 
-            writeln("GOTO ", nvv.getIndex());
+            writeln("JUMP ", nvv.getIndex());
 
             index = nvv.getIndex();
         }

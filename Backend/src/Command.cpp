@@ -10,55 +10,28 @@ namespace {
     const std::map<std::string, Command::Type> String2Command = {
             {"assign", Command::ASSIGN},
             {"assign", Command::APPEND},
-            {"index",  Command::INDEX},
-            {"fetch",  Command::FETCH},
-            {"push",   Command::PUSH},
-            {"pop",    Command::POP},
-            {"add",    Command::ADD},
-            {"sub",    Command::SUB},
-            {"mul",    Command::MUL},
-            {"div",    Command::DIV},
-            {"mod",    Command::MOD},
-            {"print",  Command::PRINT},
-            {"goto",   Command::GOTO},
-            {"concat", Command::CONCAT},
-            {"not",    Command::NOT},
-            {"neg",    Command::NEG},
-            {"inc",    Command::INC},
-            {"dec",    Command::DEC},
-            {"je",     Command::JUMP_IF_EQUAL},
-            {"jne",    Command::JUMP_IF_NOT_EQUAL},
-            {"jg",     Command::JUMP_IF_GREATER},
-            {"jl",     Command::JUMP_IF_LOWER},
-            {"jle",    Command::JUMP_IF_LOWER_OR_EQUAL},
-            {"jge",    Command::JUMP_IF_GREATER_OR_EQUAL},
-    };
-
-    const std::map<Command::Type, std::string> Command2String = {
-            {Command::ASSIGN,                   "assign"},
-            {Command::APPEND,                   "assign"},
-            {Command::INDEX,                    "index"},
-            {Command::FETCH,                    "fetch"},
-            {Command::PUSH,                     "push"},
-            {Command::POP,                      "pop"},
-            {Command::ADD,                      "add"},
-            {Command::SUB,                      "sub"},
-            {Command::MUL,                      "mul"},
-            {Command::DIV,                      "div"},
-            {Command::MOD,                      "mod"},
-            {Command::PRINT,                    "print"},
-            {Command::GOTO,                     "goto"},
-            {Command::CONCAT,                   "concat",},
-            {Command::NOT,                      "not"},
-            {Command::NEG,                      "neg"},
-            {Command::INC,                      "inc"},
-            {Command::DEC,                      "dec"},
-            {Command::JUMP_IF_EQUAL,            "je"},
-            {Command::JUMP_IF_NOT_EQUAL,        "jne"},
-            {Command::JUMP_IF_GREATER,          "jg"},
-            {Command::JUMP_IF_LOWER,            "jl"},
-            {Command::JUMP_IF_LOWER_OR_EQUAL,   "jle"},
-            {Command::JUMP_IF_GREATER_OR_EQUAL, "jge"},
+            {"index", Command::INDEX},
+            {"fetch", Command::FETCH},
+            {"push", Command::PUSH},
+            {"pop", Command::POP},
+            {"add", Command::ADD},
+            {"sub", Command::SUB},
+            {"mul", Command::MUL},
+            {"div", Command::DIV},
+            {"mod", Command::MOD},
+            {"print", Command::PRINT},
+            {"not", Command::NOT},
+            {"neg", Command::NEG},
+            {"inc", Command::INC},
+            {"dec", Command::DEC},
+            {"is_lower", Command::IS_LOWER},
+            {"is_lower_or_equal", Command::IS_LOWER_OR_EQUAL},
+            {"is_equal", Command::IS_EQUAL},
+            {"jump", Command::JUMP},
+            {"jump_if", Command::JUMP_IF},
+            {"jump_if_not", Command::JUMP_IF_NOT},
+            {"exit", Command::EXIT},
+            {"return", Command::RETURN}
     };
 }
 
@@ -87,13 +60,9 @@ Command::Type Command::determineType(const std::string& token) const {
 
 Command::Type Command::isJump() const {
     switch (_type) {
-        case Command::JUMP_IF_EQUAL:
-        case Command::JUMP_IF_NOT_EQUAL:
-        case Command::JUMP_IF_GREATER:
-        case Command::JUMP_IF_LOWER:
-        case Command::JUMP_IF_LOWER_OR_EQUAL:
-        case Command::JUMP_IF_GREATER_OR_EQUAL:
-        case Command::GOTO:
+        case Command::JUMP_IF:
+        case Command::JUMP_IF_NOT:
+        case Command::JUMP:
             return _type;
         default:
             return Command::NONE;

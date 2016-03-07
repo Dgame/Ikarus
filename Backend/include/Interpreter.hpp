@@ -22,10 +22,7 @@ private:
     std::vector<std::unique_ptr<Value>> _stack;
 
     u32_t _stack_offset = 0;
-
-    u32_t getStackOffset() const {
-        return _stack_offset;
-    }
+    i32_t _jump = 0;
 
     void assignVariable(u32_t, Value*);
 
@@ -36,7 +33,9 @@ private:
     const Value* fetchStack(u32_t) const;
     const Value* getValue(const OpCode*) const;
 
-    void interpret(const std::vector<std::unique_ptr<Command>>&);
+    i32_t interpret(const std::vector<std::unique_ptr<Command>>&);
+
+    i32_t exit(const Command*);
 
     void assign(const Command*);
     void push(const Command*);

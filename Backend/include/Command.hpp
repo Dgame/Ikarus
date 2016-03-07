@@ -28,18 +28,18 @@ public:
         DIV,
         MOD,
         PRINT,
-        GOTO,
-        CONCAT,
         NOT,
         NEG,
         INC,
         DEC,
-        JUMP_IF_EQUAL,
-        JUMP_IF_NOT_EQUAL,
-        JUMP_IF_GREATER,
-        JUMP_IF_LOWER,
-        JUMP_IF_LOWER_OR_EQUAL,
-        JUMP_IF_GREATER_OR_EQUAL
+        IS_LOWER,
+        IS_LOWER_OR_EQUAL,
+        IS_EQUAL,
+        JUMP,
+        JUMP_IF,
+        JUMP_IF_NOT,
+        EXIT,
+        RETURN
     };
 
 private:

@@ -16,9 +16,6 @@ private:
 public:
     explicit NumericValue(f32_t);
 
-    template <typename T>
-    T get() const;
-
     f32_t getValue() const {
         return _value;
     }
@@ -34,10 +31,5 @@ public:
         return out;
     }
 };
-
-template <typename T>
-T NumericValue::get() const {
-    return static_cast<T>(_value);
-}
 
 #endif //IKARUS_INTEGER_HPP
