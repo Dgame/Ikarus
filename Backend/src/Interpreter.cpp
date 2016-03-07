@@ -9,7 +9,7 @@
 #include "ArrayValue.hpp"
 #include "NumericValueVisitor.hpp"
 #include "MathExpressionVisitor.hpp"
-#include "ValueRevelation.hpp"
+#include "MutableValueRevelation.hpp"
 #include "AddExpression.hpp"
 #include "SubExpression.hpp"
 #include "MulExpression.hpp"
@@ -157,6 +157,18 @@ i32_t Interpreter::interpret(const std::vector<std::unique_ptr<Command>>& comman
                 writeln("CMD JUMP");
                 this->jump(cmd, i);
                 break;
+            case Command::IS_LOWER:
+                writeln("CMD IS_LOWER");
+                this->is_lower(cmd);
+                break;
+            case Command::IS_EQUAL:
+                writeln("CMD IS_EQUAL");
+                this->is_equal(cmd);
+                break;
+            case Command::IS_LOWER_OR_EQUAL:
+                writeln("CMD IS_LOWER_OR_EQUAL");
+                this->is_lower_or_equal(cmd);
+                break;
             case Command::APPEND:
                 writeln("CMD APPEND");
                 this->append(cmd);
@@ -252,11 +264,11 @@ void Interpreter::append(const Command* cmd) {
         this->assignVariable(nvv.getIndex(), av);
     } else {
         Value* value = this->fetchVariable(nvv.getIndex());
-        ValueRevelation vr;
-        value->accept(&vr);
+        MutableValueRevelation mvr;
+        value->accept(&mvr);
 
-        if (vr.array != nullptr) {
-            vr.array->assign(item->clone());
+        if (mvr.array != nullptr) {
+            mvr.array->assign(item->clone());
         } else {
             ArrayValue* av = new ArrayValue();
             av->assign(value->clone());
@@ -279,11 +291,11 @@ void Interpreter::index(const Command* cmd) {
     index->accept(&nvv);
 
     Value* value = this->fetchVariable(nvv.getIndex());
-    ValueRevelation vr;
-    value->accept(&vr);
+    MutableValueRevelation mvr;
+    value->accept(&mvr);
 
-    if (vr.array != nullptr) {
-        vr.array->setIndex(nvv.getIndex());
+    if (mvr.array != nullptr) {
+        mvr.array->setIndex(nvv.getIndex());
     } else {
         error("Need Array to set index");
     }
@@ -301,11 +313,11 @@ void Interpreter::fetch(const Command* cmd) {
     index->accept(&nvv);
 
     Value* value = this->fetchVariable(nvv.getIndex());
-    ValueRevelation vr;
-    value->accept(&vr);
+    MutableValueRevelation mvr;
+    value->accept(&mvr);
 
-    if (vr.array != nullptr) {
-        const Value* item = vr.array->fetch(nvv.getIndex());
+    if (mvr.array != nullptr) {
+        const Value* item = mvr.array->fetch(nvv.getIndex());
         this->pushStack(item->clone());
     } else {
         error("Need Array to fetch index");
@@ -384,6 +396,36 @@ void Interpreter::op_dec(const Command* cmd) {
     this->math(cmd);
 }
 
+bool Interpreter::is_lower(const Command* cmd) {
+    enforce(cmd->getType() == Command::IS_LOWER, "Expected IS_LOWER");
+    enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
+    enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
+
+    _compare = cmd->getLeft()->getValue()->compare(cmd->getRight()->getValue()) == Compare::IS_LOWER;
+
+    return _compare;
+}
+
+bool Interpreter::is_equal(const Command* cmd) {
+    enforce(cmd->getType() == Command::IS_EQUAL, "Expected IS_EQUAL");
+    enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
+    enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
+
+    _compare = cmd->getLeft()->getValue()->compare(cmd->getRight()->getValue()) == Compare::IS_EQUAL;
+
+    return _compare;
+}
+
+bool Interpreter::is_lower_or_equal(const Command* cmd) {
+    enforce(cmd->getType() == Command::IS_LOWER_OR_EQUAL, "Expected IS_LOWER_OR_EQUAL");
+
+    if (!this->is_lower(cmd)) {
+        return this->is_equal(cmd);
+    }
+
+    return true;
+}
+
 const Expression* Interpreter::makeExpression(const Command* cmd) {
     switch (cmd->getType()) {
         case Command::ADD: {
@@ -459,15 +501,26 @@ void Interpreter::jump(const Command* cmd, u32_t& index) {
     auto jt = cmd->isJump();
     enforce(jt != Command::NONE, "Invalid jump command");
 
+    NumericValueVisitor nvv;
+    cmd->getLeft()->getValue()->accept(&nvv);
+
     switch (jt) {
-        case Command::JUMP: {
-            NumericValueVisitor nvv;
-            cmd->getLeft()->getValue()->accept(&nvv);
-
+        case Command::JUMP:
             writeln("JUMP ", nvv.getIndex());
-
             index = nvv.getIndex();
-        }
+            break;
+
+        case Command::JUMP_IF:
+            writeln("JUMP IF ", nvv.getIndex());
+            if (_compare)
+                index = nvv.getIndex();
+
+            break;
+        case Command::JUMP_IF_NOT:
+            writeln("JUMP IF NOT ", nvv.getIndex());
+            if (!_compare)
+                index = nvv.getIndex();
+
             break;
         default:
             error("Unexpected jump command");

@@ -11,6 +11,7 @@
 #include "Command.hpp"
 #include <Value.hpp>
 #include "types.hpp"
+#include "Compare.hpp"
 
 class OpCode;
 
@@ -22,7 +23,7 @@ private:
     std::vector<std::unique_ptr<Value>> _stack;
 
     u32_t _stack_offset = 0;
-    i32_t _jump = 0;
+    bool _compare = false;
 
     void assignVariable(u32_t, Value*);
 
@@ -50,10 +51,15 @@ private:
     void mul(const Command*);
     void div(const Command*);
     void mod(const Command*);
+
     void op_not(const Command*);
     void op_neg(const Command*);
     void op_inc(const Command*);
     void op_dec(const Command*);
+
+    bool is_lower(const Command*);
+    bool is_equal(const Command*);
+    bool is_lower_or_equal(const Command*);
 
     const Expression* makeExpression(const Command*);
 

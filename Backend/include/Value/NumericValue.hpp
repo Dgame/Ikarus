@@ -22,6 +22,8 @@ public:
 
     virtual NumericValue* clone() const;
 
+    virtual Compare compare(const Value*) const;
+
     virtual void accept(ImmutableValueVisitor*) const;
     virtual void accept(MutableValueVisitor*);
 

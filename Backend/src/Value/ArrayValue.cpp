@@ -5,6 +5,8 @@
 #include "ArrayValue.hpp"
 #include "ImmutableValueVisitor.hpp"
 #include "MutableValueVisitor.hpp"
+#include "ImmutableValueRevelation.hpp"
+#include "compare.hpp"
 
 ArrayValue::ArrayValue(u32_t amount) : _values(amount) { }
 
@@ -24,6 +26,31 @@ ArrayValue* ArrayValue::clone() const {
     }
 
     return av;
+}
+
+Compare ArrayValue::compare(const Value* value) const {
+    ImmutableValueRevelation ivr;
+    value->accept(&ivr);
+
+    if (ivr.array == nullptr) {
+        return Compare::IS_NOT_EQUAL;
+    }
+
+    if (ivr.array->getAmount() > this->getAmount()) {
+        return Compare::IS_LOWER;
+    }
+
+    if (ivr.array->getAmount() < this->getAmount()) {
+        return Compare::IS_GREATER;
+    }
+
+    for (u32_t i = 0; i < this->getAmount(); i++) {
+        if (this->fetch(i)->compare(ivr.array->fetch(i)) != Compare::IS_EQUAL) {
+            return Compare::IS_NOT_EQUAL;
+        }
+    }
+
+    return Compare::IS_EQUAL;
 }
 
 void ArrayValue::accept(ImmutableValueVisitor* ivv) const {

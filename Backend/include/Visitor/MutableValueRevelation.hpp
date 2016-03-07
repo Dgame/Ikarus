@@ -8,7 +8,7 @@
 #include "MutableValueVisitor.hpp"
 #include "types.hpp"
 
-class ValueRevelation : public MutableValueVisitor {
+class MutableValueRevelation : public MutableValueVisitor {
 public:
     union {
         NumericValue* numeric;

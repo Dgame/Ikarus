@@ -51,7 +51,9 @@ set(SOURCE_FILES
         Backend/include/Visitor/MutableValueVisitor.hpp
         Backend/src/Visitor/NumericValueVisitor.cpp
         Backend/include/Visitor/NumericValueVisitor.hpp
-        Backend/include/Visitor/ValueRevelation.hpp)
+        Backend/include/Visitor/MutableValueRevelation.hpp
+        Backend/include/compare.hpp
+        Backend/include/Visitor/ImmutableValueRevelation.hpp)
 
 include_directories("Backend/include")
 include_directories("Backend/include/Value")
