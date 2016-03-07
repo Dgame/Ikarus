@@ -16,7 +16,6 @@ set(SOURCE_FILES
         Backend/include/Interpreter.hpp
         Backend/include/Value/Value.hpp
         Backend/include/Value/NumericValue.hpp
-        Backend/include/Visitor/ImmutableValueVisitor.hpp
         Backend/src/Value/NumericValue.cpp
         Backend/include/Visitor/ExpressionVisitor.hpp
         Backend/include/Expression/Expression.hpp
@@ -48,12 +47,11 @@ set(SOURCE_FILES
         Backend/include/Expression/DecExpression.hpp
         Backend/src/Value/ArrayValue.cpp
         Backend/include/Value/ArrayValue.hpp
-        Backend/include/Visitor/MutableValueVisitor.hpp
         Backend/src/Visitor/NumericValueVisitor.cpp
         Backend/include/Visitor/NumericValueVisitor.hpp
-        Backend/include/Visitor/MutableValueRevelation.hpp
+        Backend/include/Visitor/ValueRevelation.hpp
         Backend/include/compare.hpp
-        Backend/include/Visitor/ImmutableValueRevelation.hpp)
+        Backend/include/Visitor/ValueVisitor.hpp)
 
 include_directories("Backend/include")
 include_directories("Backend/include/Value")

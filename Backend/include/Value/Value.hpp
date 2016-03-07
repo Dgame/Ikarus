@@ -7,19 +7,19 @@
 
 #include <ostream>
 #include "types.hpp"
-
-class MutableValueVisitor;
-
-class ImmutableValueVisitor;
+#include "ValueVisitor.hpp"
 
 enum class Compare;
 
 class Value {
 public:
     virtual Value* clone() const = 0;
-    virtual Compare compare(const Value*) const          = 0;
-    virtual void  accept(ImmutableValueVisitor*) const = 0;
-    virtual void  accept(MutableValueVisitor*)         = 0;
+
+    virtual Compare compare(const Value*) const = 0;
+
+    virtual void accept(ImmutableValueVisitor*) const = 0;
+    virtual void accept(MutableValueVisitor*)         = 0;
+
     virtual std::ostream& output(std::ostream&) const = 0;
 };
 

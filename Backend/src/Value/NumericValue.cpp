@@ -2,8 +2,6 @@
 // Created by Randy on 06.03.2016.
 //
 #include "NumericValue.hpp"
-#include "ImmutableValueVisitor.hpp"
-#include "MutableValueVisitor.hpp"
 #include "NumericValueVisitor.hpp"
 #include "compare.hpp"
 

@@ -23,13 +23,11 @@
       <sourceFolder url="file://$MODULE_DIR$/Backend/src/Expression/AddExpression.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/src/Expression/NotExpression.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/src/OpCode.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Visitor/NumericValueVisitor.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Visitor/MathExpressionVisitor.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Visitor/ImmutableValueVisitor.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/include/Visitor/ExpressionVisitor.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Visitor/MutableValueRevelation.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Visitor/ImmutableValueRevelation.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Visitor/MutableValueVisitor.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Visitor/NumericValueVisitor.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Visitor/ValueRevelation.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Visitor/MathExpressionVisitor.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Visitor/ValueVisitor.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/include/types.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/include/compare.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/include/Value/ArrayValue.hpp" isTestSource="false" />
@@ -38,13 +36,13 @@
       <sourceFolder url="file://$MODULE_DIR$/Backend/include/Interpreter.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/include/util.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/include/Expression/IncExpression.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Expression/UnaryExpression.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Expression/AddExpression.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Expression/Expression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/include/Expression/BinaryExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Expression/AddExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Expression/UnaryExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Expression/NegExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/include/Expression/NotExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/include/Expression/ModExpression.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Expression/NegExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/include/Expression/Expression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/include/Expression/DecExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/include/Expression/MulExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/include/Expression/SubExpression.hpp" isTestSource="false" />
@@ -70,13 +68,11 @@
           <root url="file://C:/Program Files (x86)/mingw-w64/i686-5.2.0-posix-dwarf-rt_v4-rev0/mingw32/i686-w64-mingw32/include" />
         </SOURCES>
         <excluded>
-          <root url="file://$MODULE_DIR$/Backend/include/Visitor/NumericValueVisitor.hpp" />
-          <root url="file://$MODULE_DIR$/Backend/include/Visitor/MathExpressionVisitor.hpp" />
-          <root url="file://$MODULE_DIR$/Backend/include/Visitor/ImmutableValueVisitor.hpp" />
           <root url="file://$MODULE_DIR$/Backend/include/Visitor/ExpressionVisitor.hpp" />
-          <root url="file://$MODULE_DIR$/Backend/include/Visitor/MutableValueRevelation.hpp" />
-          <root url="file://$MODULE_DIR$/Backend/include/Visitor/ImmutableValueRevelation.hpp" />
-          <root url="file://$MODULE_DIR$/Backend/include/Visitor/MutableValueVisitor.hpp" />
+          <root url="file://$MODULE_DIR$/Backend/include/Visitor/NumericValueVisitor.hpp" />
+          <root url="file://$MODULE_DIR$/Backend/include/Visitor/ValueRevelation.hpp" />
+          <root url="file://$MODULE_DIR$/Backend/include/Visitor/MathExpressionVisitor.hpp" />
+          <root url="file://$MODULE_DIR$/Backend/include/Visitor/ValueVisitor.hpp" />
           <root url="file://$MODULE_DIR$/Backend/include/types.hpp" />
           <root url="file://$MODULE_DIR$/Backend/include/compare.hpp" />
           <root url="file://$MODULE_DIR$/Backend/include/Value/ArrayValue.hpp" />
@@ -85,13 +81,13 @@
           <root url="file://$MODULE_DIR$/Backend/include/Interpreter.hpp" />
           <root url="file://$MODULE_DIR$/Backend/include/util.hpp" />
           <root url="file://$MODULE_DIR$/Backend/include/Expression/IncExpression.hpp" />
-          <root url="file://$MODULE_DIR$/Backend/include/Expression/UnaryExpression.hpp" />
-          <root url="file://$MODULE_DIR$/Backend/include/Expression/AddExpression.hpp" />
-          <root url="file://$MODULE_DIR$/Backend/include/Expression/Expression.hpp" />
           <root url="file://$MODULE_DIR$/Backend/include/Expression/BinaryExpression.hpp" />
+          <root url="file://$MODULE_DIR$/Backend/include/Expression/AddExpression.hpp" />
+          <root url="file://$MODULE_DIR$/Backend/include/Expression/UnaryExpression.hpp" />
+          <root url="file://$MODULE_DIR$/Backend/include/Expression/NegExpression.hpp" />
           <root url="file://$MODULE_DIR$/Backend/include/Expression/NotExpression.hpp" />
           <root url="file://$MODULE_DIR$/Backend/include/Expression/ModExpression.hpp" />
-          <root url="file://$MODULE_DIR$/Backend/include/Expression/NegExpression.hpp" />
+          <root url="file://$MODULE_DIR$/Backend/include/Expression/Expression.hpp" />
           <root url="file://$MODULE_DIR$/Backend/include/Expression/DecExpression.hpp" />
           <root url="file://$MODULE_DIR$/Backend/include/Expression/MulExpression.hpp" />
           <root url="file://$MODULE_DIR$/Backend/include/Expression/SubExpression.hpp" />

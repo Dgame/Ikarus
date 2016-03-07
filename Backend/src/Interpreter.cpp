@@ -9,7 +9,7 @@
 #include "ArrayValue.hpp"
 #include "NumericValueVisitor.hpp"
 #include "MathExpressionVisitor.hpp"
-#include "MutableValueRevelation.hpp"
+#include "ValueRevelation.hpp"
 #include "AddExpression.hpp"
 #include "SubExpression.hpp"
 #include "MulExpression.hpp"
@@ -509,18 +509,15 @@ void Interpreter::jump(const Command* cmd, u32_t& index) {
             writeln("JUMP ", nvv.getIndex());
             index = nvv.getIndex();
             break;
-
         case Command::JUMP_IF:
             writeln("JUMP IF ", nvv.getIndex());
             if (_compare)
                 index = nvv.getIndex();
-
             break;
         case Command::JUMP_IF_NOT:
             writeln("JUMP IF NOT ", nvv.getIndex());
             if (!_compare)
                 index = nvv.getIndex();
-
             break;
         default:
             error("Unexpected jump command");

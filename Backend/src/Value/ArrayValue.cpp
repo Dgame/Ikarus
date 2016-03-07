@@ -3,9 +3,8 @@
 //
 
 #include "ArrayValue.hpp"
-#include "ImmutableValueVisitor.hpp"
-#include "MutableValueVisitor.hpp"
-#include "ImmutableValueRevelation.hpp"
+#include "ValueVisitor.hpp"
+#include "ValueRevelation.hpp"
 #include "compare.hpp"
 
 ArrayValue::ArrayValue(u32_t amount) : _values(amount) { }

@@ -5,7 +5,7 @@
 #ifndef IKARUS_NUMERICVALUEVISITOR_HPP
 #define IKARUS_NUMERICVALUEVISITOR_HPP
 
-#include "ImmutableValueVisitor.hpp"
+#include "ValueVisitor.hpp"
 #include <cmath>
 #include "types.hpp"
 
