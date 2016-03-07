@@ -17,6 +17,15 @@ void ArrayValue::assign(const Value* value) {
     _index++;
 }
 
+ArrayValue* ArrayValue::clone() const {
+    ArrayValue* av = new ArrayValue(this->getAmount());
+    for (auto & value : this->getValues()) {
+        av->assign(value->clone());
+    }
+
+    return av;
+}
+
 void ArrayValue::accept(ImmutableValueVisitor* ivv) const {
     ivv->visit(this);
 }

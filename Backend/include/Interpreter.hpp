@@ -43,6 +43,8 @@ private:
     void pop(const Command*);
     void print(const Command*);
     void append(const Command*);
+    void index(const Command*);
+    void fetch(const Command*);
 
     void add(const Command*);
     void sub(const Command*);

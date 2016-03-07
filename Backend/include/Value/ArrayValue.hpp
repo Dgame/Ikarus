@@ -37,14 +37,7 @@ public:
         return _values;
     }
 
-    virtual ArrayValue* clone() const {
-        ArrayValue* av = new ArrayValue(this->getAmount());
-        for (auto & value : this->getValues()) {
-            av->assign(value->clone());
-        }
-
-        return av;
-    }
+    virtual ArrayValue* clone() const;
 
     virtual void accept(ImmutableValueVisitor*) const;
     virtual void accept(MutableValueVisitor*);

@@ -154,6 +154,14 @@ void Interpreter::interpret(const std::vector<std::unique_ptr<Command>>& command
                 writeln("CMD APPEND");
                 this->append(cmd);
                 break;
+            case Command::INDEX:
+                writeln("CMD INDEX");
+                this->index(cmd);
+                break;
+            case Command::FETCH:
+                writeln("CMD FETCH");
+                this->fetch(cmd);
+                break;
             default:
                 writeln("UNKNOWN");
                 error("WTF");
@@ -241,6 +249,27 @@ void Interpreter::append(const Command* cmd) {
             this->assignVariable(ivv.getIndex(), av);
         }
     }
+}
+
+void Interpreter::index(const Command* cmd) {
+    enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
+    enforce(cmd->getLeft()->getType() == OpCode::VARIABLE, "Left OpCode must be a Variable");
+    enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
+
+    IndexValueVisitor ivv;
+    cmd->getLeft()->getValue()->accept(&ivv);
+
+    Value* value = this->fetchVariable(ivv.getIndex());
+
+    const Value* index = this->getValue(cmd->getRight());
+    index->accept(&ivv);
+
+    IndexAssignValueVisitor iavv(ivv.getIndex());
+    value->accept(&iavv);
+}
+
+void Interpreter::fetch(const Command*) {
+
 }
 
 void Interpreter::add(const Command* cmd) {

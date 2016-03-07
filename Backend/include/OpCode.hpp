@@ -6,7 +6,7 @@
 #define IKARUS_OPCODE_HPP
 
 #include <memory>
-#include <Value.hpp>
+#include "Value.hpp"
 
 class OpCode {
 public:
