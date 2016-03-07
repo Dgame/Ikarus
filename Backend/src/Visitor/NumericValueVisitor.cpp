@@ -19,7 +19,7 @@ u32_t NumericValueVisitor::getIndex() const {
         return static_cast<u32_t>(number);
     }
 
-    throw "Negative Index";
+    error("Negative Index");
 }
 
 void NumericValueVisitor::visit(const NumericValue* value) {

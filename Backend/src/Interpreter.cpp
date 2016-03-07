@@ -236,7 +236,6 @@ void Interpreter::append(const Command* cmd) {
         this->assignVariable(nvv.getIndex(), av);
     } else {
         Value* value = this->fetchVariable(nvv.getIndex());
-
         ValueRevelation vr;
         value->accept(&vr);
 

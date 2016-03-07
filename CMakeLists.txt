@@ -49,8 +49,6 @@ set(SOURCE_FILES
         Backend/src/Value/ArrayValue.cpp
         Backend/include/Value/ArrayValue.hpp
         Backend/include/Visitor/MutableValueVisitor.hpp
-        Backend/src/Visitor/AssignValueVisitor.cpp
-        Backend/include/Visitor/AssignValueVisitor.hpp
         Backend/src/Visitor/NumericValueVisitor.cpp
         Backend/include/Visitor/NumericValueVisitor.hpp
         Backend/include/Visitor/ValueRevelation.hpp)
