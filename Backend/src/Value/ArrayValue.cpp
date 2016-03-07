@@ -19,7 +19,7 @@ void ArrayValue::assign(const Value* value) {
 
 ArrayValue* ArrayValue::clone() const {
     ArrayValue* av = new ArrayValue(this->getAmount());
-    for (auto & value : this->getValues()) {
+    for (auto & value : _values) {
         av->assign(value->clone());
     }
 
@@ -32,4 +32,14 @@ void ArrayValue::accept(ImmutableValueVisitor* ivv) const {
 
 void ArrayValue::accept(MutableValueVisitor* mvv) {
     mvv->visit(this);
+}
+
+std::ostream& ArrayValue::output(std::ostream& out) const {
+    out << '[';
+    for (auto& value : _values) {
+        value->output(out);
+    }
+    out << ']';
+
+    return out;
 }

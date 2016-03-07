@@ -14,13 +14,8 @@ private:
     f32_t _number = NAN;
 
 public:
-    f32_t getNumber() const {
-        if (std::isnan(_number)) {
-            throw "NAN";
-        }
-
-        return _number;
-    }
+    f32_t getNumber() const;
+    u32_t getIndex() const;
 
     virtual void visit(const NumericValue*);
 

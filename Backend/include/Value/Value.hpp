@@ -5,6 +5,8 @@
 #ifndef IKARUS_VALUE_HPP
 #define IKARUS_VALUE_HPP
 
+#include <ostream>
+
 class MutableValueVisitor;
 
 class ImmutableValueVisitor;
@@ -14,6 +16,7 @@ public:
     virtual Value* clone() const = 0;
     virtual void accept(ImmutableValueVisitor*) const = 0;
     virtual void accept(MutableValueVisitor*)         = 0;
+    virtual std::ostream& output(std::ostream&) const = 0;
 };
 
 #endif //IKARUS_VALUE_HPP

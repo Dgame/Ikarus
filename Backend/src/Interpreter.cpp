@@ -7,10 +7,9 @@
 #include "util.hpp"
 #include "NumericValue.hpp"
 #include "ArrayValue.hpp"
-#include "OutputValueVisitor.hpp"
+#include "NumericValueVisitor.hpp"
 #include "MathExpressionVisitor.hpp"
-#include "IndexValueVisitor.hpp"
-#include "AssignValueVisitor.hpp"
+#include "ValueRevelation.hpp"
 #include "AddExpression.hpp"
 #include "SubExpression.hpp"
 #include "MulExpression.hpp"
@@ -67,16 +66,16 @@ Value* Interpreter::fetchVariable(u32_t index) const {
 const Value* Interpreter::getValue(const OpCode* opc) const {
     switch (opc->getType()) {
         case OpCode::VARIABLE: {
-            IndexValueVisitor ivv;
-            opc->getValue()->accept(&ivv);
+            NumericValueVisitor nvv;
+            opc->getValue()->accept(&nvv);
 
-            return this->fetchVariable(ivv.getIndex());
+            return this->fetchVariable(nvv.getIndex());
         }
         case OpCode::OFFSET: {
-            IndexValueVisitor ivv;
-            opc->getValue()->accept(&ivv);
+            NumericValueVisitor nvv;
+            opc->getValue()->accept(&nvv);
 
-            return this->fetchStack(ivv.getIndex());
+            return this->fetchStack(nvv.getIndex());
         }
         case OpCode::VALUE:
             return opc->getValue();
@@ -177,17 +176,14 @@ void Interpreter::assign(const Command* cmd) {
     enforce(cmd->getLeft()->getType() == OpCode::VARIABLE, "Left OpCode must be a Variable");
     enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
 
-    IndexValueVisitor ivv;
-    cmd->getLeft()->getValue()->accept(&ivv);
+    NumericValueVisitor nvv;
+    cmd->getLeft()->getValue()->accept(&nvv);
 
     const Value* value = this->getValue(cmd->getRight());
+    writeln("assign variable ", nvv.getIndex(), " with value: ");
+    value->output(std::cout) << std::endl;
 
-    writeln("assign variable ", ivv.getIndex(), " with value: ");
-
-    OutputValueVisitor ovv;
-    value->accept(&ovv);
-
-    this->assignVariable(ivv.getIndex(), value->clone());
+    this->assignVariable(nvv.getIndex(), value->clone());
 }
 
 void Interpreter::push(const Command* cmd) {
@@ -206,10 +202,10 @@ void Interpreter::pop(const Command* cmd) {
     enforce(cmd->getLeft()->getType() == OpCode::VARIABLE, "Left OpCode must not be empty");
     enforce(cmd->getRight() == nullptr, "Right OpCode must be empty");
 
-    IndexValueVisitor ivv;
-    cmd->getLeft()->getValue()->accept(&ivv);
+    NumericValueVisitor nvv;
+    cmd->getLeft()->getValue()->accept(&nvv);
 
-    this->assignVariable(ivv.getIndex(), this->popStack());
+    this->assignVariable(nvv.getIndex(), this->popStack());
 }
 
 void Interpreter::print(const Command* cmd) {
@@ -218,9 +214,7 @@ void Interpreter::print(const Command* cmd) {
     enforce(cmd->getRight() == nullptr, "Right OpCode must be empty");
 
     const Value* value = this->getValue(cmd->getLeft());
-
-    OutputValueVisitor ovv;
-    value->accept(&ovv);
+    value->output(std::cout) << std::endl;
 }
 
 void Interpreter::append(const Command* cmd) {
@@ -229,24 +223,31 @@ void Interpreter::append(const Command* cmd) {
     enforce(cmd->getLeft()->getType() == OpCode::VARIABLE, "Left OpCode must be a Variable");
     enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
 
-    IndexValueVisitor ivv;
-    cmd->getLeft()->getValue()->accept(&ivv);
+    NumericValueVisitor nvv;
+    cmd->getLeft()->getValue()->accept(&nvv);
 
     const Value* item = this->getValue(cmd->getRight());
 
     // variable does not exists
-    if (ivv.getIndex() >= _variables.size()) {
+    if (nvv.getIndex() >= _variables.size()) {
         ArrayValue* av = new ArrayValue();
         av->assign(item->clone());
 
-        this->assignVariable(ivv.getIndex(), av);
+        this->assignVariable(nvv.getIndex(), av);
     } else {
-        Value* value = this->fetchVariable(ivv.getIndex());
+        Value* value = this->fetchVariable(nvv.getIndex());
 
-        AssignValueVisitor avv(value, item);
-        ArrayValue* av = avv.getArrayValue();
-        if (av != nullptr) {
-            this->assignVariable(ivv.getIndex(), av);
+        ValueRevelation vr;
+        value->accept(&vr);
+
+        if (vr.array != nullptr) {
+            vr.array->assign(item->clone());
+        } else {
+            ArrayValue* av = new ArrayValue();
+            av->assign(value->clone());
+            av->assign(item->clone());
+
+            this->assignVariable(nvv.getIndex(), av);
         }
     }
 }
@@ -256,20 +257,44 @@ void Interpreter::index(const Command* cmd) {
     enforce(cmd->getLeft()->getType() == OpCode::VARIABLE, "Left OpCode must be a Variable");
     enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
 
-    IndexValueVisitor ivv;
-    cmd->getLeft()->getValue()->accept(&ivv);
-
-    Value* value = this->fetchVariable(ivv.getIndex());
+    NumericValueVisitor nvv;
+    cmd->getLeft()->getValue()->accept(&nvv);
 
     const Value* index = this->getValue(cmd->getRight());
-    index->accept(&ivv);
+    index->accept(&nvv);
 
-    IndexAssignValueVisitor iavv(ivv.getIndex());
-    value->accept(&iavv);
+    Value* value = this->fetchVariable(nvv.getIndex());
+    ValueRevelation vr;
+    value->accept(&vr);
+
+    if (vr.array != nullptr) {
+        vr.array->setIndex(nvv.getIndex());
+    } else {
+        error("Need Array to set index");
+    }
 }
 
-void Interpreter::fetch(const Command*) {
+void Interpreter::fetch(const Command* cmd) {
+    enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
+    enforce(cmd->getLeft()->getType() == OpCode::VARIABLE, "Left OpCode must be a Variable");
+    enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
 
+    NumericValueVisitor nvv;
+    cmd->getLeft()->getValue()->accept(&nvv);
+
+    const Value* index = this->getValue(cmd->getRight());
+    index->accept(&nvv);
+
+    Value* value = this->fetchVariable(nvv.getIndex());
+    ValueRevelation vr;
+    value->accept(&vr);
+
+    if (vr.array != nullptr) {
+        const Value* item = vr.array->fetch(nvv.getIndex());
+        this->pushStack(item->clone());
+    } else {
+        error("Need Array to fetch index");
+    }
 }
 
 void Interpreter::add(const Command* cmd) {
@@ -421,12 +446,12 @@ void Interpreter::jump(const Command* cmd, u32_t& index) {
 
     switch (jt) {
         case Command::GOTO: {
-            IndexValueVisitor ivv;
-            cmd->getLeft()->getValue()->accept(&ivv);
+            NumericValueVisitor nvv;
+            cmd->getLeft()->getValue()->accept(&nvv);
 
-            writeln("GOTO ", ivv.getIndex());
+            writeln("GOTO ", nvv.getIndex());
 
-            index = ivv.getIndex();
+            index = nvv.getIndex();
         }
             break;
         default:

@@ -29,18 +29,15 @@ public:
         return _values.size();
     }
 
-    auto& getValues() {
-        return _values;
-    }
-
-    auto& getValues() const {
-        return _values;
+    const Value* fetch(u32_t index) const {
+        return _values.at(index).get();
     }
 
     virtual ArrayValue* clone() const;
 
     virtual void accept(ImmutableValueVisitor*) const;
     virtual void accept(MutableValueVisitor*);
+    virtual std::ostream& output(std::ostream&) const;
 };
 
 #endif //IKARUS_ARRAYVALUE_HPP
