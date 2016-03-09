@@ -23,7 +23,9 @@ private:
     std::vector<std::unique_ptr<Value>> _stack;
 
     u32_t _stack_offset = 0;
-    bool _compare = false;
+    u32_t _return       = 0;
+    i32_t _state        = 0;
+    bool  _compare      = false;
 
     void assignVariable(u32_t, Value*);
 
@@ -36,7 +38,8 @@ private:
 
     i32_t interpret(const std::vector<std::unique_ptr<Command>>&);
 
-    i32_t exit(const Command*);
+    void exit(const Command*);
+    void ret(const Command*, u32_t&);
 
     void assign(const Command*);
     void push(const Command*);

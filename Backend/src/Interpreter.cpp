@@ -90,6 +90,11 @@ i32_t Interpreter::interpret(const std::vector<std::unique_ptr<Command>>& comman
     debug("---- INTERPRETER START ----");
 
     for (u32_t i = 0; i < commands.size(); i++) {
+        if (_state != 0) {
+            error("An error occured in command ", i);
+            break;
+        }
+
         const Command* cmd = commands.at(i).get();
 
         switch (cmd->getType()) {
@@ -98,7 +103,13 @@ i32_t Interpreter::interpret(const std::vector<std::unique_ptr<Command>>& comman
                 error("WTF");
                 return 1;
             case Command::EXIT:
-                return this->exit(cmd);
+                debug("CMD EXIT");
+                this->exit(cmd);
+                break;
+            case Command::RETURN:
+                debug("CMD RETURN");
+                this->ret(cmd, i);
+                break;
             case Command::ASSIGN:
                 debug("CMD ASSIGN");
                 this->assign(cmd);
@@ -186,16 +197,26 @@ i32_t Interpreter::interpret(const std::vector<std::unique_ptr<Command>>& comman
 
     debug("---- INTERPRETER FINISHED ----");
 
-    return 0;
+    return _state;
 }
 
-i32_t Interpreter::exit(const Command* cmd) {
+void Interpreter::exit(const Command* cmd) {
     enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
 
     NumericValueVisitor nvv;
     cmd->getLeft()->getValue()->accept(nvv);
 
-    return static_cast<i32_t>(nvv.getNumber());
+    _state = static_cast<i32_t>(nvv.getNumber());
+}
+
+void Interpreter::ret(const Command* cmd, u32_t& index) {
+    enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
+
+    NumericValueVisitor nvv;
+    cmd->getLeft()->getValue()->accept(nvv);
+
+    _state = static_cast<i32_t>(nvv.getNumber());
+    index  = _return;
 }
 
 void Interpreter::assign(const Command* cmd) {
@@ -407,7 +428,7 @@ bool Interpreter::is_lower(const Command* cmd) {
     const Value* rhs = this->getValue(cmd->getRight());
 
     _compare = lhs->compare(rhs) == Compare::IS_LOWER;
-    writeln("is_lower: ", static_cast<i32_t>(_compare));
+    debug(" > is_lower: ", static_cast<i32_t>(_compare));
 
     return _compare;
 }
@@ -421,7 +442,7 @@ bool Interpreter::is_equal(const Command* cmd) {
     const Value* rhs = this->getValue(cmd->getRight());
 
     _compare = lhs->compare(rhs) == Compare::IS_EQUAL;
-    writeln("is_equal: ", static_cast<i32_t>(_compare));
+    debug(" > is_equal: ", static_cast<i32_t>(_compare));
 
     return _compare;
 }
@@ -513,6 +534,8 @@ void Interpreter::jump(const Command* cmd, u32_t& index) {
 
     NumericValueVisitor nvv;
     cmd->getLeft()->getValue()->accept(nvv);
+
+    _return = index;
 
     switch (jt) {
         case Command::JUMP:

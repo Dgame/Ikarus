@@ -21,7 +21,7 @@ int main() {
         Interpreter("assign &0, 42 inc &0 pop &0 print &0");
         writeln(std::string(50, '*'));
 
-        Interpreter("assign &0, 42 is_lower &0, 43");
+        Interpreter("assign &0, 42 is_lower &0, 23 jump_if 4 inc &0 pop &0 print &0");
         writeln(std::string(50, '*'));
     } catch (const char* msg) {
         writeln(msg);

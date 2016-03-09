@@ -29,7 +29,7 @@ Compare NumericValue::compare(const Value* value) const {
         return Compare::IS_GREATER;
     }
 
-    writeln(_value, " vs ", nvv.getNumber());
+    debug(_value, " vs ", nvv.getNumber());
 
     return Compare::IS_LOWER;
 }
