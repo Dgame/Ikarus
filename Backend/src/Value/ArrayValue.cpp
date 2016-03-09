@@ -3,7 +3,6 @@
 //
 
 #include "ArrayValue.hpp"
-#include "ValueVisitor.hpp"
 #include "ValueRevelation.hpp"
 #include "compare.hpp"
 
@@ -28,8 +27,12 @@ ArrayValue* ArrayValue::clone() const {
 }
 
 Compare ArrayValue::compare(const Value* value) const {
+    if (value == nullptr) {
+        return Compare::IS_NOT_EQUAL;
+    }
+
     ImmutableValueRevelation ivr;
-    value->accept(&ivr);
+    value->accept(ivr);
 
     if (ivr.array == nullptr) {
         return Compare::IS_NOT_EQUAL;
@@ -52,12 +55,12 @@ Compare ArrayValue::compare(const Value* value) const {
     return Compare::IS_EQUAL;
 }
 
-void ArrayValue::accept(ImmutableValueVisitor* ivv) const {
-    ivv->visit(this);
+void ArrayValue::accept(ImmutableValueVisitor& ivv) const {
+    ivv.visit(this);
 }
 
-void ArrayValue::accept(MutableValueVisitor* mvv) {
-    mvv->visit(this);
+void ArrayValue::accept(MutableValueVisitor& mvv) {
+    mvv.visit(this);
 }
 
 std::ostream& ArrayValue::output(std::ostream& out) const {

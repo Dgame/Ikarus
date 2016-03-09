@@ -17,8 +17,8 @@ public:
 
     virtual Compare compare(const Value*) const = 0;
 
-    virtual void accept(ImmutableValueVisitor*) const = 0;
-    virtual void accept(MutableValueVisitor*)         = 0;
+    virtual void accept(ImmutableValueVisitor&) const = 0;
+    virtual void accept(MutableValueVisitor&)         = 0;
 
     virtual std::ostream& output(std::ostream&) const = 0;
 };

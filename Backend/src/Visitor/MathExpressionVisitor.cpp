@@ -18,10 +18,10 @@
 void MathExpressionVisitor::visit(const AddExpression* expr) {
     NumericValueVisitor nvv;
 
-    expr->getLeft()->accept(&nvv);
+    expr->getLeft()->accept(nvv);
     const f32_t lhs = nvv.getNumber();
 
-    expr->getRight()->accept(&nvv);
+    expr->getRight()->accept(nvv);
     const f32_t rhs = nvv.getNumber();
 
     _value = lhs + rhs;
@@ -30,10 +30,10 @@ void MathExpressionVisitor::visit(const AddExpression* expr) {
 void MathExpressionVisitor::visit(const SubExpression* expr) {
     NumericValueVisitor nvv;
 
-    expr->getLeft()->accept(&nvv);
+    expr->getLeft()->accept(nvv);
     const f32_t lhs = nvv.getNumber();
 
-    expr->getRight()->accept(&nvv);
+    expr->getRight()->accept(nvv);
     const f32_t rhs = nvv.getNumber();
 
     _value = lhs - rhs;
@@ -42,10 +42,10 @@ void MathExpressionVisitor::visit(const SubExpression* expr) {
 void MathExpressionVisitor::visit(const MulExpression* expr) {
     NumericValueVisitor nvv;
 
-    expr->getLeft()->accept(&nvv);
+    expr->getLeft()->accept(nvv);
     const f32_t lhs = nvv.getNumber();
 
-    expr->getRight()->accept(&nvv);
+    expr->getRight()->accept(nvv);
     const f32_t rhs = nvv.getNumber();
 
     _value = lhs * rhs;
@@ -54,10 +54,10 @@ void MathExpressionVisitor::visit(const MulExpression* expr) {
 void MathExpressionVisitor::visit(const DivExpression* expr) {
     NumericValueVisitor nvv;
 
-    expr->getLeft()->accept(&nvv);
+    expr->getLeft()->accept(nvv);
     const f32_t lhs = nvv.getNumber();
 
-    expr->getRight()->accept(&nvv);
+    expr->getRight()->accept(nvv);
     const f32_t rhs = nvv.getNumber();
 
     _value = lhs / rhs;
@@ -66,10 +66,10 @@ void MathExpressionVisitor::visit(const DivExpression* expr) {
 void MathExpressionVisitor::visit(const ModExpression* expr) {
     NumericValueVisitor nvv;
 
-    expr->getLeft()->accept(&nvv);
+    expr->getLeft()->accept(nvv);
     const f32_t lhs = nvv.getNumber();
 
-    expr->getRight()->accept(&nvv);
+    expr->getRight()->accept(nvv);
     const f32_t rhs = nvv.getNumber();
 
     _value = std::fmod(lhs, rhs);
@@ -77,28 +77,28 @@ void MathExpressionVisitor::visit(const ModExpression* expr) {
 
 void MathExpressionVisitor::visit(const NotExpression* expr) {
     NumericValueVisitor nvv;
-    expr->getValue()->accept(&nvv);
+    expr->getValue()->accept(nvv);
 
     _value = !nvv.getNumber();
 }
 
 void MathExpressionVisitor::visit(const NegExpression* expr) {
     NumericValueVisitor nvv;
-    expr->getValue()->accept(&nvv);
+    expr->getValue()->accept(nvv);
 
     _value = nvv.getNumber() * -1;
 }
 
 void MathExpressionVisitor::visit(const IncExpression* expr) {
     NumericValueVisitor nvv;
-    expr->getValue()->accept(&nvv);
+    expr->getValue()->accept(nvv);
 
     _value = nvv.getNumber() + 1;
 }
 
 void MathExpressionVisitor::visit(const DecExpression* expr) {
     NumericValueVisitor nvv;
-    expr->getValue()->accept(&nvv);
+    expr->getValue()->accept(nvv);
 
     _value = nvv.getNumber() - 1;
 }

@@ -14,8 +14,8 @@ public:
     using NV_T = typename ValueVisitor<S>::NV_T;
     using AV_T = typename ValueVisitor<S>::AV_T;
 
-    NV_T* numeric;
-    AV_T* array;
+    NV_T* numeric = nullptr;
+    AV_T* array = nullptr;
 
     virtual void visit(NV_T* value) {
         this->numeric = value;

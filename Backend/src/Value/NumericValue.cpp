@@ -14,8 +14,12 @@ NumericValue* NumericValue::clone() const {
 }
 
 Compare NumericValue::compare(const Value* value) const {
+    if (value == nullptr) {
+        return Compare::IS_NOT_EQUAL;
+    }
+
     NumericValueVisitor nvv;
-    value->accept(&nvv);
+    value->accept(nvv);
 
     if (std::fabs(_value - nvv.getNumber()) < std::numeric_limits<f32_t>::epsilon()) {
         return Compare::IS_EQUAL;
@@ -28,10 +32,10 @@ Compare NumericValue::compare(const Value* value) const {
     return Compare::IS_LOWER;
 }
 
-void NumericValue::accept(ImmutableValueVisitor* ivv) const {
-    ivv->visit(this);
+void NumericValue::accept(ImmutableValueVisitor& ivv) const {
+    ivv.visit(this);
 }
 
-void NumericValue::accept(MutableValueVisitor* mvv) {
-    mvv->visit(this);
+void NumericValue::accept(MutableValueVisitor& mvv) {
+    mvv.visit(this);
 }
