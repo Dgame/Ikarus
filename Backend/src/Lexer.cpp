@@ -92,14 +92,14 @@ OpCode* Lexer::parseOpCode() {
 }
 
 Lexer::Lexer(const std::string& str) {
-    writeln("---- LEXER START ----");
+    debug("---- LEXER START ----");
 
     _ptr = &str.front();
     const char* const ep = &str.back();
 
     while (_ptr < ep) {
         const std::string cmd = this->parseString();
-        writeln("<COMMAND ", cmd, ">");
+        debug("<COMMAND ", cmd, ">");
 
         OpCode* lhs = this->parseOpCode();
 
@@ -111,5 +111,5 @@ Lexer::Lexer(const std::string& str) {
         }
     }
 
-    writeln("---- LEXER FINISHED ----");
+    debug("---- LEXER FINISHED ----");
 }

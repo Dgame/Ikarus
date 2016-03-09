@@ -51,14 +51,14 @@ Value* Interpreter::popStack() {
 
 const Value* Interpreter::fetchStack(u32_t index) const {
     enforce(_stack.size() >= index, "Invalid offset index: ", index);
-    writeln("<OFFSET ", index, ">");
+    debug("<OFFSET ", index, ">");
 
     return _stack.at(index).get();
 }
 
 Value* Interpreter::fetchVariable(u32_t index) const {
     enforce(_variables.size() >= index, "Invalid variable index: ", index);
-    writeln("<VARIABLE ", index, ">");
+    debug("<VARIABLE ", index, ">");
 
     return _variables.at(index).get();
 }
@@ -87,104 +87,104 @@ const Value* Interpreter::getValue(const OpCode* opc) const {
 }
 
 i32_t Interpreter::interpret(const std::vector<std::unique_ptr<Command>>& commands) {
-    writeln("---- INTERPRETER START ----");
+    debug("---- INTERPRETER START ----");
 
     for (u32_t i = 0; i < commands.size(); i++) {
         const Command* cmd = commands.at(i).get();
 
         switch (cmd->getType()) {
             default:
-                writeln("UNKNOWN");
+                debug("UNKNOWN");
                 error("WTF");
                 return 1;
             case Command::EXIT:
                 return this->exit(cmd);
             case Command::ASSIGN:
-                writeln("CMD ASSIGN");
+                debug("CMD ASSIGN");
                 this->assign(cmd);
                 break;
             case Command::PUSH:
-                writeln("CMD PUSH");
+                debug("CMD PUSH");
                 this->push(cmd);
                 break;
             case Command::POP:
-                writeln("CMD POP");
+                debug("CMD POP");
                 this->pop(cmd);
                 break;
             case Command::PRINT:
-                writeln("CMD PRINT");
+                debug("CMD PRINT");
                 this->print(cmd);
                 break;
             case Command::ADD:
-                writeln("CMD ADD");
+                debug("CMD ADD");
                 this->add(cmd);
                 break;
             case Command::SUB:
-                writeln("CMD SUB");
+                debug("CMD SUB");
                 this->sub(cmd);
                 break;
             case Command::MUL:
-                writeln("CMD MUL");
+                debug("CMD MUL");
                 this->mul(cmd);
                 break;
             case Command::DIV:
-                writeln("CMD DIV");
+                debug("CMD DIV");
                 this->div(cmd);
                 break;
             case Command::MOD:
-                writeln("CMD MOD");
+                debug("CMD MOD");
                 this->mod(cmd);
                 break;
             case Command::NOT:
-                writeln("CMD NOT");
+                debug("CMD NOT");
                 this->op_not(cmd);
                 break;
             case Command::NEG:
-                writeln("CMD NEG");
+                debug("CMD NEG");
                 this->op_neg(cmd);
                 break;
             case Command::INC:
-                writeln("CMD INC");
+                debug("CMD INC");
                 this->op_inc(cmd);
                 break;
             case Command::DEC:
-                writeln("CMD DEC");
+                debug("CMD DEC");
                 this->op_dec(cmd);
                 break;
             case Command::JUMP:
             case Command::JUMP_IF:
             case Command::JUMP_IF_NOT:
-                writeln("CMD JUMP");
+                debug("CMD JUMP");
                 this->jump(cmd, i);
                 break;
             case Command::IS_LOWER:
-                writeln("CMD IS_LOWER");
+                debug("CMD IS_LOWER");
                 this->is_lower(cmd);
                 break;
             case Command::IS_EQUAL:
-                writeln("CMD IS_EQUAL");
+                debug("CMD IS_EQUAL");
                 this->is_equal(cmd);
                 break;
             case Command::IS_LOWER_OR_EQUAL:
-                writeln("CMD IS_LOWER_OR_EQUAL");
+                debug("CMD IS_LOWER_OR_EQUAL");
                 this->is_lower_or_equal(cmd);
                 break;
             case Command::APPEND:
-                writeln("CMD APPEND");
+                debug("CMD APPEND");
                 this->append(cmd);
                 break;
             case Command::INDEX:
-                writeln("CMD INDEX");
+                debug("CMD INDEX");
                 this->index(cmd);
                 break;
             case Command::FETCH:
-                writeln("CMD FETCH");
+                debug("CMD FETCH");
                 this->fetch(cmd);
                 break;
         }
     }
 
-    writeln("---- INTERPRETER FINISHED ----");
+    debug("---- INTERPRETER FINISHED ----");
 
     return 0;
 }
@@ -208,8 +208,10 @@ void Interpreter::assign(const Command* cmd) {
     cmd->getLeft()->getValue()->accept(nvv);
 
     const Value* value = this->getValue(cmd->getRight());
-    writeln("assign variable ", nvv.getIndex(), " with value: ");
+    debug("assign variable ", nvv.getIndex(), " with value: ");
+#if DEBUG
     value->output(std::cout) << std::endl;
+#endif
 
     this->assignVariable(nvv.getIndex(), value->clone());
 }
@@ -506,16 +508,16 @@ void Interpreter::jump(const Command* cmd, u32_t& index) {
 
     switch (jt) {
         case Command::JUMP:
-            writeln("JUMP ", nvv.getIndex());
+            debug("JUMP ", nvv.getIndex());
             index = nvv.getIndex();
             break;
         case Command::JUMP_IF:
-            writeln("JUMP IF ", nvv.getIndex());
+            debug("JUMP IF ", nvv.getIndex());
             if (_compare)
                 index = nvv.getIndex();
             break;
         case Command::JUMP_IF_NOT:
-            writeln("JUMP IF NOT ", nvv.getIndex());
+            debug("JUMP IF NOT ", nvv.getIndex());
             if (!_compare)
                 index = nvv.getIndex();
             break;

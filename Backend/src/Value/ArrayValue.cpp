@@ -19,7 +19,7 @@ void ArrayValue::assign(const Value* value) {
 
 ArrayValue* ArrayValue::clone() const {
     ArrayValue* av = new ArrayValue(this->getAmount());
-    for (auto & value : _values) {
+    for (auto& value : _values) {
         av->assign(value->clone());
     }
 

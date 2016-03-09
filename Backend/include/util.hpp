@@ -18,6 +18,13 @@ void writeln(const T& val, const Args ...args) {
     writeln(args...);
 }
 
+template <typename T, typename ...Args>
+void debug(const T& val, const Args ...args) {
+#if DEBUG
+    writeln(val, args...);
+#endif
+};
+
 template <typename ...Args>
 void error(const Args ...args) {
     writeln(args...);
