@@ -403,7 +403,11 @@ bool Interpreter::is_lower(const Command* cmd) {
     enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
     enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
 
-    _compare = cmd->getLeft()->getValue()->compare(cmd->getRight()->getValue()) == Compare::IS_LOWER;
+    const Value* lhs = this->getValue(cmd->getLeft());
+    const Value* rhs = this->getValue(cmd->getRight());
+
+    _compare = lhs->compare(rhs) == Compare::IS_LOWER;
+    writeln("is_lower: ", static_cast<i32_t>(_compare));
 
     return _compare;
 }
@@ -413,7 +417,11 @@ bool Interpreter::is_equal(const Command* cmd) {
     enforce(cmd->getLeft() != nullptr, "Left OpCode must not be empty");
     enforce(cmd->getRight() != nullptr, "Right OpCode must not be empty");
 
-    _compare = cmd->getLeft()->getValue()->compare(cmd->getRight()->getValue()) == Compare::IS_EQUAL;
+    const Value* lhs = this->getValue(cmd->getLeft());
+    const Value* rhs = this->getValue(cmd->getRight());
+
+    _compare = lhs->compare(rhs) == Compare::IS_EQUAL;
+    writeln("is_equal: ", static_cast<i32_t>(_compare));
 
     return _compare;
 }

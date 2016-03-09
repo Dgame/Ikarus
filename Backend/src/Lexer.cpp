@@ -30,7 +30,7 @@ std::string Lexer::parseString() {
 
     std::string value;
     value.reserve(8);
-    while (std::isalpha(*_ptr)) {
+    while (std::isalpha(*_ptr) || *_ptr == '_') {
         value += *_ptr;
         _ptr++;
     }
