@@ -3,22 +3,22 @@
 
 #include "Visitor.hpp"
 
+template <typename T, typename std::enable_if<std::is_base_of<Expression, T>::value, i32_t>::type = 0>
 class RevelationVisitor : public Visitor {
+private:
+    T* _exp = nullptr;
+
 public:
-    NumericExpression* numeric = nullptr;
-    ArrayExpression* array = nullptr;
-
-    void reset() {
-        this->numeric = nullptr;
-        this->array = nullptr;
+    virtual void visit(T* exp) {
+        _exp = exp;
     }
 
-    virtual void visit(NumericExpression* exp) {
-        this->numeric = exp;
+    T* getExpression() {
+        return _exp;
     }
 
-    virtual void visit(ArrayExpression* exp) {
-        this->array = exp;
+    bool isValid() const {
+        return _exp != nullptr;
     }
 };
 

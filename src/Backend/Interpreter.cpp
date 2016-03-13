@@ -155,11 +155,11 @@ Expression* Interpreter::resolveExpression(OpCode* opcode) {
     switch (opcode->getType()) {
         case OpCode::VARIABLE:
         case OpCode::OFFSET: {
-            RevelationVisitor rv;
-            opcode->getExpression()->accept(rv);
-            enforce(rv.numeric != nullptr, "Variable-ID must be numeric");
+            RevelationVisitor<NumericExpression> rnv;
+            opcode->getExpression()->accept(rnv);
+            enforce(rnv.isValid(), "Variable-ID must be numeric");
 
-            const u32_t index = rv.numeric->getAs<u32_t>();
+            const u32_t index = rnv.getExpression()->getAs<u32_t>();
 
             if (opcode->getType() == OpCode::VARIABLE)
                 return this->fetchVariable(index);
@@ -178,11 +178,11 @@ Expression* Interpreter::resolveExpression(OpCode* opcode) {
 u32_t Interpreter::getIndexOf(OpCode* opcode) {
     enforce(opcode->getType() == OpCode::VARIABLE, "Need a valid Variable as OpCode");
 
-    RevelationVisitor rv;
-    opcode->getExpression()->accept(rv);
-    enforce(rv.numeric != nullptr, "Variable-ID must be numeric");
+    RevelationVisitor<NumericExpression> rnv;
+    opcode->getExpression()->accept(rnv);
+    enforce(rnv.isValid(), "Variable-ID must be numeric");
 
-    return rv.numeric->getAs<u32_t>();
+    return rnv.getExpression()->getAs<u32_t>();
 }
 
 Expression* Interpreter::resolveVariable(OpCode* opcode) {
@@ -203,7 +203,7 @@ Expression* Interpreter::resolveOrMakeVariable(OpCode* opcode) {
 
     Expression* exp = this->fetchVariable(vi);
     if (!exp) {
-        debug("No variable found, make new one");
+        debug("No variable found, make a new one");
 
         exp = new T();
         this->assignVariable(vi, exp);
@@ -213,10 +213,14 @@ Expression* Interpreter::resolveOrMakeVariable(OpCode* opcode) {
 }
 
 void Interpreter::print(Instruction* instruction) {
+    OutputVisitor ov(std::cout);
+
     for (u32_t i = 0; i < instruction->getOperandAmount(); i++) {
         Expression* exp = this->resolveExpression(instruction->getOperand(i));
-        ::print(exp);
+        exp->accept(ov);
     }
+
+    std::cout << std::endl;
 }
 
 void Interpreter::assign(Instruction* instruction) {
@@ -241,19 +245,25 @@ void Interpreter::append(Instruction* instruction) {
 #if DEBUG
     ::print(val);
 #endif
-    RevelationVisitor rv;
-    exp->accept(rv);
+    RevelationVisitor<ArrayExpression> rav;
+    exp->accept(rav);
 
-    enforce(rv.array != nullptr, "Cann only append on an array");
+    enforce(rav.isValid(), "Cann only append on an array");
 
-    rv.array->append(val->clone());
+    rav.getExpression()->append(val->clone());
 }
 
 void Interpreter::setIndex(Instruction* instruction) {
     enforce(instruction->getOperandAmount() == 1, "set_index need exactly one operand");
 
-    Expression* val = this->resolveExpression(instruction->getOperand(0));
-    this->pushStack(val->clone());
+    Expression* exp = this->resolveExpression(instruction->getOperand(0));
+
+    RevelationVisitor<NumericExpression> rnv;
+    exp->accept(rnv);
+
+    enforce(rnv.isValid(), "Index must be integer");
+
+    this->pushStack(exp->clone());
 }
 
 void Interpreter::emplace(Instruction* instruction) {
@@ -263,19 +273,19 @@ void Interpreter::emplace(Instruction* instruction) {
     Expression* val = this->resolveExpression(instruction->getOperand(1));
     auto idx = this->popStack();
 
-    RevelationVisitor rv;
-    idx->accept(rv);
+    RevelationVisitor<NumericExpression> rnv;
+    idx->accept(rnv);
 
-    enforce(rv.numeric != nullptr, "Index must be numeric");
+    enforce(rnv.isValid(), "Index must be numeric");
 
-    const u32_t index = rv.numeric->getAs<u32_t>();
+    const u32_t index = rnv.getExpression()->getAs<u32_t>();
 
-    rv.reset();
-    exp->accept(rv);
+    RevelationVisitor<ArrayExpression> rav;
+    exp->accept(rav);
 
-    enforce(rv.array != nullptr, "Need an array for emplace");
+    enforce(rav.isValid(), "Need an array for emplace");
 
-    rv.array->emplace(index, val->clone());
+    rav.getExpression()->emplace(index, val->clone());
 }
 
 void Interpreter::fetchDim(Instruction* instruction) {
@@ -283,12 +293,12 @@ void Interpreter::fetchDim(Instruction* instruction) {
 
     Expression* exp = this->resolveVariable(instruction->getOperand(0));
 
-    RevelationVisitor rv;
-    exp->accept(rv);
+    RevelationVisitor<ArrayExpression> rav;
+    exp->accept(rav);
 
-    enforce(rv.array != nullptr, "Can only fetch dimension of an array");
+    enforce(rav.isValid(), "Can only fetch dimension of an array");
 
-    this->pushStack(new NumericExpression(rv.array->getAmount()));
+    this->pushStack(new NumericExpression(rav.getExpression()->getAmount()));
 }
 
 void Interpreter::fetch(Instruction* instruction) {
@@ -297,18 +307,18 @@ void Interpreter::fetch(Instruction* instruction) {
     Expression* exp = this->resolveVariable(instruction->getOperand(0));
     Expression* idx = this->resolveExpression(instruction->getOperand(1));
 
-    RevelationVisitor rv;
-    idx->accept(rv);
+    RevelationVisitor<NumericExpression> rnv;
+    idx->accept(rnv);
 
-    enforce(rv.numeric != nullptr, "Fetch-Index must be numeric");
-    const u32_t index = rv.numeric->getAs<u32_t>();
+    enforce(rnv.isValid(), "Fetch-Index must be numeric");
+    const u32_t index = rnv.getExpression()->getAs<u32_t>();
 
-    rv.reset();
-    exp->accept(rv);
+    RevelationVisitor<ArrayExpression> rav;
+    exp->accept(rav);
 
-    enforce(rv.array != nullptr, "Need an array for fetch");
+    enforce(rav.isValid(), "Need an array for fetch");
 
-    this->pushStack(rv.array->fetch(index)->clone());
+    this->pushStack(rav.getExpression()->fetch(index)->clone());
 }
 
 void Interpreter::pop(Instruction* instruction) {
@@ -333,15 +343,15 @@ void Interpreter::goTo(Instruction* instruction, Parser& p) {
 
     Expression* exp = this->resolveExpression(instruction->getOperand(0));
 
-    RevelationVisitor rv;
-    exp->accept(rv);
+    RevelationVisitor<NumericExpression> rnv;
+    exp->accept(rnv);
 
-    enforce(rv.numeric != nullptr, "goto address must be numeric");
+    enforce(rnv.isValid(), "goto address must be numeric");
 
-    const u32_t index = rv.numeric->getAs<u32_t>();
+    const u32_t index = rnv.getExpression()->getAs<u32_t>();
     _backtrack = p.getIndex();
 
-    debug("goTo to ", index, " from ", _backtrack);
+    debug("goto ", index, " from ", _backtrack);
 
     p.setIndex(index);
 }
