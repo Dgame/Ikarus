@@ -9,8 +9,6 @@ void OutputVisitor::visit(NumericExpression* ie) {
 }
 
 void OutputVisitor::visit(ArrayExpression* av) {
-    const u32_t index = av->getIndex();
-
     _out << '[';
     for (u32_t i = 0; i < av->getAmount(); i++) {
         Expression* exp = av->fetch(i);
@@ -22,8 +20,6 @@ void OutputVisitor::visit(ArrayExpression* av) {
         _out << ',';
     }
     _out << ']';
-
-    av->setIndex(index);
 }
 
 void print(Expression* exp, bool nl) {

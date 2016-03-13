@@ -20,7 +20,7 @@ private:
 
     void assignVariable(u32_t, Expression*);
     void pushStack(Expression*);
-    Expression* popStack();
+    auto popStack();
 
     Expression* fetchStack(u32_t);
     Expression* fetchVariable(u32_t);
@@ -38,7 +38,8 @@ private:
     void print(Instruction*);
     void assign(Instruction*);
     void append(Instruction*);
-    void index(Instruction*);
+    void emplace(Instruction*);
+    void fetchDim(Instruction*);
     void fetch(Instruction*);
     void pop(Instruction*);
     void push(Instruction*);

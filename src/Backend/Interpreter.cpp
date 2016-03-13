@@ -43,10 +43,12 @@ void Interpreter::pushStack(Expression* exp) {
     _stack_offset++;
 }
 
-Expression* Interpreter::popStack() {
+auto Interpreter::popStack() {
+    enforce(_stack_offset > 0, "Invalid Stack-Offset");
+
     _stack_offset--;
 
-    return _stack.at(_stack_offset).release();
+    return std::move(_stack.at(_stack_offset));
 }
 
 Expression* Interpreter::fetchStack(u32_t index) {
@@ -85,10 +87,15 @@ bool Interpreter::interpret(Parser& p) {
 
                 this->append(instruction);
                 break;
-            case Instruction::INDEX:
-                debug("INDEX");
+            case Instruction::EMPLACE:
+                debug("EMPLACE");
 
-                this->index(instruction);
+                this->emplace(instruction);
+                break;
+            case Instruction::FETCH_DIM:
+                debug("FETCH_DIM");
+
+                this->fetchDim(instruction);
                 break;
             case Instruction::FETCH:
                 debug("FETCH");
@@ -96,9 +103,13 @@ bool Interpreter::interpret(Parser& p) {
                 this->fetch(instruction);
                 break;
             case Instruction::POP:
+                debug("POP");
+
                 this->pop(instruction);
                 break;
             case Instruction::PUSH:
+                debug("PUSH");
+
                 this->push(instruction);
                 break;
             case Instruction::ADD:
@@ -110,6 +121,8 @@ bool Interpreter::interpret(Parser& p) {
             case Instruction::DEC:
             case Instruction::NEG:
             case Instruction::NOT:
+                debug("MATH");
+
                 this->math(instruction);
                 break;
         }
@@ -184,8 +197,6 @@ void Interpreter::print(Instruction* instruction) {
         Expression* exp = this->resolveExpression(instruction->getOperand(i));
         ::print(exp);
     }
-
-    std::cout << std::endl;
 }
 
 void Interpreter::assign(Instruction* instruction) {
@@ -196,8 +207,9 @@ void Interpreter::assign(Instruction* instruction) {
     debug("assign variable ", vi);
 
     Expression* exp = this->resolveExpression(instruction->getOperand(1));
+#if DEBUG
     ::print(exp);
-
+#endif
     this->assignVariable(vi, exp->clone());
 }
 
@@ -206,34 +218,50 @@ void Interpreter::append(Instruction* instruction) {
 
     Expression* exp = this->resolveOrMakeVariable<ArrayExpression>(instruction->getOperand(0));
     Expression* val = this->resolveExpression(instruction->getOperand(1));
+#if DEBUG
     ::print(val);
-
+#endif
     RevelationVisitor rv;
     exp->accept(rv);
 
     enforce(rv.array != nullptr, "Cann only append on an array");
 
-    rv.array->assign(val->clone());
+    rv.array->append(val->clone());
 }
 
-void Interpreter::index(Instruction* instruction) {
-    enforce(instruction->getOperandAmount() == 2, "index need exactly two operands");
+void Interpreter::emplace(Instruction* instruction) {
+    enforce(instruction->getOperandAmount() == 2, "emplace need exactly two operands");
 
     Expression* exp = this->resolveVariable(instruction->getOperand(0));
-    Expression* idx = this->resolveExpression(instruction->getOperand(1));
+    Expression* val = this->resolveExpression(instruction->getOperand(1));
+    auto idx = this->popStack();
 
     RevelationVisitor rv;
     idx->accept(rv);
 
     enforce(rv.numeric != nullptr, "Index must be numeric");
+
     const u32_t index = rv.numeric->getAs<u32_t>();
 
     rv.reset();
     exp->accept(rv);
 
-    enforce(rv.array != nullptr, "Need an array for index");
+    enforce(rv.array != nullptr, "Need an array for emplace");
 
-    rv.array->setIndex(index);
+    rv.array->emplace(index, val->clone());
+}
+
+void Interpreter::fetchDim(Instruction* instruction) {
+    enforce(instruction->getOperandAmount() == 1, "fetch_dim need exactly one operands");
+
+    Expression* exp = this->resolveVariable(instruction->getOperand(0));
+
+    RevelationVisitor rv;
+    exp->accept(rv);
+
+    enforce(rv.array != nullptr, "Can only fetch dimension of an array");
+
+    this->pushStack(new NumericExpression(rv.array->getAmount()));
 }
 
 void Interpreter::fetch(Instruction* instruction) {
@@ -257,11 +285,13 @@ void Interpreter::fetch(Instruction* instruction) {
 }
 
 void Interpreter::pop(Instruction* instruction) {
-    enforce(instruction->getOperandAmount() == 1, "fetch need exactly one operands");
+    enforce(instruction->getOperandAmount() == 1, "pop need exactly one operands");
     enforce(instruction->getOperand(0)->getType() == OpCode::VARIABLE, "Can only pop into a variable");
 
+    auto val = this->popStack();
+
     const u32_t vi = this->getIndexOf(instruction->getOperand(0));
-    this->assignVariable(vi, this->popStack());
+    this->assignVariable(vi, val.release());
 }
 
 void Interpreter::push(Instruction* instruction) {

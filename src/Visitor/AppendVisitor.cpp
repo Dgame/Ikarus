@@ -4,7 +4,7 @@
 
 void AppendVisitor::visit(NumericExpression* ie) {
     _array = new ArrayExpression();
-    _array->assign(ie->clone());
+    _array->append(ie->clone());
 }
 
 void AppendVisitor::visit(ArrayExpression* av) {

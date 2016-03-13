@@ -20,14 +20,14 @@ OpCode* Parser::parseOpCode(Lexer& lex) {
     switch (tok->getType()) {
         case Token::AMPERSAND:
             tok = lex.getNext();
-            enforce(tok->getType() == Token::INTEGER, "Expected INTEGER as Variable-ID");
+            enforce(tok->getType() == Token::INTEGER, "Expected INTEGER as Variable-ID, got ", tok->getType());
 
             debug("VARIABLE ", tok->getInteger());
 
             return new OpCode(OpCode::VARIABLE, new NumericExpression(tok->getInteger()));
         case Token::TILDE:
             tok = lex.getNext();
-            enforce(tok->getType() == Token::INTEGER, "Expected INTEGER as Offset");
+            enforce(tok->getType() == Token::INTEGER, "Expected INTEGER as Offset, got ", tok->getType());
 
             debug("OFFSET ", tok->getInteger());
 

@@ -6,7 +6,8 @@ namespace {
     const std::map<std::string, Instruction::Type> Instructions = {
             {"assign", Instruction::ASSIGN},
             {"append", Instruction::APPEND},
-            {"index", Instruction::INDEX},
+            {"emplace", Instruction::EMPLACE},
+            {"fetch_dim", Instruction::FETCH_DIM},
             {"fetch", Instruction::FETCH},
             {"push", Instruction::PUSH},
             {"pop", Instruction::POP},

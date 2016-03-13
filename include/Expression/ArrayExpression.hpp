@@ -10,18 +10,12 @@ class ArrayExpression : public Expression {
 private:
     std::vector<std::unique_ptr<Expression>> _values;
 
-    u32_t _index = 0;
-
 public:
-    explicit ArrayExpression(u32_t amount = 8);
-
-    void setIndex(u32_t index) {
-        _index = index;
+    void append(Expression* exp) {
+        _values.emplace_back(exp);
     }
 
-    u32_t getIndex() const {
-        return _index;
-    }
+    void emplace(u32_t, Expression*);
 
     Expression* fetch(u32_t index) {
         return _values.at(index).get();
@@ -30,8 +24,6 @@ public:
     u32_t getAmount() const {
         return _values.size();
     }
-
-    void assign(Expression*);
 
     virtual ArrayExpression* clone() const;
 

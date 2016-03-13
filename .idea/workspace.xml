@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/main.cpp" line="0" />
-  </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" assignedExecutableTargets="true" buildAllGenerated="true">
     <generated>
       <config projectName="Ikarus" targetName="main.cpp" />
@@ -16,40 +13,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6d5f7542-dfc0-48cf-8183-cf33d686b8cf" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/include/Instruction.hpp" afterPath="$PROJECT_DIR$/include/Backend/Instruction.hpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/include/Interpreter.hpp" afterPath="$PROJECT_DIR$/include/Backend/Interpreter.hpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/include/Lexer.hpp" afterPath="$PROJECT_DIR$/include/Backend/Lexer.hpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/include/OpCode.hpp" afterPath="$PROJECT_DIR$/include/Backend/OpCode.hpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/include/Parser.hpp" afterPath="$PROJECT_DIR$/include/Backend/Parser.hpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Instruction.cpp" afterPath="$PROJECT_DIR$/src/Backend/Instruction.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Interpreter.cpp" afterPath="$PROJECT_DIR$/src/Backend/Interpreter.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Lexer.cpp" afterPath="$PROJECT_DIR$/src/Backend/Lexer.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/OpCode.cpp" afterPath="$PROJECT_DIR$/src/Backend/OpCode.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Parser.cpp" afterPath="$PROJECT_DIR$/src/Backend/Parser.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Ikarus.iml" afterPath="$PROJECT_DIR$/.idea/Ikarus.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Expression/AddExpression.hpp" afterPath="$PROJECT_DIR$/include/Expression/AddExpression.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Expression/BinaryExpression.hpp" afterPath="$PROJECT_DIR$/include/Expression/BinaryExpression.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Expression/DecrementExpression.hpp" afterPath="$PROJECT_DIR$/include/Expression/DecrementExpression.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Expression/DivideExpression.hpp" afterPath="$PROJECT_DIR$/include/Expression/DivideExpression.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Expression/IncrementExpression.hpp" afterPath="$PROJECT_DIR$/include/Expression/IncrementExpression.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Expression/ModuloExpression.hpp" afterPath="$PROJECT_DIR$/include/Expression/ModuloExpression.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Expression/MultiplyExpression.hpp" afterPath="$PROJECT_DIR$/include/Expression/MultiplyExpression.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Expression/NegateExpression.hpp" afterPath="$PROJECT_DIR$/include/Expression/NegateExpression.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Expression/NotExpression.hpp" afterPath="$PROJECT_DIR$/include/Expression/NotExpression.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Expression/NumericExpression.hpp" afterPath="$PROJECT_DIR$/include/Expression/NumericExpression.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Expression/SubtractExpression.hpp" afterPath="$PROJECT_DIR$/include/Expression/SubtractExpression.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Expression/UnaryExpression.hpp" afterPath="$PROJECT_DIR$/include/Expression/UnaryExpression.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Expression/AddExpression.cpp" afterPath="$PROJECT_DIR$/src/Expression/AddExpression.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Expression/DecrementExpression.cpp" afterPath="$PROJECT_DIR$/src/Expression/DecrementExpression.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Expression/DivideExpression.cpp" afterPath="$PROJECT_DIR$/src/Expression/DivideExpression.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Expression/IncrementExpression.cpp" afterPath="$PROJECT_DIR$/src/Expression/IncrementExpression.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Expression/ModuloExpression.cpp" afterPath="$PROJECT_DIR$/src/Expression/ModuloExpression.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Expression/MultiplyExpression.cpp" afterPath="$PROJECT_DIR$/src/Expression/MultiplyExpression.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Expression/NegateExpression.cpp" afterPath="$PROJECT_DIR$/src/Expression/NegateExpression.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Expression/NotExpression.cpp" afterPath="$PROJECT_DIR$/src/Expression/NotExpression.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Expression/SubtractExpression.cpp" afterPath="$PROJECT_DIR$/src/Expression/SubtractExpression.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Backend/Instruction.hpp" afterPath="$PROJECT_DIR$/include/Backend/Instruction.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Backend/Interpreter.hpp" afterPath="$PROJECT_DIR$/include/Backend/Interpreter.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Expression/ArrayExpression.hpp" afterPath="$PROJECT_DIR$/include/Expression/ArrayExpression.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/util.hpp" afterPath="$PROJECT_DIR$/include/util.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/main.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Backend/Instruction.cpp" afterPath="$PROJECT_DIR$/src/Backend/Instruction.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Backend/Interpreter.cpp" afterPath="$PROJECT_DIR$/src/Backend/Interpreter.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Backend/Lexer.cpp" afterPath="$PROJECT_DIR$/src/Backend/Lexer.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Backend/Parser.cpp" afterPath="$PROJECT_DIR$/src/Backend/Parser.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Expression/ArrayExpression.cpp" afterPath="$PROJECT_DIR$/src/Expression/ArrayExpression.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Visitor/AppendVisitor.cpp" afterPath="$PROJECT_DIR$/src/Visitor/AppendVisitor.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Visitor/OutputVisitor.cpp" afterPath="$PROJECT_DIR$/src/Visitor/OutputVisitor.cpp" />
     </list>
     <ignored path="Ikarus.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -80,6 +56,18 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="util.hpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/include/util.hpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="22" column="6" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
+              <folding>
+                <element signature="e#417#439#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Interpreter.hpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/Backend/Interpreter.hpp">
           <provider selected="true" editor-type-id="text-editor">
@@ -93,8 +81,51 @@
       <file leaf-file-name="Interpreter.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Backend/Interpreter.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.60189575">
-              <caret line="168" column="46" selection-start-line="168" selection-start-column="46" selection-end-line="168" selection-end-column="46" />
+            <state vertical-scroll-proportion="0.7740916">
+              <caret line="198" column="5" selection-start-line="198" selection-start-column="5" selection-end-line="198" selection-end-column="5" />
+              <folding>
+                <element signature="e#5920#5933#0" expanded="true" />
+                <element signature="e#6314#6327#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Lexer.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Backend/Lexer.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="80" column="21" selection-start-line="80" selection-start-column="21" selection-end-line="80" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Parser.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Backend/Parser.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="19" column="29" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ArrayExpression.hpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/include/Expression/ArrayExpression.hpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OutputVisitor.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Visitor/OutputVisitor.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="21" column="16" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -108,12 +139,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/include/Token.hpp" />
-        <option value="$PROJECT_DIR$/include/Instruction.cpp" />
-        <option value="$PROJECT_DIR$/include/util.hpp" />
-        <option value="$PROJECT_DIR$/src/Visitor/MathVisitor.cpp" />
-        <option value="$PROJECT_DIR$/src/Lexer.cpp" />
-        <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/src/Declaration/OffsetDeclaration.cpp" />
         <option value="$PROJECT_DIR$/src/Declaration/VariableDeclaration.cpp" />
         <option value="$PROJECT_DIR$/src/Declaration/ValueDeclaration.cpp" />
@@ -130,9 +155,6 @@
         <option value="$PROJECT_DIR$/src/Parser.cpp" />
         <option value="$PROJECT_DIR$/include/Expression/Expression.hpp" />
         <option value="$PROJECT_DIR$/include/Visitor/RevelationVisitor.hpp" />
-        <option value="$PROJECT_DIR$/include/Expression/ArrayExpression.hpp" />
-        <option value="$PROJECT_DIR$/src/Expression/ArrayExpression.cpp" />
-        <option value="$PROJECT_DIR$/src/Visitor/OutputVisitor.cpp" />
         <option value="$PROJECT_DIR$/include/Interpreter.hpp" />
         <option value="$PROJECT_DIR$/src/Interpreter.cpp" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
@@ -157,7 +179,16 @@
         <option value="$PROJECT_DIR$/src/Expression/NegateExpression.cpp" />
         <option value="$PROJECT_DIR$/src/Expression/NotExpression.cpp" />
         <option value="$PROJECT_DIR$/src/Expression/SubtractExpression.cpp" />
+        <option value="$PROJECT_DIR$/src/Expression/ArrayExpression.cpp" />
+        <option value="$PROJECT_DIR$/include/Backend/Instruction.hpp" />
+        <option value="$PROJECT_DIR$/src/Backend/Instruction.cpp" />
         <option value="$PROJECT_DIR$/include/Backend/Interpreter.hpp" />
+        <option value="$PROJECT_DIR$/src/Visitor/OutputVisitor.cpp" />
+        <option value="$PROJECT_DIR$/include/Expression/ArrayExpression.hpp" />
+        <option value="$PROJECT_DIR$/src/Backend/Parser.cpp" />
+        <option value="$PROJECT_DIR$/src/Backend/Lexer.cpp" />
+        <option value="$PROJECT_DIR$/main.cpp" />
+        <option value="$PROJECT_DIR$/include/util.hpp" />
         <option value="$PROJECT_DIR$/src/Backend/Interpreter.cpp" />
       </list>
     </option>
@@ -285,6 +316,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="Expression" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ikarus" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ikarus.git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Backend" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -300,6 +349,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="include" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ikarus" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ikarus.git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="include" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Expression" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -400,21 +467,22 @@
     <frame x="70" y="-8" width="1858" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17589577" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23732251" sideWeight="0.49674267" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286004" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286004" sideWeight="0.504886" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286004" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3296146" sideWeight="0.495114" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3296146" sideWeight="0.495114" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17589577" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286004" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39858013" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" x="170" y="92" width="1658" height="896" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -433,34 +501,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Backend/Interpreter.cpp</url>
-          <line>208</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/include/Token.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="34" column="22" selection-start-line="34" selection-start-column="22" selection-end-line="34" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/util.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="26" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/Visitor/MathVisitor.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -517,14 +562,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Visitor/OutputVisitor.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="20" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/Visitor/RevelationVisitor.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -565,34 +602,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/Instruction.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="52" column="1" selection-start-line="52" selection-start-column="1" selection-end-line="52" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/Lexer.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="100" column="5" selection-start-line="100" selection-start-column="5" selection-end-line="100" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/OpCode.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="2" column="61" selection-start-line="2" selection-start-column="61" selection-end-line="2" selection-end-column="61" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/Parser.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -609,14 +622,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/Backend/Instruction.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="34" column="17" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="17" />
           <folding />
         </state>
       </provider>
@@ -717,22 +722,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/Expression/ArrayExpression.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4198895">
-          <caret line="26" column="39" selection-start-line="26" selection-start-column="39" selection-end-line="26" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Expression/ArrayExpression.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.77348065">
-          <caret line="28" column="1" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/Expression/UnaryExpression.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.38674033">
@@ -829,11 +818,85 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://C:/Program Files (x86)/mingw-w64/i686-5.2.0-posix-dwarf-rt_v4-rev0/mingw32/i686-w64-mingw32/include/c++/type_traits">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.1342812">
+          <caret line="870" column="11" selection-start-line="870" selection-start-column="11" selection-end-line="870" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/Backend/Instruction.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/Instruction.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16701461">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Expression/ArrayExpression.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5801105">
+          <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Visitor/OutputVisitor.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="16" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/Expression/ArrayExpression.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/Parser.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="29" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/Lexer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="80" column="21" selection-start-line="80" selection-start-column="21" selection-end-line="80" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/util.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="6" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
+          <folding>
+            <element signature="e#417#439#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -847,9 +910,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/Interpreter.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.60189575">
-          <caret line="168" column="46" selection-start-line="168" selection-start-column="46" selection-end-line="168" selection-end-column="46" />
-          <folding />
+        <state vertical-scroll-proportion="0.7740916">
+          <caret line="198" column="5" selection-start-line="198" selection-start-column="5" selection-end-line="198" selection-end-column="5" />
+          <folding>
+            <element signature="e#5920#5933#0" expanded="true" />
+            <element signature="e#6314#6327#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

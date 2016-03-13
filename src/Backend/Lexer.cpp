@@ -29,7 +29,7 @@ void Lexer::expect(char c) {
 }
 
 bool Lexer::isValid() const {
-    return _ptr < _end;
+    return _ptr <= _end;
 }
 
 void Lexer::parsePrefix() {
@@ -113,8 +113,12 @@ void Lexer::parseNumeric(Token& token) {
         }
 
         token.setDecimal(value + (dec / pot));
+
+        debug("Found decimal ", token.getDecimal());
     } else {
         token.setInteger(value);
+
+        debug("Found integer ", token.getInteger());
     }
 }
 
@@ -122,8 +126,12 @@ bool Lexer::parse(Token& token) {
     this->skipSpaces();
 
     if (this->accept('~')) {
+        debug("found offset");
+
         token.setType(Token::TILDE);
     } else if (this->accept('&')) {
+        debug("found variable");
+
         token.setType(Token::AMPERSAND);
     } else if (this->accept('.')) {
         token.setType(Token::DOT);
@@ -134,6 +142,8 @@ bool Lexer::parse(Token& token) {
     } else if (std::isalpha(*_ptr)) {
         this->parseIdentifier(token);
     } else if (std::isdigit(*_ptr)) {
+        debug("found numeric");
+
         this->parseNumeric(token);
     } else {
         error("Unexpected Token ", *_ptr);

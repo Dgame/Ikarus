@@ -1,15 +1,12 @@
 #include "ArrayExpression.hpp"
 #include "Visitor.hpp"
 
-ArrayExpression::ArrayExpression(u32_t amount) : _values(amount) { }
-
-void ArrayExpression::assign(Expression* exp) {
-    if (_index >= this->getAmount()) {
-        _values.resize((_index + 1) * 2);
+void ArrayExpression::emplace(u32_t index, Expression* exp) {
+    if (index >= this->getAmount()) {
+        _values.resize(index + 1);
     }
 
-    _values.at(_index).reset(exp);
-    _index++;
+    _values.at(index).reset(exp);
 }
 
 ArrayExpression* ArrayExpression::clone() const {
@@ -17,7 +14,7 @@ ArrayExpression* ArrayExpression::clone() const {
 
     for (auto& item : _values) {
         if (item) {
-            ae->assign(item->clone());
+            ae->append(item->clone());
         }
     }
 
