@@ -13,19 +13,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6d5f7542-dfc0-48cf-8183-cf33d686b8cf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Backend/Instruction.hpp" afterPath="$PROJECT_DIR$/include/Backend/Instruction.hpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Backend/Interpreter.hpp" afterPath="$PROJECT_DIR$/include/Backend/Interpreter.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Expression/ArrayExpression.hpp" afterPath="$PROJECT_DIR$/include/Expression/ArrayExpression.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/util.hpp" afterPath="$PROJECT_DIR$/include/util.hpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/main.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Backend/Instruction.cpp" afterPath="$PROJECT_DIR$/src/Backend/Instruction.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Backend/Interpreter.cpp" afterPath="$PROJECT_DIR$/src/Backend/Interpreter.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Backend/Lexer.cpp" afterPath="$PROJECT_DIR$/src/Backend/Lexer.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Backend/Parser.cpp" afterPath="$PROJECT_DIR$/src/Backend/Parser.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Expression/ArrayExpression.cpp" afterPath="$PROJECT_DIR$/src/Expression/ArrayExpression.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Visitor/AppendVisitor.cpp" afterPath="$PROJECT_DIR$/src/Visitor/AppendVisitor.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Visitor/OutputVisitor.cpp" afterPath="$PROJECT_DIR$/src/Visitor/OutputVisitor.cpp" />
     </list>
     <ignored path="Ikarus.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -46,10 +39,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="0.2843602">
               <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
               <folding />
             </state>
@@ -72,20 +65,20 @@
         <entry file="file://$PROJECT_DIR$/include/Backend/Interpreter.hpp">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="25" column="37" selection-start-line="25" selection-start-column="37" selection-end-line="25" selection-end-column="37" />
+              <caret line="40" column="32" selection-start-line="40" selection-start-column="32" selection-end-line="40" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Interpreter.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Interpreter.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Backend/Interpreter.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7740916">
-              <caret line="198" column="5" selection-start-line="198" selection-start-column="5" selection-end-line="198" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="249" column="0" selection-start-line="249" selection-start-column="0" selection-end-line="249" selection-end-column="0" />
               <folding>
-                <element signature="e#5920#5933#0" expanded="true" />
-                <element signature="e#6314#6327#0" expanded="true" />
+                <element signature="e#6066#6079#0" expanded="true" />
+                <element signature="e#6460#6473#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -95,7 +88,7 @@
         <entry file="file://$PROJECT_DIR$/src/Backend/Lexer.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="80" column="21" selection-start-line="80" selection-start-column="21" selection-end-line="80" selection-end-column="21" />
+              <caret line="65" column="15" selection-start-line="65" selection-start-column="15" selection-end-line="65" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -180,16 +173,16 @@
         <option value="$PROJECT_DIR$/src/Expression/NotExpression.cpp" />
         <option value="$PROJECT_DIR$/src/Expression/SubtractExpression.cpp" />
         <option value="$PROJECT_DIR$/src/Expression/ArrayExpression.cpp" />
-        <option value="$PROJECT_DIR$/include/Backend/Instruction.hpp" />
-        <option value="$PROJECT_DIR$/src/Backend/Instruction.cpp" />
-        <option value="$PROJECT_DIR$/include/Backend/Interpreter.hpp" />
         <option value="$PROJECT_DIR$/src/Visitor/OutputVisitor.cpp" />
         <option value="$PROJECT_DIR$/include/Expression/ArrayExpression.hpp" />
         <option value="$PROJECT_DIR$/src/Backend/Parser.cpp" />
-        <option value="$PROJECT_DIR$/src/Backend/Lexer.cpp" />
-        <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/include/util.hpp" />
+        <option value="$PROJECT_DIR$/include/Backend/Instruction.hpp" />
+        <option value="$PROJECT_DIR$/src/Backend/Instruction.cpp" />
+        <option value="$PROJECT_DIR$/include/Backend/Interpreter.hpp" />
+        <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/src/Backend/Interpreter.cpp" />
+        <option value="$PROJECT_DIR$/src/Backend/Lexer.cpp" />
       </list>
     </option>
   </component>
@@ -826,22 +819,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/Backend/Instruction.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/Instruction.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16701461">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Expression/ArrayExpression.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5801105">
@@ -874,18 +851,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/Lexer.cpp">
+    <entry file="file://$PROJECT_DIR$/src/Backend/Instruction.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="80" column="21" selection-start-line="80" selection-start-column="21" selection-end-line="80" selection-end-column="21" />
+        <state vertical-scroll-proportion="0.2622433">
+          <caret line="11" column="42" selection-start-line="11" selection-start-column="42" selection-end-line="11" selection-end-column="42" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
+    <entry file="file://$PROJECT_DIR$/include/Backend/Instruction.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.1263823">
+          <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/Backend/Interpreter.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+          <caret line="40" column="32" selection-start-line="40" selection-start-column="32" selection-end-line="40" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/Interpreter.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="249" column="0" selection-start-line="249" selection-start-column="0" selection-end-line="249" selection-end-column="0" />
+          <folding>
+            <element signature="e#6066#6079#0" expanded="true" />
+            <element signature="e#6460#6473#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/Lexer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="65" column="15" selection-start-line="65" selection-start-column="15" selection-end-line="65" selection-end-column="15" />
           <folding />
         </state>
       </provider>
@@ -900,22 +904,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/Backend/Interpreter.hpp">
+    <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="37" selection-start-line="25" selection-start-column="37" selection-end-line="25" selection-end-column="37" />
+        <state vertical-scroll-proportion="0.2843602">
+          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/Interpreter.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7740916">
-          <caret line="198" column="5" selection-start-line="198" selection-start-column="5" selection-end-line="198" selection-end-column="5" />
-          <folding>
-            <element signature="e#5920#5933#0" expanded="true" />
-            <element signature="e#6314#6327#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

@@ -16,6 +16,7 @@ public:
         NONE,
         ASSIGN,
         APPEND,
+        SET_INDEX,
         EMPLACE,
         FETCH_DIM,
         FETCH,

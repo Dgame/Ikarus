@@ -87,6 +87,11 @@ bool Interpreter::interpret(Parser& p) {
 
                 this->append(instruction);
                 break;
+            case Instruction::SET_INDEX:
+                debug("SET_INDEX");
+
+                this->setIndex(instruction);
+                break;
             case Instruction::EMPLACE:
                 debug("EMPLACE");
 
@@ -227,6 +232,13 @@ void Interpreter::append(Instruction* instruction) {
     enforce(rv.array != nullptr, "Cann only append on an array");
 
     rv.array->append(val->clone());
+}
+
+void Interpreter::setIndex(Instruction* instruction) {
+    enforce(instruction->getOperandAmount() == 1, "set_index need exactly one operand");
+
+    Expression* val = this->resolveExpression(instruction->getOperand(0));
+    this->pushStack(val->clone());
 }
 
 void Interpreter::emplace(Instruction* instruction) {

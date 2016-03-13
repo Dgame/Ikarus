@@ -73,11 +73,11 @@ void Lexer::parseIdentifier(Token& token) {
     std::string str;
     str.reserve(8);
 
-    if (!std::isalpha(*_ptr)) {
+    if (!(std::isalpha(*_ptr) || *_ptr == '_')) {
         error("Invalid identifier");
     }
 
-    while (this->isValid() && std::isalnum(*_ptr)) {
+    while (this->isValid() && (std::isalnum(*_ptr) || *_ptr == '_')) {
         str += *_ptr;
 
         _ptr++;

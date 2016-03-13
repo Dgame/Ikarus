@@ -38,6 +38,7 @@ private:
     void print(Instruction*);
     void assign(Instruction*);
     void append(Instruction*);
+    void setIndex(Instruction*);
     void emplace(Instruction*);
     void fetchDim(Instruction*);
     void fetch(Instruction*);
