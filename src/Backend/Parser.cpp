@@ -1,6 +1,5 @@
 #include "Parser.hpp"
 #include "Lexer.hpp"
-#include "OpCode.hpp"
 #include "NumericExpression.hpp"
 #include "util.hpp"
 
@@ -16,6 +15,10 @@ Parser::Parser(const std::string& str) {
 
 OpCode* Parser::parseOpCode(Lexer& lex) {
     const Token* tok = lex.getNext();
+
+    if (tok->getType() == Token::IDENTIFIER) {
+        return nullptr;
+    }
 
     switch (tok->getType()) {
         case Token::AMPERSAND:
@@ -41,7 +44,7 @@ OpCode* Parser::parseOpCode(Lexer& lex) {
 
             return new OpCode(OpCode::VALUE, new NumericExpression(tok->getDecimal()));
         default:
-            error("Unexppected Type ", tok->getType());
+            error("Unexpected Type ", tok->getType());
 
             return nullptr;
     }
@@ -57,13 +60,15 @@ void Parser::parse(Lexer& lex) {
 
         Instruction* instruction = new Instruction(tok->getIdentifier());
 
-        while (true) {
-            instruction->addOpCode(this->parseOpCode(lex));
+        OpCode* opcode = this->parseOpCode(lex);
+        while (opcode != nullptr) {
+            instruction->addOpCode(opcode);
 
             tok = lex.getNext();
-            if (tok->getType() != Token::COMMA) {
+            if (tok->getType() != Token::COMMA)
                 break;
-            }
+
+            opcode = this->parseOpCode(lex);
         }
 
         _instructions.emplace_back(instruction);

@@ -71,7 +71,17 @@ bool Interpreter::interpret(Parser& p) {
             case Instruction::EXIT:
                 debug("EXIT");
 
+                enforce(instruction->getOperandAmount() == 0, "exit need no operands");
+
                 return true;
+            case Instruction::RETURN:
+                debug("RETURN");
+
+                enforce(instruction->getOperandAmount() == 0, "return need no operands");
+
+                p.setIndex(_backtrack);
+
+                break;
             case Instruction::PRINT:
                 debug("PRINT");
 
@@ -116,6 +126,11 @@ bool Interpreter::interpret(Parser& p) {
                 debug("PUSH");
 
                 this->push(instruction);
+                break;
+            case Instruction::JUMP:
+                debug("JUMP");
+
+                this->jump(instruction, p);
                 break;
             case Instruction::ADD:
             case Instruction::SUB:
@@ -297,7 +312,7 @@ void Interpreter::fetch(Instruction* instruction) {
 }
 
 void Interpreter::pop(Instruction* instruction) {
-    enforce(instruction->getOperandAmount() == 1, "pop need exactly one operands");
+    enforce(instruction->getOperandAmount() == 1, "pop need exactly one operand");
     enforce(instruction->getOperand(0)->getType() == OpCode::VARIABLE, "Can only pop into a variable");
 
     auto val = this->popStack();
@@ -307,10 +322,26 @@ void Interpreter::pop(Instruction* instruction) {
 }
 
 void Interpreter::push(Instruction* instruction) {
-    enforce(instruction->getOperandAmount() == 1, "fetch need exactly one operands");
+    enforce(instruction->getOperandAmount() == 1, "push need exactly one operand");
 
     Expression* exp = this->resolveExpression(instruction->getOperand(0));
     this->pushStack(exp->clone());
+}
+
+void Interpreter::jump(Instruction* instruction, Parser& p) {
+    enforce(instruction->getOperandAmount() == 1, "jump need exactly one operand");
+
+    Expression* exp = this->resolveExpression(instruction->getOperand(0));
+
+    RevelationVisitor rv;
+    exp->accept(rv);
+
+    enforce(rv.numeric != nullptr, "Jump address must be numeric");
+
+    const u32_t index = rv.numeric->getAs<u32_t>();
+    _backtrack = p.getIndex();
+
+    p.setIndex(index);
 }
 
 Expression* Interpreter::makeExpression(Instruction* instruction) {

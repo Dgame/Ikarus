@@ -17,6 +17,7 @@ private:
     std::vector<std::unique_ptr<Expression>> _stack;
 
     u32_t _stack_offset = 0;
+    u32_t _backtrack = 0;
 
     void assignVariable(u32_t, Expression*);
     void pushStack(Expression*);
@@ -44,7 +45,7 @@ private:
     void fetch(Instruction*);
     void pop(Instruction*);
     void push(Instruction*);
-
+    void jump(Instruction*, Parser&);
     void math(Instruction*);
 
     Expression* makeExpression(Instruction*);
