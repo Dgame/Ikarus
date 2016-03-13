@@ -7,6 +7,8 @@ class NotExpression : public UnaryExpression {
 public:
     using UnaryExpression::UnaryExpression;
 
+    virtual NotExpression* clone() const;
+
     virtual void accept(Visitor&);
 };
 

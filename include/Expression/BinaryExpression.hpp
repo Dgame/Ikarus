@@ -19,6 +19,14 @@ public:
     Expression* getRightExpression() {
         return _right.get();
     }
+
+    const Expression* getLeftExpression() const {
+        return _left.get();
+    }
+
+    const Expression* getRightExpression() const {
+        return _right.get();
+    }
 };
 
 #endif //IKARUS_BINARYEXPRESSION_HPP

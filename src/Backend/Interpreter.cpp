@@ -2,8 +2,18 @@
 #include "Parser.hpp"
 #include "OutputVisitor.hpp"
 #include "RevelationVisitor.hpp"
+#include "MathVisitor.hpp"
 #include "NumericExpression.hpp"
 #include "ArrayExpression.hpp"
+#include "AddExpression.hpp"
+#include "SubtractExpression.hpp"
+#include "DecrementExpression.hpp"
+#include "DivideExpression.hpp"
+#include "MultiplyExpression.hpp"
+#include "ModuloExpression.hpp"
+#include "NotExpression.hpp"
+#include "NegateExpression.hpp"
+#include "IncrementExpression.hpp"
 #include "util.hpp"
 
 Interpreter::Interpreter(const std::string& str) : _variables(8), _stack(8) {
@@ -91,6 +101,17 @@ bool Interpreter::interpret(Parser& p) {
             case Instruction::PUSH:
                 this->push(instruction);
                 break;
+            case Instruction::ADD:
+            case Instruction::SUB:
+            case Instruction::DIV:
+            case Instruction::MUL:
+            case Instruction::MOD:
+            case Instruction::INC:
+            case Instruction::DEC:
+            case Instruction::NEG:
+            case Instruction::NOT:
+                this->math(instruction);
+                break;
         }
     }
 
@@ -105,7 +126,7 @@ Expression* Interpreter::resolveExpression(OpCode* opcode) {
             opcode->getExpression()->accept(rv);
             enforce(rv.numeric != nullptr, "Variable-ID must be numeric");
 
-            const u32_t index = static_cast<u32_t>(rv.numeric->getNumber());
+            const u32_t index = rv.numeric->getAs<u32_t>();
 
             if (opcode->getType() == OpCode::VARIABLE)
                 return this->fetchVariable(index);
@@ -121,19 +142,41 @@ Expression* Interpreter::resolveExpression(OpCode* opcode) {
     return nullptr;
 }
 
-Expression* Interpreter::resolveVariable(OpCode* opcode, u32_t* index) {
+u32_t Interpreter::getIndexOf(OpCode* opcode) {
     enforce(opcode->getType() == OpCode::VARIABLE, "Need a valid Variable as OpCode");
 
     RevelationVisitor rv;
     opcode->getExpression()->accept(rv);
     enforce(rv.numeric != nullptr, "Variable-ID must be numeric");
 
-    const u32_t vi = static_cast<u32_t>(rv.numeric->getNumber());
-    if (index != nullptr) {
-        *index = vi;
+    return rv.numeric->getAs<u32_t>();
+}
+
+Expression* Interpreter::resolveVariable(OpCode* opcode) {
+    const u32_t vi = this->getIndexOf(opcode);
+
+    Expression* exp = this->fetchVariable(vi);
+    enforce(exp != nullptr, "Invalid variable accessed @ ", vi);
+
+    return exp;
+}
+
+template <typename T>
+Expression* Interpreter::resolveOrMakeVariable(OpCode* opcode) {
+    static_assert(std::is_base_of<Expression, T>::value, "That is not an Expression");
+    static_assert(std::is_default_constructible<T>::value, "Cannot create Expression. No default CTor");
+
+    const u32_t vi = this->getIndexOf(opcode);
+
+    Expression* exp = this->fetchVariable(vi);
+    if (!exp) {
+        debug("No variable found, make new one");
+
+        exp = new T();
+        this->assignVariable(vi, exp);
     }
 
-    return this->fetchVariable(vi);
+    return exp;
 }
 
 void Interpreter::print(Instruction* instruction) {
@@ -149,8 +192,7 @@ void Interpreter::assign(Instruction* instruction) {
     enforce(instruction->getOperandAmount() == 2, "assign need exactly two operands");
     enforce(instruction->getOperand(0)->getType() == OpCode::VARIABLE, "Expected a variable");
 
-    u32_t vi;
-    this->resolveVariable(instruction->getOperand(0), &vi);
+    const u32_t vi = this->getIndexOf(instruction->getOperand(0));
     debug("assign variable ", vi);
 
     Expression* exp = this->resolveExpression(instruction->getOperand(1));
@@ -162,7 +204,7 @@ void Interpreter::assign(Instruction* instruction) {
 void Interpreter::append(Instruction* instruction) {
     enforce(instruction->getOperandAmount() == 2, "append need exactly two operands");
 
-    Expression* exp = this->resolveVariable(instruction->getOperand(0));
+    Expression* exp = this->resolveOrMakeVariable<ArrayExpression>(instruction->getOperand(0));
     Expression* val = this->resolveExpression(instruction->getOperand(1));
     ::print(val);
 
@@ -184,7 +226,7 @@ void Interpreter::index(Instruction* instruction) {
     idx->accept(rv);
 
     enforce(rv.numeric != nullptr, "Index must be numeric");
-    const u32_t index = static_cast<u32_t>(rv.numeric->getNumber());
+    const u32_t index = rv.numeric->getAs<u32_t>();
 
     rv.reset();
     exp->accept(rv);
@@ -204,7 +246,7 @@ void Interpreter::fetch(Instruction* instruction) {
     idx->accept(rv);
 
     enforce(rv.numeric != nullptr, "Fetch-Index must be numeric");
-    const u32_t index = static_cast<u32_t>(rv.numeric->getNumber());
+    const u32_t index = rv.numeric->getAs<u32_t>();
 
     rv.reset();
     exp->accept(rv);
@@ -218,8 +260,7 @@ void Interpreter::pop(Instruction* instruction) {
     enforce(instruction->getOperandAmount() == 1, "fetch need exactly one operands");
     enforce(instruction->getOperand(0)->getType() == OpCode::VARIABLE, "Can only pop into a variable");
 
-    u32_t vi;
-    this->resolveVariable(instruction->getOperand(0), &vi);
+    const u32_t vi = this->getIndexOf(instruction->getOperand(0));
     this->assignVariable(vi, this->popStack());
 }
 
@@ -228,4 +269,72 @@ void Interpreter::push(Instruction* instruction) {
 
     Expression* exp = this->resolveExpression(instruction->getOperand(0));
     this->pushStack(exp->clone());
+}
+
+Expression* Interpreter::makeExpression(Instruction* instruction) {
+    switch (instruction->getType()) {
+        case Instruction::ADD: {
+            Expression* lhs = this->resolveExpression(instruction->getOperand(0));
+            Expression* rhs = this->resolveExpression(instruction->getOperand(0));
+
+            return new AddExpression(lhs, rhs);
+        }
+        case Instruction::SUB: {
+            Expression* lhs = this->resolveExpression(instruction->getOperand(0));
+            Expression* rhs = this->resolveExpression(instruction->getOperand(0));
+
+            return new SubtractExpression(lhs, rhs);
+        }
+        case Instruction::MUL: {
+            Expression* lhs = this->resolveExpression(instruction->getOperand(0));
+            Expression* rhs = this->resolveExpression(instruction->getOperand(0));
+
+            return new MultiplyExpression(lhs, rhs);
+        }
+        case Instruction::DIV: {
+            Expression* lhs = this->resolveExpression(instruction->getOperand(0));
+            Expression* rhs = this->resolveExpression(instruction->getOperand(0));
+
+            return new DivideExpression(lhs, rhs);
+        }
+        case Instruction::MOD: {
+            Expression* lhs = this->resolveExpression(instruction->getOperand(0));
+            Expression* rhs = this->resolveExpression(instruction->getOperand(0));
+
+            return new ModuloExpression(lhs, rhs);
+        }
+        case Instruction::NOT: {
+            Expression* val = this->resolveExpression(instruction->getOperand(0));
+
+            return new NotExpression(val);
+        }
+        case Instruction::NEG: {
+            Expression* val = this->resolveExpression(instruction->getOperand(0));
+
+            return new NegateExpression(val);
+        }
+        case Instruction::INC: {
+            Expression* val = this->resolveExpression(instruction->getOperand(0));
+
+            return new IncrementExpression(val);
+        }
+        case Instruction::DEC: {
+            Expression* val = this->resolveExpression(instruction->getOperand(0));
+
+            return new DecrementExpression(val);
+        }
+        default:
+            error("Invalid math expression");
+    }
+
+    return nullptr;
+}
+
+void Interpreter::math(Instruction* instruction) {
+    std::unique_ptr<Expression> exp(this->makeExpression(instruction));
+
+    MathVisitor mv;
+    exp->accept(mv);
+
+    this->pushStack(new NumericExpression(mv.getValue()));
 }

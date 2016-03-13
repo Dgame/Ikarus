@@ -7,6 +7,8 @@ class DivideExpression : public BinaryExpression {
 public:
     using BinaryExpression::BinaryExpression;
 
+    virtual DivideExpression* clone() const;
+
     virtual void accept(Visitor&);
 };
 

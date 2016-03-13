@@ -7,6 +7,8 @@ class SubtractExpression : public BinaryExpression {
 public:
     using BinaryExpression::BinaryExpression;
 
+    virtual SubtractExpression* clone() const;
+
     virtual void accept(Visitor&);
 };
 

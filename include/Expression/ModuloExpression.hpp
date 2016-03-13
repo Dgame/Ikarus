@@ -7,6 +7,8 @@ class ModuloExpression : public BinaryExpression {
 public:
     using BinaryExpression::BinaryExpression;
 
+    virtual ModuloExpression* clone() const;
+
     virtual void accept(Visitor&);
 };
 

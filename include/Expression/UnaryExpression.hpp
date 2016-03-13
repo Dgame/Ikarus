@@ -14,6 +14,10 @@ public:
     Expression* getExpression() {
         return _expr.get();
     }
+
+    const Expression* getExpression() const {
+        return _expr.get();
+    }
 };
 
 #endif //IKARUS_UNARYEXPRESSION_HPP

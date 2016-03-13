@@ -7,6 +7,8 @@ class AddExpression : public BinaryExpression {
 public:
     using BinaryExpression::BinaryExpression;
 
+    virtual AddExpression* clone() const;
+
     virtual void accept(Visitor&);
 };
 

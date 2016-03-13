@@ -7,6 +7,8 @@ class MultiplyExpression : public BinaryExpression {
 public:
     using BinaryExpression::BinaryExpression;
 
+    virtual MultiplyExpression* clone() const;
+
     virtual void accept(Visitor&);
 };
 

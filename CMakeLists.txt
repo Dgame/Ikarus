@@ -46,22 +46,24 @@ set(SOURCE_FILES
         include/Visitor/AppendVisitor.hpp
         src/Visitor/MathVisitor.cpp
         include/Visitor/MathVisitor.hpp
-        src/Lexer.cpp
-        include/Lexer.hpp
+        src/Backend/Lexer.cpp
+        include/Backend/Lexer.hpp
         include/Token.hpp
-        src/Token.cpp src/Interpreter.cpp
-        include/Interpreter.hpp
-        src/Parser.cpp
-        include/Parser.hpp
-        src/Instruction.cpp
-        include/Instruction.hpp
-        src/OpCode.cpp
-        include/OpCode.hpp
+        src/Token.cpp
+        src/Backend/Interpreter.cpp
+        include/Backend/Interpreter.hpp
+        src/Backend/Parser.cpp
+        include/Backend/Parser.hpp
+        src/Backend/Instruction.cpp
+        include/Backend/Instruction.hpp
+        src/Backend/OpCode.cpp
+        include/Backend/OpCode.hpp
         include/Visitor/RevelationVisitor.hpp)
 
 include_directories("include")
 include_directories("include/Expression")
 include_directories("include/Declaration")
 include_directories("include/Visitor")
+include_directories("include/Backend")
 
 add_executable(Ikarus ${SOURCE_FILES})

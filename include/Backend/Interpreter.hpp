@@ -28,7 +28,12 @@ private:
     bool interpret(Parser&);
 
     Expression* resolveExpression(OpCode*);
-    Expression* resolveVariable(OpCode*, u32_t* index = nullptr);
+    u32_t getIndexOf(OpCode*);
+
+    Expression* resolveVariable(OpCode*);
+
+    template <typename T>
+    Expression* resolveOrMakeVariable(OpCode*);
 
     void print(Instruction*);
     void assign(Instruction*);
@@ -37,6 +42,10 @@ private:
     void fetch(Instruction*);
     void pop(Instruction*);
     void push(Instruction*);
+
+    void math(Instruction*);
+
+    Expression* makeExpression(Instruction*);
 
 public:
     explicit Interpreter(const std::string&);

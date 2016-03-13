@@ -7,6 +7,8 @@ class NegateExpression : public UnaryExpression {
 public:
     using UnaryExpression::UnaryExpression;
 
+    virtual NegateExpression* clone() const;
+
     virtual void accept(Visitor&);
 };
 

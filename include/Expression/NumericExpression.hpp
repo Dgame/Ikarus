@@ -1,6 +1,7 @@
 #ifndef IKARUS_NUMERICEXPRESSION_HPP
 #define IKARUS_NUMERICEXPRESSION_HPP
 
+#include <type_traits>
 #include "types.hpp"
 #include "Expression.hpp"
 
@@ -13,6 +14,13 @@ public:
 
     f32_t getNumber() const {
         return _number;
+    }
+
+    template <typename T>
+    T getAs() const {
+        static_assert(std::is_convertible<T, i32_t>::value, "T must derive from int");
+
+        return static_cast<T>(_number);
     }
 
     virtual NumericExpression* clone() const {

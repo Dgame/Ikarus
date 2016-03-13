@@ -7,6 +7,8 @@ class IncrementExpression : public UnaryExpression {
 public:
     using UnaryExpression::UnaryExpression;
 
+    virtual IncrementExpression* clone() const;
+
     virtual void accept(Visitor&);
 };
 
