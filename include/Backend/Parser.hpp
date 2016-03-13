@@ -24,7 +24,7 @@ public:
     explicit Parser(const std::string&);
 
     void setIndex(u32_t index) {
-        _index = 0;
+        _index = index;
     }
 
     u32_t getIndex() const {

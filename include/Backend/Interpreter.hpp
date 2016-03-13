@@ -45,7 +45,7 @@ private:
     void fetch(Instruction*);
     void pop(Instruction*);
     void push(Instruction*);
-    void jump(Instruction*, Parser&);
+    void goTo(Instruction*, Parser&);
     void math(Instruction*);
 
     Expression* makeExpression(Instruction*);

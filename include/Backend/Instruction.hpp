@@ -35,9 +35,9 @@ public:
         IS_LOWER,
         IS_LOWER_OR_EQUAL,
         IS_EQUAL,
-        JUMP,
-        JUMP_IF,
-        JUMP_IF_NOT,
+        GOTO,
+        GOTO_IF,
+        GOTO_IF_NOT,
         EXIT,
         RETURN
     };

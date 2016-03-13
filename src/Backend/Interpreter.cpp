@@ -127,10 +127,10 @@ bool Interpreter::interpret(Parser& p) {
 
                 this->push(instruction);
                 break;
-            case Instruction::JUMP:
-                debug("JUMP");
+            case Instruction::GOTO:
+                debug("GOTO");
 
-                this->jump(instruction, p);
+                this->goTo(instruction, p);
                 break;
             case Instruction::ADD:
             case Instruction::SUB:
@@ -328,18 +328,20 @@ void Interpreter::push(Instruction* instruction) {
     this->pushStack(exp->clone());
 }
 
-void Interpreter::jump(Instruction* instruction, Parser& p) {
-    enforce(instruction->getOperandAmount() == 1, "jump need exactly one operand");
+void Interpreter::goTo(Instruction* instruction, Parser& p) {
+    enforce(instruction->getOperandAmount() == 1, "goto need exactly one operand");
 
     Expression* exp = this->resolveExpression(instruction->getOperand(0));
 
     RevelationVisitor rv;
     exp->accept(rv);
 
-    enforce(rv.numeric != nullptr, "Jump address must be numeric");
+    enforce(rv.numeric != nullptr, "goto address must be numeric");
 
     const u32_t index = rv.numeric->getAs<u32_t>();
     _backtrack = p.getIndex();
+
+    debug("goTo to ", index, " from ", _backtrack);
 
     p.setIndex(index);
 }

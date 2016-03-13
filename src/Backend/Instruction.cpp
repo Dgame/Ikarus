@@ -25,9 +25,9 @@ namespace {
             {"is_lower", Instruction::IS_LOWER},
             {"is_lower_or_equal", Instruction::IS_LOWER_OR_EQUAL},
             {"is_equal", Instruction::IS_EQUAL},
-            {"jump", Instruction::JUMP},
-            {"jump_if", Instruction::JUMP_IF},
-            {"jump_if_not", Instruction::JUMP_IF_NOT},
+            {"goto", Instruction::GOTO},
+            {"goto_if", Instruction::GOTO_IF},
+            {"goto_if_not", Instruction::GOTO_IF_NOT},
             {"exit", Instruction::EXIT},
             {"return", Instruction::RETURN}
     };
