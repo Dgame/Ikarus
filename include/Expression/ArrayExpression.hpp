@@ -15,22 +15,16 @@ private:
 public:
     explicit ArrayExpression(u32_t amount = 8);
 
-    ArrayExpression* setIndex(u32_t index) {
+    void setIndex(u32_t index) {
         _index = index;
-
-        return this;
     }
 
     u32_t getIndex() const {
         return _index;
     }
 
-    Expression* fetch() {
-        return _values.at(_index).get();
-    }
-
-    const Expression* fetch() const {
-        return _values.at(_index).get();
+    Expression* fetch(u32_t index) {
+        return _values.at(index).get();
     }
 
     u32_t getAmount() const {

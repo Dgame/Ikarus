@@ -40,7 +40,6 @@ set(SOURCE_FILES
         include/Declaration/Declaration.hpp
         include/StorageClass.hpp
         include/Declaration/VariableDeclaration.hpp
-        include/Declaration/OffsetDeclaration.hpp
         src/Visitor/OutputVisitor.cpp
         include/Visitor/OutputVisitor.hpp
         src/Visitor/AppendVisitor.cpp
@@ -56,7 +55,9 @@ set(SOURCE_FILES
         include/Parser.hpp
         src/Instruction.cpp
         include/Instruction.hpp
-        include/Declaration/ValueDeclaration.hpp include/OpCode.cpp include/OpCode.hpp)
+        src/OpCode.cpp
+        include/OpCode.hpp
+        include/Visitor/RevelationVisitor.hpp)
 
 include_directories("include")
 include_directories("include/Expression")

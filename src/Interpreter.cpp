@@ -1,7 +1,9 @@
 #include "Interpreter.hpp"
 #include "Parser.hpp"
 #include "OutputVisitor.hpp"
+#include "RevelationVisitor.hpp"
 #include "NumericExpression.hpp"
+#include "ArrayExpression.hpp"
 #include "util.hpp"
 
 Interpreter::Interpreter(const std::string& str) : _variables(8), _stack(8) {
@@ -69,7 +71,25 @@ bool Interpreter::interpret(Parser& p) {
                 this->assign(instruction);
                 break;
             case Instruction::APPEND:
+                debug("APPEND");
 
+                this->append(instruction);
+                break;
+            case Instruction::INDEX:
+                debug("INDEX");
+
+                this->index(instruction);
+                break;
+            case Instruction::FETCH:
+                debug("FETCH");
+
+                this->fetch(instruction);
+                break;
+            case Instruction::POP:
+                this->pop(instruction);
+                break;
+            case Instruction::PUSH:
+                this->push(instruction);
                 break;
         }
     }
@@ -77,21 +97,18 @@ bool Interpreter::interpret(Parser& p) {
     return true;
 }
 
-Expression* Interpreter::resolve(OpCode* opcode) {
+Expression* Interpreter::resolveExpression(OpCode* opcode) {
     switch (opcode->getType()) {
-        case OpCode::VARIABLE: {
-            const NumericExpression* ne = opcode->getExpression()->isNumeric();
-            enforce(ne != nullptr, "Variable-ID must be numeric");
-
-            const u32_t index = static_cast<u32_t>(ne->getNumber());
-
-            return this->fetchVariable(index);
-        }
+        case OpCode::VARIABLE:
         case OpCode::OFFSET: {
-            const NumericExpression* ne = opcode->getExpression()->isNumeric();
-            enforce(ne != nullptr, "Offset must be numeric");
+            RevelationVisitor rv;
+            opcode->getExpression()->accept(rv);
+            enforce(rv.numeric != nullptr, "Variable-ID must be numeric");
 
-            const u32_t index = static_cast<u32_t>(ne->getNumber());
+            const u32_t index = static_cast<u32_t>(rv.numeric->getNumber());
+
+            if (opcode->getType() == OpCode::VARIABLE)
+                return this->fetchVariable(index);
 
             return this->fetchStack(index);
         }
@@ -104,9 +121,24 @@ Expression* Interpreter::resolve(OpCode* opcode) {
     return nullptr;
 }
 
+Expression* Interpreter::resolveVariable(OpCode* opcode, u32_t* index) {
+    enforce(opcode->getType() == OpCode::VARIABLE, "Need a valid Variable as OpCode");
+
+    RevelationVisitor rv;
+    opcode->getExpression()->accept(rv);
+    enforce(rv.numeric != nullptr, "Variable-ID must be numeric");
+
+    const u32_t vi = static_cast<u32_t>(rv.numeric->getNumber());
+    if (index != nullptr) {
+        *index = vi;
+    }
+
+    return this->fetchVariable(vi);
+}
+
 void Interpreter::print(Instruction* instruction) {
     for (u32_t i = 0; i < instruction->getOperandAmount(); i++) {
-        Expression* exp = this->resolve(instruction->getOperand(i));
+        Expression* exp = this->resolveExpression(instruction->getOperand(i));
         ::print(exp);
     }
 
@@ -117,19 +149,83 @@ void Interpreter::assign(Instruction* instruction) {
     enforce(instruction->getOperandAmount() == 2, "assign need exactly two operands");
     enforce(instruction->getOperand(0)->getType() == OpCode::VARIABLE, "Expected a variable");
 
-    const NumericExpression* ne = instruction->getOperand(0)->getExpression()->isNumeric();
-    enforce(ne != nullptr, "Variable-ID must be numeric");
+    u32_t vi;
+    this->resolveVariable(instruction->getOperand(0), &vi);
+    debug("assign variable ", vi);
 
-    const u32_t index = static_cast<u32_t>(ne->getNumber());
-
-    debug("assign variable ", index);
-
-    Expression* exp = this->resolve(instruction->getOperand(1));
+    Expression* exp = this->resolveExpression(instruction->getOperand(1));
     ::print(exp);
 
-    this->assignVariable(index, exp->clone());
+    this->assignVariable(vi, exp->clone());
 }
 
-void Interpreter::append(Instruction*) {
+void Interpreter::append(Instruction* instruction) {
+    enforce(instruction->getOperandAmount() == 2, "append need exactly two operands");
 
+    Expression* exp = this->resolveVariable(instruction->getOperand(0));
+    Expression* val = this->resolveExpression(instruction->getOperand(1));
+    ::print(val);
+
+    RevelationVisitor rv;
+    exp->accept(rv);
+
+    enforce(rv.array != nullptr, "Cann only append on an array");
+
+    rv.array->assign(val->clone());
+}
+
+void Interpreter::index(Instruction* instruction) {
+    enforce(instruction->getOperandAmount() == 2, "index need exactly two operands");
+
+    Expression* exp = this->resolveVariable(instruction->getOperand(0));
+    Expression* idx = this->resolveExpression(instruction->getOperand(1));
+
+    RevelationVisitor rv;
+    idx->accept(rv);
+
+    enforce(rv.numeric != nullptr, "Index must be numeric");
+    const u32_t index = static_cast<u32_t>(rv.numeric->getNumber());
+
+    rv.reset();
+    exp->accept(rv);
+
+    enforce(rv.array != nullptr, "Need an array for index");
+
+    rv.array->setIndex(index);
+}
+
+void Interpreter::fetch(Instruction* instruction) {
+    enforce(instruction->getOperandAmount() == 2, "fetch need exactly two operands");
+
+    Expression* exp = this->resolveVariable(instruction->getOperand(0));
+    Expression* idx = this->resolveExpression(instruction->getOperand(1));
+
+    RevelationVisitor rv;
+    idx->accept(rv);
+
+    enforce(rv.numeric != nullptr, "Fetch-Index must be numeric");
+    const u32_t index = static_cast<u32_t>(rv.numeric->getNumber());
+
+    rv.reset();
+    exp->accept(rv);
+
+    enforce(rv.array != nullptr, "Need an array for fetch");
+
+    this->pushStack(rv.array->fetch(index)->clone());
+}
+
+void Interpreter::pop(Instruction* instruction) {
+    enforce(instruction->getOperandAmount() == 1, "fetch need exactly one operands");
+    enforce(instruction->getOperand(0)->getType() == OpCode::VARIABLE, "Can only pop into a variable");
+
+    u32_t vi;
+    this->resolveVariable(instruction->getOperand(0), &vi);
+    this->assignVariable(vi, this->popStack());
+}
+
+void Interpreter::push(Instruction* instruction) {
+    enforce(instruction->getOperandAmount() == 1, "fetch need exactly one operands");
+
+    Expression* exp = this->resolveExpression(instruction->getOperand(0));
+    this->pushStack(exp->clone());
 }

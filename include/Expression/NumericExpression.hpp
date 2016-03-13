@@ -19,10 +19,6 @@ public:
         return new NumericExpression(_number);
     }
 
-    virtual const NumericExpression* isNumeric() const {
-        return this;
-    }
-
     virtual void accept(Visitor&);
 };
 

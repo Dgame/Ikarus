@@ -45,17 +45,16 @@
       <sourceFolder url="file://$MODULE_DIR$/include/Expression/AddExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Lexer.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/unique.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/OpCode.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/OpCode.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Token.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/OpCode.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Declaration/ValueDeclaration.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Declaration/Declaration.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Declaration/VariableDeclaration.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Declaration/OffsetDeclaration.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Declaration/Declaration.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Interpreter.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Visitable.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Visitor/OutputVisitor.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Visitor/AppendVisitor.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Visitor/RevelationVisitor.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Visitor/MathVisitor.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Visitor/Visitor.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Instruction.hpp" isTestSource="false" />
@@ -97,17 +96,16 @@
           <root url="file://$MODULE_DIR$/include/Expression/AddExpression.hpp" />
           <root url="file://$MODULE_DIR$/include/Lexer.hpp" />
           <root url="file://$MODULE_DIR$/include/unique.hpp" />
-          <root url="file://$MODULE_DIR$/include/OpCode.cpp" />
+          <root url="file://$MODULE_DIR$/src/OpCode.cpp" />
           <root url="file://$MODULE_DIR$/include/Token.hpp" />
           <root url="file://$MODULE_DIR$/include/OpCode.hpp" />
-          <root url="file://$MODULE_DIR$/include/Declaration/ValueDeclaration.hpp" />
-          <root url="file://$MODULE_DIR$/include/Declaration/Declaration.hpp" />
           <root url="file://$MODULE_DIR$/include/Declaration/VariableDeclaration.hpp" />
-          <root url="file://$MODULE_DIR$/include/Declaration/OffsetDeclaration.hpp" />
+          <root url="file://$MODULE_DIR$/include/Declaration/Declaration.hpp" />
           <root url="file://$MODULE_DIR$/include/Interpreter.hpp" />
           <root url="file://$MODULE_DIR$/include/Visitable.hpp" />
           <root url="file://$MODULE_DIR$/include/Visitor/OutputVisitor.hpp" />
           <root url="file://$MODULE_DIR$/include/Visitor/AppendVisitor.hpp" />
+          <root url="file://$MODULE_DIR$/include/Visitor/RevelationVisitor.hpp" />
           <root url="file://$MODULE_DIR$/include/Visitor/MathVisitor.hpp" />
           <root url="file://$MODULE_DIR$/include/Visitor/Visitor.hpp" />
           <root url="file://$MODULE_DIR$/include/Instruction.hpp" />

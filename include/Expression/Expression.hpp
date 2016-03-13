@@ -10,10 +10,6 @@ public:
     virtual ~Expression() { }
 
     virtual Expression* clone() const = 0;
-
-    virtual const NumericExpression* isNumeric() const {
-        return nullptr;
-    }
 };
 
 #endif //IKARUS_EXPRESSION_HPP

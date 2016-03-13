@@ -16,8 +16,9 @@ ArrayExpression* ArrayExpression::clone() const {
     ArrayExpression* ae = new ArrayExpression();
 
     for (auto& item : _values) {
-        if (item)
+        if (item) {
             ae->assign(item->clone());
+        }
     }
 
     return ae;

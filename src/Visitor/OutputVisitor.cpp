@@ -13,7 +13,7 @@ void OutputVisitor::visit(ArrayExpression* av) {
 
     _out << '[';
     for (u32_t i = 0; i < av->getAmount(); i++) {
-        Expression* exp = av->setIndex(i)->fetch();
+        Expression* exp = av->fetch(i);
         if (exp) {
             exp->accept(*this);
         } else {

@@ -27,11 +27,16 @@ private:
 
     bool interpret(Parser&);
 
-    Expression* resolve(OpCode*);
+    Expression* resolveExpression(OpCode*);
+    Expression* resolveVariable(OpCode*, u32_t* index = nullptr);
 
     void print(Instruction*);
     void assign(Instruction*);
     void append(Instruction*);
+    void index(Instruction*);
+    void fetch(Instruction*);
+    void pop(Instruction*);
+    void push(Instruction*);
 
 public:
     explicit Interpreter(const std::string&);
