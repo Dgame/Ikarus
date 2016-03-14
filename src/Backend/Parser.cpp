@@ -46,8 +46,7 @@ void Parser::parseOperands(Instruction* instruction, Lexer& lexer) {
         OpCode* opcode = this->parseOpCode(lexer);
         instruction->addOpCode(opcode);
 
-        const Token* tok = lexer.nextToken();
-        if (tok->getType() != Token::COMMA) {
+        if (lexer.nextToken()->getType() != Token::COMMA) {
             break;
         }
     }
@@ -70,8 +69,7 @@ void Parser::parse(Lexer& lexer) {
 
         switch (instruction->getType()) {
             case Instruction::LABEL:
-                tok = lexer.nextToken();
-                if (tok->getType() != Token::COLON)
+                if (lexer.nextToken()->getType() != Token::COLON)
                     error("Expected ':' after label");
                 else
                     lexer.nextToken();
