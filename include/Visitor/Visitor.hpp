@@ -11,6 +11,7 @@ class NegateExpression;
 class NotExpression;
 class SubtractExpression;
 
+class StringExpression;
 class NumericExpression;
 class ArrayExpression;
 class VarExpression;
@@ -32,6 +33,7 @@ public:
     virtual void visit(NotExpression*) { }
     virtual void visit(SubtractExpression*) { }
 
+    virtual void visit(StringExpression*) { }
     virtual void visit(NumericExpression*) { }
     virtual void visit(ArrayExpression*) { }
     virtual void visit(VarExpression*) { }

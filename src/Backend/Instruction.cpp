@@ -35,20 +35,18 @@ namespace {
 
 u32_t Instruction::Amount = 0;
 
-Instruction::Type Instruction::DetermineType(const std::string& str) {
-    auto it = Instructions.find(str);
+Instruction::Type Instruction::DetermineType(const std::string& id) {
+    auto it = Instructions.find(id);
     if (it != Instructions.end()) {
         return it->second;
     }
 
-    error("No type for: ", str);
-
-    return Instruction::NONE;
+    return Instruction::LABEL;
 }
 
-Instruction::Instruction(const std::string& str) : _id(Amount++) {
-    _type = DetermineType(str);
-}
+Instruction::Instruction(const std::string& id) : Instruction(DetermineType(id)) { }
+
+Instruction::Instruction(Type type) : _type(type), _id(Amount++) { }
 
 void Instruction::addOpCode(OpCode* opcode) {
     _opcodes.emplace_back(opcode);

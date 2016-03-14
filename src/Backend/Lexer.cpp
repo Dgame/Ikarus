@@ -1,7 +1,6 @@
 #include "Lexer.hpp"
 
 #include <locale>
-#include "Token.hpp"
 #include "util.hpp"
 
 void Lexer::skipSpaces() {
@@ -56,7 +55,7 @@ void Lexer::parsePrefix() {
 }
 
 void Lexer::parseString(Token& token) {
-   this->expect('"');
+    this->expect('"');
 
     std::string str;
     str.reserve(8);
@@ -137,6 +136,10 @@ bool Lexer::parse(Token& token) {
         token.setType(Token::DOT);
     } else if (this->accept(',')) {
         token.setType(Token::COMMA);
+    } else if (this->accept(';')) {
+        token.setType(Token::SEMICOLON);
+    } else if (this->accept(':')) {
+        token.setType(Token::COLON);
     } else if (*_ptr == '"') {
         this->parseString(token);
     } else if (std::isalpha(*_ptr)) {
@@ -165,12 +168,19 @@ Lexer::Lexer(const std::string& str) : _ptr(&str.front()), _end(&str.back()) {
     debug("---- LEXER FINISHED ----");
 }
 
-const Token* Lexer::getNext() {
-    static Token Invalid(Token::NONE);
+const Token* Lexer::getToken() const {
+    static Token Invalid;
 
     if (_index >= _token.size()) {
         return &Invalid;
     }
 
-    return &_token.at(_index++);
+    return &_token.at(_index);
+}
+
+const Token* Lexer::nextToken() {
+    if (_index < _token.size())
+        _index++;
+
+    return this->getToken();
 }

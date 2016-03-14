@@ -1,48 +1,39 @@
 #include "Parser.hpp"
 #include "Lexer.hpp"
+#include "StringExpression.hpp"
 #include "NumericExpression.hpp"
 #include "util.hpp"
 
-Parser::Parser(const std::string& str) {
-    debug("---- PARSER START ---");
-
-    Lexer lex(str);
-
-    this->parse(lex);
-
-    debug("---- PARSER FINISHED ---");
-}
-
-OpCode* Parser::parseOpCode(Lexer& lex) {
-    const Token* tok = lex.getNext();
-
-    if (tok->getType() == Token::IDENTIFIER) {
-        return nullptr;
-    }
+OpCode* Parser::parseOpCode(Lexer& lexer) {
+    const Token* tok = lexer.nextToken();
 
     switch (tok->getType()) {
         case Token::AMPERSAND:
-            tok = lex.getNext();
+            tok = lexer.nextToken();
             enforce(tok->getType() == Token::INTEGER, "Expected INTEGER as Variable-ID, got ", tok->getType());
 
             debug("VARIABLE ", tok->getInteger());
 
             return new OpCode(OpCode::VARIABLE, new NumericExpression(tok->getInteger()));
         case Token::TILDE:
-            tok = lex.getNext();
+            tok = lexer.nextToken();
             enforce(tok->getType() == Token::INTEGER, "Expected INTEGER as Offset, got ", tok->getType());
 
             debug("OFFSET ", tok->getInteger());
 
             return new OpCode(OpCode::OFFSET, new NumericExpression(tok->getInteger()));
         case Token::INTEGER:
-            debug("VALUE ", tok->getInteger());
+            debug("VALUE (integer) ", tok->getInteger());
 
             return new OpCode(OpCode::VALUE, new NumericExpression(tok->getInteger()));
         case Token::DECIMAL:
-            debug("VALUE ", tok->getDecimal());
+            debug("VALUE (decimal) ", tok->getDecimal());
 
             return new OpCode(OpCode::VALUE, new NumericExpression(tok->getDecimal()));
+        case Token::IDENTIFIER:
+            debug("VALUE (identifier) ", tok->getIdentifier());
+
+            return new OpCode(OpCode::VALUE, new StringExpression(tok->getIdentifier()));
         default:
             error("Unexpected Type ", tok->getType());
 
@@ -50,27 +41,84 @@ OpCode* Parser::parseOpCode(Lexer& lex) {
     }
 }
 
-void Parser::parse(Lexer& lex) {
-    lex.setIndex(0);
+void Parser::parseOperands(Instruction* instruction, Lexer& lexer) {
+    while (true) {
+        OpCode* opcode = this->parseOpCode(lexer);
+        instruction->addOpCode(opcode);
 
-    for (const Token* tok = lex.getNext(); tok->getType() != Token::NONE;) {
+        const Token* tok = lexer.nextToken();
+        if (tok->getType() != Token::COMMA) {
+            break;
+        }
+    }
+}
+
+void Parser::parse(Lexer& lexer) {
+    lexer.setIndex(0);
+
+    while (true) {
+        const Token* tok = lexer.getToken();
+        if (tok->getType() == Token::NONE)
+            break;
+
         enforce(tok->getType() == Token::IDENTIFIER, "Expected identifier");
 
-        debug("INSTRUCTION ", tok->getIdentifier());
+        const Token* id = tok;
+        debug("INSTRUCTION ", id->getIdentifier());
 
-        Instruction* instruction = new Instruction(tok->getIdentifier());
+        Instruction* instruction = new Instruction(id->getIdentifier());
 
-        OpCode* opcode = this->parseOpCode(lex);
-        while (opcode != nullptr) {
-            instruction->addOpCode(opcode);
+        switch (instruction->getType()) {
+            case Instruction::LABEL:
+                tok = lexer.nextToken();
+                if (tok->getType() != Token::COLON)
+                    error("Expected ':' after label");
+                else
+                    lexer.nextToken();
 
-            tok = lex.getNext();
-            if (tok->getType() != Token::COMMA)
+                _labels[id->getIdentifier()] = instruction->getId();
                 break;
-
-            opcode = this->parseOpCode(lex);
+            case Instruction::EXIT:
+            case Instruction::RETURN:
+                break;
+            default:
+                this->parseOperands(instruction, lexer);
         }
 
         _instructions.emplace_back(instruction);
+    }
+}
+
+Parser::Parser(const std::string& str) {
+    debug("---- PARSER START ---");
+
+    Lexer lex(str);
+    this->parse(lex);
+
+    debug("---- PARSER FINISHED ---");
+}
+
+u32_t Parser::getIndexFor(const std::string& label) const {
+    auto it = _labels.find(label);
+    if (it != _labels.end()) {
+        return it->second;
+    }
+
+    error("No address for Label ", label);
+
+    return INT_MAX;
+}
+
+Instruction* Parser::getNext() {
+    if (_index >= _instructions.size()) {
+        return nullptr;
+    }
+
+    return _instructions.at(_index++).get();
+}
+
+void Parser::expectNext(Instruction::Type type) {
+    if (this->getNext()->getType() != type) {
+        error("Unexpected Instruction");
     }
 }

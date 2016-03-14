@@ -2,8 +2,10 @@
 #define IKARUS_PARSER_HPP
 
 #include <string>
+#include <map>
 #include <vector>
 #include <memory>
+#include <Token.hpp>
 
 #include "Instruction.hpp"
 
@@ -16,9 +18,11 @@ private:
     u32_t _index = 0;
 
     OpCode* parseOpCode(Lexer&);
+    void parseOperands(Instruction*, Lexer&);
     void parse(Lexer&);
 
     std::vector<std::unique_ptr<Instruction>> _instructions;
+    std::map<std::string, u32_t> _labels;
 
 public:
     explicit Parser(const std::string&);
@@ -31,13 +35,10 @@ public:
         return _index;
     }
 
-    Instruction* getNext() {
-        if (_index >= _instructions.size()) {
-            return nullptr;
-        }
+    u32_t getIndexFor(const std::string&) const;
 
-        return _instructions.at(_index++).get();
-    }
+    Instruction* getNext();
+    void expectNext(Instruction::Type);
 };
 
 #endif //IKARUS_PARSER_HPP

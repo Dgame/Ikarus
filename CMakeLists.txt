@@ -58,7 +58,7 @@ set(SOURCE_FILES
         include/Backend/Instruction.hpp
         src/Backend/OpCode.cpp
         include/Backend/OpCode.hpp
-        include/Visitor/RevelationVisitor.hpp)
+        include/Visitor/RevelationVisitor.hpp src/Expression/StringExpression.cpp include/Expression/StringExpression.hpp)
 
 include_directories("include")
 include_directories("include/Expression")

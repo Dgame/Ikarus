@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#define DEBUG false
+#define DEBUG true
 
 template <typename T>
 void writeln(const T& val) {

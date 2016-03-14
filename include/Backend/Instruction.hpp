@@ -35,6 +35,7 @@ public:
         IS_LOWER,
         IS_LOWER_OR_EQUAL,
         IS_EQUAL,
+        LABEL,
         GOTO,
         GOTO_IF,
         GOTO_IF_NOT,
@@ -48,10 +49,11 @@ private:
     Type  _type = NONE;
     u32_t _id   = 0;
 
+public:
     static Type DetermineType(const std::string&);
 
-public:
     explicit Instruction(const std::string&);
+    explicit Instruction(Type);
 
     Type getType() const {
         return _type;

@@ -41,7 +41,8 @@ public:
         return _index;
     }
 
-    const Token* getNext();
+    const Token* getToken() const;
+    const Token* nextToken();
 };
 
 #endif //IKARUS_LEXER_HPP

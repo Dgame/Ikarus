@@ -4,6 +4,7 @@
 #include "RevelationVisitor.hpp"
 #include "MathVisitor.hpp"
 #include "NumericExpression.hpp"
+#include "StringExpression.hpp"
 #include "ArrayExpression.hpp"
 #include "AddExpression.hpp"
 #include "SubtractExpression.hpp"
@@ -65,8 +66,8 @@ Expression* Interpreter::fetchVariable(u32_t index) {
     return _variables.at(index).get();
 }
 
-bool Interpreter::interpret(Parser& p) {
-    for (Instruction* instruction = p.getNext(); instruction != nullptr; instruction = p.getNext()) {
+bool Interpreter::interpret(Parser& parser) {
+    for (Instruction* instruction = parser.getNext(); instruction != nullptr; instruction = parser.getNext()) {
         switch (instruction->getType()) {
             case Instruction::EXIT:
                 debug("EXIT");
@@ -79,7 +80,7 @@ bool Interpreter::interpret(Parser& p) {
 
                 enforce(instruction->getOperandAmount() == 0, "return need no operands");
 
-                p.setIndex(_backtrack);
+                parser.setIndex(_backtrack);
 
                 break;
             case Instruction::PRINT:
@@ -130,7 +131,7 @@ bool Interpreter::interpret(Parser& p) {
             case Instruction::GOTO:
                 debug("GOTO");
 
-                this->goTo(instruction, p);
+                this->goTo(instruction, parser);
                 break;
             case Instruction::ADD:
             case Instruction::SUB:
@@ -338,22 +339,22 @@ void Interpreter::push(Instruction* instruction) {
     this->pushStack(exp->clone());
 }
 
-void Interpreter::goTo(Instruction* instruction, Parser& p) {
+void Interpreter::goTo(Instruction* instruction, Parser& parser) {
     enforce(instruction->getOperandAmount() == 1, "goto need exactly one operand");
 
     Expression* exp = this->resolveExpression(instruction->getOperand(0));
 
-    RevelationVisitor<NumericExpression> rnv;
-    exp->accept(rnv);
+    RevelationVisitor<StringExpression> rsv;
+    exp->accept(rsv);
 
-    enforce(rnv.isValid(), "goto address must be numeric");
+    enforce(rsv.isValid(), "goto need's a string label");
 
-    const u32_t index = rnv.getExpression()->getAs<u32_t>();
-    _backtrack = p.getIndex();
+    const u32_t index = parser.getIndexFor(rsv.getExpression()->getValue());
+    _backtrack = parser.getIndex();
 
     debug("goto ", index, " from ", _backtrack);
 
-    p.setIndex(index);
+    parser.setIndex(index);
 }
 
 Expression* Interpreter::makeExpression(Instruction* instruction) {
