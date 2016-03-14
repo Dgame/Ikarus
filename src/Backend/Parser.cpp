@@ -116,9 +116,3 @@ Instruction* Parser::getNext() {
 
     return _instructions.at(_index++).get();
 }
-
-void Parser::expectNext(Instruction::Type type) {
-    if (this->getNext()->getType() != type) {
-        error("Unexpected Instruction");
-    }
-}

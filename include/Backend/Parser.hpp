@@ -5,7 +5,6 @@
 #include <map>
 #include <vector>
 #include <memory>
-#include <Token.hpp>
 
 #include "Instruction.hpp"
 
@@ -38,7 +37,6 @@ public:
     u32_t getIndexFor(const std::string&) const;
 
     Instruction* getNext();
-    void expectNext(Instruction::Type);
 };
 
 #endif //IKARUS_PARSER_HPP

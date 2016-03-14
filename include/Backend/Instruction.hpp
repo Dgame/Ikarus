@@ -49,9 +49,9 @@ private:
     Type  _type = NONE;
     u32_t _id   = 0;
 
-public:
     static Type DetermineType(const std::string&);
 
+public:
     explicit Instruction(const std::string&);
     explicit Instruction(Type);
 
