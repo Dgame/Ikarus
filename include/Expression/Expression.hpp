@@ -3,8 +3,6 @@
 
 #include "Visitable.hpp"
 
-class NumericExpression;
-
 class Expression : public Visitable {
 public:
     virtual ~Expression() { }
