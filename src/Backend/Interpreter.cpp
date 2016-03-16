@@ -17,6 +17,9 @@
 #include "IncrementExpression.hpp"
 #include "util.hpp"
 
+#include <cmath>
+#include <limits>
+
 Interpreter::Interpreter(const std::string& str) : _variables(8), _stack(8) {
     debug("---- INTERPRETER START ----");
 
@@ -44,7 +47,7 @@ void Interpreter::pushStack(Expression* exp) {
     _stack_offset++;
 }
 
-auto Interpreter::popStack() {
+std::unique_ptr<Expression> Interpreter::popStack() {
     enforce(_stack_offset > 0, "Invalid Stack-Offset");
 
     _stack_offset--;
@@ -71,67 +74,72 @@ bool Interpreter::interpret(Parser& parser) {
         switch (instruction->getType()) {
             case Instruction::EXIT:
                 debug("EXIT");
-
                 enforce(instruction->getOperandAmount() == 0, "exit need no operands");
-
                 return true;
             case Instruction::RETURN:
                 debug("RETURN");
-
                 enforce(instruction->getOperandAmount() == 0, "return need no operands");
-
                 parser.setIndex(_backtrack);
-
                 break;
             case Instruction::PRINT:
                 debug("PRINT");
-
                 this->print(instruction);
                 break;
             case Instruction::ASSIGN:
                 debug("ASSIGN");
-
                 this->assign(instruction);
                 break;
             case Instruction::APPEND:
                 debug("APPEND");
-
                 this->append(instruction);
                 break;
             case Instruction::SET_INDEX:
                 debug("SET_INDEX");
-
                 this->setIndex(instruction);
                 break;
             case Instruction::EMPLACE:
                 debug("EMPLACE");
-
                 this->emplace(instruction);
                 break;
             case Instruction::FETCH_DIM:
                 debug("FETCH_DIM");
-
                 this->fetchDim(instruction);
                 break;
             case Instruction::FETCH:
                 debug("FETCH");
-
                 this->fetch(instruction);
                 break;
             case Instruction::POP:
                 debug("POP");
-
                 this->pop(instruction);
                 break;
             case Instruction::PUSH:
                 debug("PUSH");
-
                 this->push(instruction);
+                break;
+            case Instruction::IS_LOWER:
+                debug("IS_LOWER");
+                this->isLower(instruction);
+                break;
+            case Instruction::IS_EQUAL:
+                debug("IS_EQUAL");
+                this->isEqual(instruction);
+                break;
+            case Instruction::IS_LOWER_OR_EQUAL:
+                debug("IS_LOWER_OR_EQUAL");
+                this->isLowerOrEqual(instruction);
                 break;
             case Instruction::GOTO:
                 debug("GOTO");
-
                 this->goTo(instruction, parser);
+                break;
+            case Instruction::GOTO_IF:
+                debug("GOTO_IF");
+                this->goToIf(instruction, parser);
+                break;
+            case Instruction::GOTO_IF_NOT:
+                debug("GOTO_IF_NOT");
+                this->goToIfNot(instruction, parser);
                 break;
             case Instruction::ADD:
             case Instruction::SUB:
@@ -143,7 +151,6 @@ bool Interpreter::interpret(Parser& parser) {
             case Instruction::NEG:
             case Instruction::NOT:
                 debug("MATH");
-
                 this->math(instruction);
                 break;
         }
@@ -161,7 +168,6 @@ Expression* Interpreter::resolveExpression(OpCode* opcode) {
             enforce(rnv.isValid(), "Variable-ID must be numeric");
 
             const u32_t index = rnv.getExpression()->getAs<u32_t>();
-
             if (opcode->getType() == OpCode::VARIABLE)
                 return this->fetchVariable(index);
 
@@ -339,6 +345,64 @@ void Interpreter::push(Instruction* instruction) {
     this->pushStack(exp->clone());
 }
 
+bool Interpreter::isLower(Instruction* instruction) {
+    enforce(instruction->getOperandAmount() == 2, "is_lower need exactly two operands");
+
+    Expression* lhs = this->resolveExpression(instruction->getOperand(0));
+    Expression* rhs = this->resolveExpression(instruction->getOperand(1));
+
+    RevelationVisitor<NumericExpression> rnv_lhs;
+    lhs->accept(rnv_lhs);
+
+    enforce(rnv_lhs.isValid(), "Invalid left hand side expression");
+
+    RevelationVisitor<NumericExpression> rnv_rhs;
+    rhs->accept(rnv_rhs);
+
+    enforce(rnv_rhs.isValid(), "Invalid right hand side expression");
+
+    const f32_t lhs_num = rnv_lhs.getExpression()->getNumber();
+    const f32_t rhs_num = rnv_rhs.getExpression()->getNumber();
+
+    const i32_t result = lhs_num < rhs_num;
+    this->pushStack(new NumericExpression(result));
+
+    return result != 0;
+}
+
+bool Interpreter::isEqual(Instruction* instruction) {
+    enforce(instruction->getOperandAmount() == 2, "is_lower need exactly two operands");
+
+    Expression* lhs = this->resolveExpression(instruction->getOperand(0));
+    Expression* rhs = this->resolveExpression(instruction->getOperand(1));
+
+    RevelationVisitor<NumericExpression> rnv_lhs;
+    lhs->accept(rnv_lhs);
+
+    enforce(rnv_lhs.isValid(), "Invalid left hand side expression");
+
+    RevelationVisitor<NumericExpression> rnv_rhs;
+    rhs->accept(rnv_rhs);
+
+    enforce(rnv_rhs.isValid(), "Invalid right hand side expression");
+
+    const f32_t lhs_num = rnv_lhs.getExpression()->getNumber();
+    const f32_t rhs_num = rnv_rhs.getExpression()->getNumber();
+
+    const i32_t result = std::fabs(lhs_num - rhs_num) < std::numeric_limits<f32_t>::epsilon();
+    this->pushStack(new NumericExpression(result));
+
+    return result != 0;
+}
+
+bool Interpreter::isLowerOrEqual(Instruction* instruction) {
+    if (this->isLower(instruction)) {
+        return true;
+    }
+
+    return this->isEqual(instruction);
+}
+
 void Interpreter::goTo(Instruction* instruction, Parser& parser) {
     enforce(instruction->getOperandAmount() == 1, "goto need exactly one operand");
 
@@ -355,6 +419,30 @@ void Interpreter::goTo(Instruction* instruction, Parser& parser) {
     debug("goto ", index, " from ", _backtrack);
 
     parser.setIndex(index);
+}
+
+void Interpreter::goToIf(Instruction* instruction, Parser& parser) {
+    auto val = this->popStack();
+
+    RevelationVisitor<NumericExpression> rnv;
+    val->accept(rnv);
+
+    enforce(rnv.isValid(), "Expected a numeric condition");
+
+    if (rnv.getExpression()->getAs<i32_t>() != 0)
+        this->goTo(instruction, parser);
+}
+
+void Interpreter::goToIfNot(Instruction* instruction, Parser& parser) {
+    auto val = this->popStack();
+
+    RevelationVisitor<NumericExpression> rnv;
+    val->accept(rnv);
+
+    enforce(rnv.isValid(), "Expected a numeric condition");
+
+    if (rnv.getExpression()->getAs<i32_t>() == 0)
+        this->goTo(instruction, parser);
 }
 
 Expression* Interpreter::makeExpression(Instruction* instruction) {

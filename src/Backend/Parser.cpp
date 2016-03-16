@@ -11,14 +11,12 @@ OpCode* Parser::parseOpCode(Lexer& lexer) {
         case Token::AMPERSAND:
             tok = lexer.nextToken();
             enforce(tok->getType() == Token::INTEGER, "Expected INTEGER as Variable-ID, got ", tok->getType());
-
             debug("VARIABLE ", tok->getInteger());
 
             return new OpCode(OpCode::VARIABLE, new NumericExpression(tok->getInteger()));
         case Token::TILDE:
             tok = lexer.nextToken();
             enforce(tok->getType() == Token::INTEGER, "Expected INTEGER as Offset, got ", tok->getType());
-
             debug("OFFSET ", tok->getInteger());
 
             return new OpCode(OpCode::OFFSET, new NumericExpression(tok->getInteger()));

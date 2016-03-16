@@ -21,7 +21,7 @@ private:
 
     void assignVariable(u32_t, Expression*);
     void pushStack(Expression*);
-    auto popStack();
+    std::unique_ptr<Expression> popStack();
 
     Expression* fetchStack(u32_t);
     Expression* fetchVariable(u32_t);
@@ -45,7 +45,12 @@ private:
     void fetch(Instruction*);
     void pop(Instruction*);
     void push(Instruction*);
+    bool isLower(Instruction*);
+    bool isEqual(Instruction*);
+    bool isLowerOrEqual(Instruction*);
     void goTo(Instruction*, Parser&);
+    void goToIf(Instruction*, Parser&);
+    void goToIfNot(Instruction*, Parser&);
     void math(Instruction*);
 
     Expression* makeExpression(Instruction*);
