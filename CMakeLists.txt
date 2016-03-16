@@ -5,57 +5,65 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
 set(SOURCE_FILES
         main.cpp
-        Backend/src/Lexer.cpp
-        Backend/include/Lexer.hpp
-        Backend/include/util.hpp
-        Backend/src/OpCode.cpp
-        Backend/include/OpCode.hpp
-        Backend/src/Command.cpp
-        Backend/include/Command.hpp
-        Backend/src/Interpreter.cpp
-        Backend/include/Interpreter.hpp
-        Backend/include/Value/Value.hpp
-        Backend/include/Value/NumericValue.hpp
-        Backend/src/Value/NumericValue.cpp
-        Backend/include/Visitor/ExpressionVisitor.hpp
-        Backend/include/Expression/Expression.hpp
-        Backend/src/Expression/AddExpression.cpp
-        Backend/include/Expression/AddExpression.hpp
-        Backend/src/Visitor/MathExpressionVisitor.cpp
-        Backend/include/Visitor/MathExpressionVisitor.hpp
-        Backend/include/types.hpp
-        Backend/include/unique.hpp
-        Backend/src/Expression/BinaryExpression.cpp
-        Backend/include/Expression/BinaryExpression.hpp
-        Backend/src/Expression/SubExpression.cpp
-        Backend/include/Expression/SubExpression.hpp
-        Backend/src/Expression/MulExpression.cpp
-        Backend/include/Expression/MulExpression.hpp
-        Backend/src/Expression/DivExpression.cpp
-        Backend/include/Expression/DivExpression.hpp
-        Backend/src/Expression/ModExpression.cpp
-        Backend/include/Expression/ModExpression.hpp
-        Backend/src/Expression/NotExpression.cpp
-        Backend/include/Expression/NotExpression.hpp
-        Backend/src/Expression/UnaryExpression.cpp
-        Backend/include/Expression/UnaryExpression.hpp
-        Backend/src/Expression/NegExpression.cpp
-        Backend/include/Expression/NegExpression.hpp
-        Backend/src/Expression/IncExpression.cpp
-        Backend/include/Expression/IncExpression.hpp
-        Backend/src/Expression/DecExpression.cpp
-        Backend/include/Expression/DecExpression.hpp
-        Backend/src/Value/ArrayValue.cpp
-        Backend/include/Value/ArrayValue.hpp
-        Backend/src/Visitor/NumericValueVisitor.cpp
-        Backend/include/Visitor/NumericValueVisitor.hpp
-        Backend/include/Visitor/ValueRevelation.hpp
-        Backend/include/compare.hpp
-        Backend/include/Visitor/ValueVisitor.hpp)
+        include/Expression/Expression.hpp
+        src/Expression/AddExpression.cpp
+        include/Expression/AddExpression.hpp
+        src/Expression/BinaryExpression.cpp
+        include/Expression/BinaryExpression.hpp
+        src/Expression/SubtractExpression.cpp
+        include/Expression/SubtractExpression.hpp
+        src/Expression/MultiplyExpression.cpp
+        include/Expression/MultiplyExpression.hpp
+        src/Expression/DivideExpression.cpp
+        include/Expression/DivideExpression.hpp
+        src/Expression/ModuloExpression.cpp
+        include/Expression/ModuloExpression.hpp
+        src/Expression/NotExpression.cpp
+        include/Expression/NotExpression.hpp
+        src/Expression/UnaryExpression.cpp
+        include/Expression/UnaryExpression.hpp
+        src/Expression/NegateExpression.cpp
+        include/Expression/NegateExpression.hpp
+        src/Expression/IncrementExpression.cpp
+        include/Expression/IncrementExpression.hpp
+        src/Expression/DecrementExpression.cpp
+        include/Expression/DecrementExpression.hpp
+        include/Visitable.hpp include/Visitor/Visitor.hpp
+        src/Expression/NumericExpression.cpp
+        include/Expression/NumericExpression.hpp
+        include/types.hpp
+        include/unique.hpp
+        include/util.hpp
+        src/Expression/ArrayExpression.cpp
+        include/Expression/ArrayExpression.hpp
+        src/Declaration/Declaration.cpp
+        include/Declaration/Declaration.hpp
+        include/StorageClass.hpp
+        include/Declaration/VariableDeclaration.hpp
+        src/Visitor/OutputVisitor.cpp
+        include/Visitor/OutputVisitor.hpp
+        src/Visitor/AppendVisitor.cpp
+        include/Visitor/AppendVisitor.hpp
+        src/Visitor/MathVisitor.cpp
+        include/Visitor/MathVisitor.hpp
+        src/Backend/Lexer.cpp
+        include/Backend/Lexer.hpp
+        include/Token.hpp
+        src/Token.cpp
+        src/Backend/Interpreter.cpp
+        include/Backend/Interpreter.hpp
+        src/Backend/Parser.cpp
+        include/Backend/Parser.hpp
+        src/Backend/Instruction.cpp
+        include/Backend/Instruction.hpp
+        src/Backend/OpCode.cpp
+        include/Backend/OpCode.hpp
+        include/Visitor/RevelationVisitor.hpp src/Expression/StringExpression.cpp include/Expression/StringExpression.hpp)
 
-include_directories("Backend/include")
-include_directories("Backend/include/Value")
-include_directories("Backend/include/Expression")
-include_directories("Backend/include/Visitor")
+include_directories("include")
+include_directories("include/Expression")
+include_directories("include/Declaration")
+include_directories("include/Visitor")
+include_directories("include/Backend")
 
 add_executable(Ikarus ${SOURCE_FILES})

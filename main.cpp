@@ -1,28 +1,9 @@
 #include "Interpreter.hpp"
 #include "util.hpp"
 
-#define DEBUG false
-
 int main() {
-//    Interpreter("assign &0, 42 print &0 add &0, 23 print ~0 assign &0, ~0 print &0 inc &0 pop &0 print &0");
     try {
-        Interpreter("assign &0, 42 print &0");
-        writeln(std::string(50, '*'));
-
-        Interpreter("assign &0, 42 add &0, 23 print ~0");
-        writeln(std::string(50, '*'));
-
-        Interpreter("assign &0, 42 add &0, 23 pop &0 print &0");
-        writeln(std::string(50, '*'));
-
-        Interpreter("assign &0, 42 add &0, 23 assign &0, ~0 print &0");
-        writeln(std::string(50, '*'));
-
-        Interpreter("assign &0, 42 inc &0 pop &0 print &0");
-        writeln(std::string(50, '*'));
-
-        Interpreter("assign &0, 42 is_lower &0, 23 jump_if 4 inc &0 pop &0 print &0");
-        writeln(std::string(50, '*'));
+        Interpreter("assign &0, 42 print &0 goto L1 append &1, 1 append &1, 2 L1: append &1, 3 print &1 set_index 1 emplace &1, 11 print &1");
     } catch (const char* msg) {
         writeln(msg);
     }
