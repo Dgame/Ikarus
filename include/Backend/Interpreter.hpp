@@ -38,9 +38,6 @@ namespace Backend {
 
         Expression* resolveVariable(OpCode*);
 
-        template<typename T>
-        Expression* resolveOrMakeVariable(OpCode*);
-
         void print(Instruction*);
 
         void assign(Instruction*);

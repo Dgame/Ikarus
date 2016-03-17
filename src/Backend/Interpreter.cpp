@@ -14,7 +14,6 @@
 #include "NotExpression.hpp"
 #include "NegateExpression.hpp"
 #include "IncrementExpression.hpp"
-#include "util.hpp"
 
 #include <cmath>
 #include <limits>
@@ -166,10 +165,9 @@ namespace Backend {
         switch (opcode->getType()) {
             case OpCode::VARIABLE:
             case OpCode::OFFSET: {
-                const u32_t index = opcode->getExpression()->is<NumericExpression>().ensure("Variable-ID must be numeric")->getAs<u32_t>();
+                const u32_t index = this->getIndexOf(opcode);
                 if (opcode->getType() == OpCode::VARIABLE)
                     return this->fetchVariable(index);
-
                 return this->fetchStack(index);
             }
             case OpCode::VALUE:
@@ -182,34 +180,17 @@ namespace Backend {
     }
 
     u32_t Interpreter::getIndexOf(OpCode* opcode) {
-        enforce(opcode->getType() == OpCode::VARIABLE, "Need a valid Variable as OpCode");
+        enforce(opcode->getType() == OpCode::VARIABLE || opcode->getType() == OpCode::OFFSET, "Need a valid Variable or Offset as OpCode");
 
-        return opcode->getExpression()->is<NumericExpression>().ensure("Variable-ID must be numeric")->getAs<u32_t>();
+        return opcode->getExpression()->is<NumericExpression>().ensure("ID must be numeric")->getAs<u32_t>();
     }
 
     Expression* Interpreter::resolveVariable(OpCode* opcode) {
-        const u32_t vi = this->getIndexOf(opcode);
+        enforce(opcode->getType() == OpCode::VARIABLE, "Need a valid Variable as OpCode");
 
+        const u32_t vi = this->getIndexOf(opcode);
         Expression* exp = this->fetchVariable(vi);
         enforce(exp != nullptr, "Invalid variable accessed @ ", vi);
-
-        return exp;
-    }
-
-    template <typename T>
-    Expression* Interpreter::resolveOrMakeVariable(OpCode* opcode) {
-        static_assert(std::is_base_of<Expression, T>::value, "That is not an Expression");
-        static_assert(std::is_default_constructible<T>::value, "Cannot create Expression. No default CTor");
-
-        const u32_t vi = this->getIndexOf(opcode);
-
-        Expression* exp = this->fetchVariable(vi);
-        if (!exp) {
-            debug("No variable found, make a new one");
-
-            exp = new T();
-            this->assignVariable(vi, exp);
-        }
 
         return exp;
     }
@@ -231,7 +212,6 @@ namespace Backend {
 
         const u32_t vi = this->getIndexOf(instruction->getOperand(0));
         debug("assign variable ", vi);
-
         Expression* exp = this->resolveExpression(instruction->getOperand(1));
 #if DEBUG
         ::print(exp);
@@ -242,7 +222,14 @@ namespace Backend {
     void Interpreter::append(Instruction* instruction) {
         enforce(instruction->getOperandAmount() == 2, "append need exactly two operands");
 
-        Expression* exp = this->resolveOrMakeVariable<ArrayExpression>(instruction->getOperand(0));
+        const u32_t vi = this->getIndexOf(instruction->getOperand(0));
+        Expression* exp = this->fetchVariable(vi);
+        if (!exp) {
+            debug("No variable found, make a new one");
+            exp = new ArrayExpression();
+            this->assignVariable(vi, exp);
+        }
+
         Expression* val = this->resolveExpression(instruction->getOperand(1));
 #if DEBUG
         ::print(val);
@@ -341,11 +328,7 @@ namespace Backend {
     }
 
     bool Interpreter::isLowerOrEqual(Instruction* instruction) {
-        if (this->isLower(instruction)) {
-            return true;
-        }
-
-        return this->isEqual(instruction);
+        return this->isLower(instruction) || this->isEqual(instruction);
     }
 
     void Interpreter::call(Instruction* instruction, Parser& parser) {
