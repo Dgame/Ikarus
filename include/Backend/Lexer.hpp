@@ -31,7 +31,7 @@ private:
     bool parse(Token&);
 
 public:
-    explicit Lexer(const std::string&);
+    explicit Lexer(const char*, const char* const);
 
     void setIndex(u32_t index) {
         _index = 0;

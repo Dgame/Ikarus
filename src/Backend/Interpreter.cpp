@@ -20,12 +20,11 @@
 #include <cmath>
 #include <limits>
 
-Interpreter::Interpreter(const std::string& str) : _variables(8), _stack(8) {
+Interpreter::Interpreter(const char* pos, const char* const end) : _variables(8), _stack(8) {
     debug("---- INTERPRETER START ----");
 
-    Parser p(str);
-
-    this->interpret(p);
+    Parser parser(pos, end);
+    this->interpret(parser);
 
     debug("---- INTERPRETER FINISHED ----");
 }
@@ -128,6 +127,10 @@ bool Interpreter::interpret(Parser& parser) {
             case Instruction::IS_LOWER_OR_EQUAL:
                 debug("IS_LOWER_OR_EQUAL");
                 this->isLowerOrEqual(instruction);
+                break;
+            case Instruction::CALL:
+                debug("CALL");
+                this->call(instruction, parser);
                 break;
             case Instruction::GOTO:
                 debug("GOTO");
@@ -365,6 +368,7 @@ bool Interpreter::isLower(Instruction* instruction) {
     const f32_t rhs_num = rnv_rhs.getExpression()->getNumber();
 
     const i32_t result = lhs_num < rhs_num;
+    debug("IS LOWER ", result);
     this->pushStack(new NumericExpression(result));
 
     return result != 0;
@@ -403,6 +407,12 @@ bool Interpreter::isLowerOrEqual(Instruction* instruction) {
     return this->isEqual(instruction);
 }
 
+void Interpreter::call(Instruction* instruction, Parser& parser) {
+    _backtrack = parser.getIndex();
+
+    this->goTo(instruction, parser);
+}
+
 void Interpreter::goTo(Instruction* instruction, Parser& parser) {
     enforce(instruction->getOperandAmount() == 1, "goto need exactly one operand");
 
@@ -414,9 +424,7 @@ void Interpreter::goTo(Instruction* instruction, Parser& parser) {
     enforce(rsv.isValid(), "goto need's a string label");
 
     const u32_t index = parser.getIndexFor(rsv.getExpression()->getValue());
-    _backtrack = parser.getIndex();
-
-    debug("goto ", index, " from ", _backtrack);
+    debug("goto ", index);
 
     parser.setIndex(index);
 }
@@ -449,53 +457,53 @@ Expression* Interpreter::makeExpression(Instruction* instruction) {
     switch (instruction->getType()) {
         case Instruction::ADD: {
             Expression* lhs = this->resolveExpression(instruction->getOperand(0));
-            Expression* rhs = this->resolveExpression(instruction->getOperand(0));
+            Expression* rhs = this->resolveExpression(instruction->getOperand(1));
 
-            return new AddExpression(lhs, rhs);
+            return new AddExpression(lhs->clone(), rhs->clone());
         }
         case Instruction::SUB: {
             Expression* lhs = this->resolveExpression(instruction->getOperand(0));
-            Expression* rhs = this->resolveExpression(instruction->getOperand(0));
+            Expression* rhs = this->resolveExpression(instruction->getOperand(1));
 
-            return new SubtractExpression(lhs, rhs);
+            return new SubtractExpression(lhs->clone(), rhs->clone());
         }
         case Instruction::MUL: {
             Expression* lhs = this->resolveExpression(instruction->getOperand(0));
-            Expression* rhs = this->resolveExpression(instruction->getOperand(0));
+            Expression* rhs = this->resolveExpression(instruction->getOperand(1));
 
-            return new MultiplyExpression(lhs, rhs);
+            return new MultiplyExpression(lhs->clone(), rhs->clone());
         }
         case Instruction::DIV: {
             Expression* lhs = this->resolveExpression(instruction->getOperand(0));
-            Expression* rhs = this->resolveExpression(instruction->getOperand(0));
+            Expression* rhs = this->resolveExpression(instruction->getOperand(1));
 
-            return new DivideExpression(lhs, rhs);
+            return new DivideExpression(lhs->clone(), rhs->clone());
         }
         case Instruction::MOD: {
             Expression* lhs = this->resolveExpression(instruction->getOperand(0));
-            Expression* rhs = this->resolveExpression(instruction->getOperand(0));
+            Expression* rhs = this->resolveExpression(instruction->getOperand(1));
 
-            return new ModuloExpression(lhs, rhs);
+            return new ModuloExpression(lhs->clone(), rhs->clone());
         }
         case Instruction::NOT: {
             Expression* val = this->resolveExpression(instruction->getOperand(0));
 
-            return new NotExpression(val);
+            return new NotExpression(val->clone());
         }
         case Instruction::NEG: {
             Expression* val = this->resolveExpression(instruction->getOperand(0));
 
-            return new NegateExpression(val);
+            return new NegateExpression(val->clone());
         }
         case Instruction::INC: {
             Expression* val = this->resolveExpression(instruction->getOperand(0));
 
-            return new IncrementExpression(val);
+            return new IncrementExpression(val->clone());
         }
         case Instruction::DEC: {
             Expression* val = this->resolveExpression(instruction->getOperand(0));
 
-            return new DecrementExpression(val);
+            return new DecrementExpression(val->clone());
         }
         default:
             error("Invalid math expression");

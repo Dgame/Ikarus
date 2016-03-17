@@ -48,6 +48,7 @@ private:
     bool isLower(Instruction*);
     bool isEqual(Instruction*);
     bool isLowerOrEqual(Instruction*);
+    void call(Instruction*, Parser&);
     void goTo(Instruction*, Parser&);
     void goToIf(Instruction*, Parser&);
     void goToIfNot(Instruction*, Parser&);
@@ -56,7 +57,7 @@ private:
     Expression* makeExpression(Instruction*);
 
 public:
-    explicit Interpreter(const std::string&);
+    explicit Interpreter(const char*, const char* const);
 };
 
 #endif //IKARUS_INTERPRETER_HPP

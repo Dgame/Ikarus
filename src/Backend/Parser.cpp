@@ -76,6 +76,7 @@ void Parser::parse(Lexer& lexer) {
                 break;
             case Instruction::EXIT:
             case Instruction::RETURN:
+                lexer.nextToken();
                 break;
             default:
                 this->parseOperands(instruction, lexer);
@@ -85,11 +86,11 @@ void Parser::parse(Lexer& lexer) {
     }
 }
 
-Parser::Parser(const std::string& str) {
+Parser::Parser(const char* pos, const char* const end) {
     debug("---- PARSER START ---");
 
-    Lexer lex(str);
-    this->parse(lex);
+    Lexer lexer(pos, end);
+    this->parse(lexer);
 
     debug("---- PARSER FINISHED ---");
 }

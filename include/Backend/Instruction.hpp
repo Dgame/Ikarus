@@ -36,6 +36,7 @@ public:
         IS_EQUAL,
         IS_LOWER_OR_EQUAL,
         LABEL,
+        CALL,
         GOTO,
         GOTO_IF,
         GOTO_IF_NOT,

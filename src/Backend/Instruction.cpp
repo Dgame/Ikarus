@@ -25,6 +25,7 @@ namespace {
             {"is_lower", Instruction::IS_LOWER},
             {"is_equal", Instruction::IS_EQUAL},
             {"is_lower_or_equal", Instruction::IS_LOWER_OR_EQUAL},
+            {"call", Instruction::CALL},
             {"goto", Instruction::GOTO},
             {"goto_if", Instruction::GOTO_IF},
             {"goto_if_not", Instruction::GOTO_IF_NOT},

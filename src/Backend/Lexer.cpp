@@ -28,7 +28,7 @@ void Lexer::expect(char c) {
 }
 
 bool Lexer::isValid() const {
-    return _ptr <= _end;
+    return _ptr <= _end && *_ptr != '\0';
 }
 
 void Lexer::parsePrefix() {
@@ -61,7 +61,6 @@ void Lexer::parseString(Token& token) {
     str.reserve(8);
     while (this->isValid() && !this->accept('"')) {
         str += *_ptr;
-
         _ptr++;
     }
 
@@ -124,6 +123,10 @@ void Lexer::parseNumeric(Token& token) {
 bool Lexer::parse(Token& token) {
     this->skipSpaces();
 
+    if (!this->isValid()) {
+        return false;
+    }
+
     if (this->accept('~')) {
         debug("found offset");
 
@@ -149,13 +152,13 @@ bool Lexer::parse(Token& token) {
 
         this->parseNumeric(token);
     } else {
-        error("Unexpected Token ", *_ptr);
+        error("Unexpected Token ", *_ptr, _ptr);
     }
 
     return token.getType() != Token::NONE;
 }
 
-Lexer::Lexer(const std::string& str) : _ptr(&str.front()), _end(&str.back()) {
+Lexer::Lexer(const char* pos, const char* const end) : _ptr(pos), _end(end) {
     debug("---- LEXER START ----");
 
     while (this->isValid()) {

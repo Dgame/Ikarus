@@ -24,7 +24,7 @@ private:
     std::map<std::string, u32_t> _labels;
 
 public:
-    explicit Parser(const std::string&);
+    explicit Parser(const char*, const char* const);
 
     void setIndex(u32_t index) {
         _index = index;
