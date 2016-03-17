@@ -52,7 +52,7 @@ void AbstractLexer::parsePrefix() {
     }
 }
 
-void AbstractLexer::parseString(Token &token) {
+void AbstractLexer::parseString(Token& token) {
     this->expect('"');
 
     std::string str;
@@ -65,7 +65,7 @@ void AbstractLexer::parseString(Token &token) {
     token.setString(str);
 }
 
-void AbstractLexer::parseIdentifier(Token &token) {
+void AbstractLexer::parseIdentifier(Token& token) {
     std::string str;
     str.reserve(8);
 
@@ -82,7 +82,7 @@ void AbstractLexer::parseIdentifier(Token &token) {
     token.setIdentifier(str);
 }
 
-void AbstractLexer::parseNumeric(Token &token) {
+void AbstractLexer::parseNumeric(Token& token) {
     this->parsePrefix();
     this->skipSpaces();
 
@@ -120,7 +120,7 @@ void AbstractLexer::parseNumeric(Token &token) {
 
 AbstractLexer::AbstractLexer(const char* pos, const char* const end) : _ptr(pos), _end(end) { }
 
-const Token * AbstractLexer::getToken() const {
+const Token* AbstractLexer::getToken() const {
     static Token Invalid;
 
     if (_index >= _token.size()) {
@@ -130,7 +130,7 @@ const Token * AbstractLexer::getToken() const {
     return &_token.at(_index);
 }
 
-const Token * AbstractLexer::nextToken() {
+const Token* AbstractLexer::nextToken() {
     if (_index < _token.size())
         _index++;
 

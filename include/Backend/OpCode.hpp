@@ -19,13 +19,13 @@ namespace Backend {
         std::unique_ptr<Expression> _expr;
 
     public:
-        explicit OpCode(Type, Expression *);
+        explicit OpCode(Type, Expression*);
 
         Type getType() const {
             return _type;
         }
 
-        Expression *getExpression() {
+        Expression* getExpression() {
             return _expr.get();
         }
     };

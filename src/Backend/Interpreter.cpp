@@ -21,7 +21,7 @@
 #include <limits>
 
 namespace Backend {
-    Interpreter::Interpreter(const char *pos, const char *const end) : _variables(8), _stack(8) {
+    Interpreter::Interpreter(const char* pos, const char* const end) : _variables(8), _stack(8) {
         debug("---- INTERPRETER START ----");
 
         Parser parser(pos, end);
@@ -30,7 +30,7 @@ namespace Backend {
         debug("---- INTERPRETER FINISHED ----");
     }
 
-    void Interpreter::assignVariable(u32_t index, Expression *exp) {
+    void Interpreter::assignVariable(u32_t index, Expression* exp) {
         if (index >= _variables.size()) {
             _variables.resize(index * 2);
         }
@@ -38,7 +38,7 @@ namespace Backend {
         _variables.at(index).reset(exp);
     }
 
-    void Interpreter::pushStack(Expression *exp) {
+    void Interpreter::pushStack(Expression* exp) {
         if (_stack_offset >= _stack.size()) {
             _stack.resize(_stack_offset * 2);
         }
@@ -55,22 +55,22 @@ namespace Backend {
         return std::move(_stack.at(_stack_offset));
     }
 
-    Expression *Interpreter::fetchStack(u32_t index) {
+    Expression* Interpreter::fetchStack(u32_t index) {
         enforce(_stack.size() >= index, "Invalid offset index: ", index);
         debug("<OFFSET ", index, ">");
 
         return _stack.at(index).get();
     }
 
-    Expression *Interpreter::fetchVariable(u32_t index) {
+    Expression* Interpreter::fetchVariable(u32_t index) {
         enforce(_variables.size() >= index, "Invalid variable index: ", index);
         debug("<VARIABLE ", index, ">");
 
         return _variables.at(index).get();
     }
 
-    bool Interpreter::interpret(Parser &parser) {
-        for (Instruction *instruction = parser.getNext(); instruction != nullptr; instruction = parser.getNext()) {
+    bool Interpreter::interpret(Parser& parser) {
+        for (Instruction* instruction = parser.getNext(); instruction != nullptr; instruction = parser.getNext()) {
             switch (instruction->getType()) {
                 case Instruction::EXIT:
                     debug("EXIT");
@@ -163,7 +163,7 @@ namespace Backend {
         return true;
     }
 
-    Expression *Interpreter::resolveExpression(OpCode *opcode) {
+    Expression* Interpreter::resolveExpression(OpCode* opcode) {
         switch (opcode->getType()) {
             case OpCode::VARIABLE:
             case OpCode::OFFSET: {
@@ -186,7 +186,7 @@ namespace Backend {
         return nullptr;
     }
 
-    u32_t Interpreter::getIndexOf(OpCode *opcode) {
+    u32_t Interpreter::getIndexOf(OpCode* opcode) {
         enforce(opcode->getType() == OpCode::VARIABLE, "Need a valid Variable as OpCode");
 
         RevelationVisitor<NumericExpression> rnv;
@@ -196,23 +196,23 @@ namespace Backend {
         return rnv.getExpression()->getAs<u32_t>();
     }
 
-    Expression *Interpreter::resolveVariable(OpCode *opcode) {
+    Expression* Interpreter::resolveVariable(OpCode* opcode) {
         const u32_t vi = this->getIndexOf(opcode);
 
-        Expression *exp = this->fetchVariable(vi);
+        Expression* exp = this->fetchVariable(vi);
         enforce(exp != nullptr, "Invalid variable accessed @ ", vi);
 
         return exp;
     }
 
     template<typename T>
-    Expression *Interpreter::resolveOrMakeVariable(OpCode *opcode) {
+    Expression* Interpreter::resolveOrMakeVariable(OpCode* opcode) {
         static_assert(std::is_base_of<Expression, T>::value, "That is not an Expression");
         static_assert(std::is_default_constructible<T>::value, "Cannot create Expression. No default CTor");
 
         const u32_t vi = this->getIndexOf(opcode);
 
-        Expression *exp = this->fetchVariable(vi);
+        Expression* exp = this->fetchVariable(vi);
         if (!exp) {
             debug("No variable found, make a new one");
 
@@ -223,36 +223,36 @@ namespace Backend {
         return exp;
     }
 
-    void Interpreter::print(Instruction *instruction) {
+    void Interpreter::print(Instruction* instruction) {
         OutputVisitor ov(std::cout);
 
         for (u32_t i = 0; i < instruction->getOperandAmount(); i++) {
-            Expression *exp = this->resolveExpression(instruction->getOperand(i));
+            Expression* exp = this->resolveExpression(instruction->getOperand(i));
             exp->accept(ov);
         }
 
         std::cout << std::endl;
     }
 
-    void Interpreter::assign(Instruction *instruction) {
+    void Interpreter::assign(Instruction* instruction) {
         enforce(instruction->getOperandAmount() == 2, "assign need exactly two operands");
         enforce(instruction->getOperand(0)->getType() == OpCode::VARIABLE, "Expected a variable");
 
         const u32_t vi = this->getIndexOf(instruction->getOperand(0));
         debug("assign variable ", vi);
 
-        Expression *exp = this->resolveExpression(instruction->getOperand(1));
+        Expression* exp = this->resolveExpression(instruction->getOperand(1));
 #if DEBUG
         ::print(exp);
 #endif
         this->assignVariable(vi, exp->clone());
     }
 
-    void Interpreter::append(Instruction *instruction) {
+    void Interpreter::append(Instruction* instruction) {
         enforce(instruction->getOperandAmount() == 2, "append need exactly two operands");
 
-        Expression *exp = this->resolveOrMakeVariable<ArrayExpression>(instruction->getOperand(0));
-        Expression *val = this->resolveExpression(instruction->getOperand(1));
+        Expression* exp = this->resolveOrMakeVariable<ArrayExpression>(instruction->getOperand(0));
+        Expression* val = this->resolveExpression(instruction->getOperand(1));
 #if DEBUG
         ::print(val);
 #endif
@@ -264,10 +264,10 @@ namespace Backend {
         rav.getExpression()->append(val->clone());
     }
 
-    void Interpreter::setIndex(Instruction *instruction) {
+    void Interpreter::setIndex(Instruction* instruction) {
         enforce(instruction->getOperandAmount() == 1, "set_index need exactly one operand");
 
-        Expression *exp = this->resolveExpression(instruction->getOperand(0));
+        Expression* exp = this->resolveExpression(instruction->getOperand(0));
 
         RevelationVisitor<NumericExpression> rnv;
         exp->accept(rnv);
@@ -277,11 +277,11 @@ namespace Backend {
         this->pushStack(exp->clone());
     }
 
-    void Interpreter::emplace(Instruction *instruction) {
+    void Interpreter::emplace(Instruction* instruction) {
         enforce(instruction->getOperandAmount() == 2, "emplace need exactly two operands");
 
-        Expression *exp = this->resolveVariable(instruction->getOperand(0));
-        Expression *val = this->resolveExpression(instruction->getOperand(1));
+        Expression* exp = this->resolveVariable(instruction->getOperand(0));
+        Expression* val = this->resolveExpression(instruction->getOperand(1));
         auto idx = this->popStack();
 
         RevelationVisitor<NumericExpression> rnv;
@@ -299,10 +299,10 @@ namespace Backend {
         rav.getExpression()->emplace(index, val->clone());
     }
 
-    void Interpreter::fetchDim(Instruction *instruction) {
+    void Interpreter::fetchDim(Instruction* instruction) {
         enforce(instruction->getOperandAmount() == 1, "fetch_dim need exactly one operands");
 
-        Expression *exp = this->resolveVariable(instruction->getOperand(0));
+        Expression* exp = this->resolveVariable(instruction->getOperand(0));
 
         RevelationVisitor<ArrayExpression> rav;
         exp->accept(rav);
@@ -312,11 +312,11 @@ namespace Backend {
         this->pushStack(new NumericExpression(rav.getExpression()->getAmount()));
     }
 
-    void Interpreter::fetch(Instruction *instruction) {
+    void Interpreter::fetch(Instruction* instruction) {
         enforce(instruction->getOperandAmount() == 2, "fetch need exactly two operands");
 
-        Expression *exp = this->resolveVariable(instruction->getOperand(0));
-        Expression *idx = this->resolveExpression(instruction->getOperand(1));
+        Expression* exp = this->resolveVariable(instruction->getOperand(0));
+        Expression* idx = this->resolveExpression(instruction->getOperand(1));
 
         RevelationVisitor<NumericExpression> rnv;
         idx->accept(rnv);
@@ -332,7 +332,7 @@ namespace Backend {
         this->pushStack(rav.getExpression()->fetch(index)->clone());
     }
 
-    void Interpreter::pop(Instruction *instruction) {
+    void Interpreter::pop(Instruction* instruction) {
         enforce(instruction->getOperandAmount() == 1, "pop need exactly one operand");
         enforce(instruction->getOperand(0)->getType() == OpCode::VARIABLE, "Can only pop into a variable");
 
@@ -342,18 +342,18 @@ namespace Backend {
         this->assignVariable(vi, val.release());
     }
 
-    void Interpreter::push(Instruction *instruction) {
+    void Interpreter::push(Instruction* instruction) {
         enforce(instruction->getOperandAmount() == 1, "push need exactly one operand");
 
-        Expression *exp = this->resolveExpression(instruction->getOperand(0));
+        Expression* exp = this->resolveExpression(instruction->getOperand(0));
         this->pushStack(exp->clone());
     }
 
-    bool Interpreter::isLower(Instruction *instruction) {
+    bool Interpreter::isLower(Instruction* instruction) {
         enforce(instruction->getOperandAmount() == 2, "is_lower need exactly two operands");
 
-        Expression *lhs = this->resolveExpression(instruction->getOperand(0));
-        Expression *rhs = this->resolveExpression(instruction->getOperand(1));
+        Expression* lhs = this->resolveExpression(instruction->getOperand(0));
+        Expression* rhs = this->resolveExpression(instruction->getOperand(1));
 
         RevelationVisitor<NumericExpression> rnv_lhs;
         lhs->accept(rnv_lhs);
@@ -375,11 +375,11 @@ namespace Backend {
         return result != 0;
     }
 
-    bool Interpreter::isEqual(Instruction *instruction) {
+    bool Interpreter::isEqual(Instruction* instruction) {
         enforce(instruction->getOperandAmount() == 2, "is_lower need exactly two operands");
 
-        Expression *lhs = this->resolveExpression(instruction->getOperand(0));
-        Expression *rhs = this->resolveExpression(instruction->getOperand(1));
+        Expression* lhs = this->resolveExpression(instruction->getOperand(0));
+        Expression* rhs = this->resolveExpression(instruction->getOperand(1));
 
         RevelationVisitor<NumericExpression> rnv_lhs;
         lhs->accept(rnv_lhs);
@@ -400,7 +400,7 @@ namespace Backend {
         return result != 0;
     }
 
-    bool Interpreter::isLowerOrEqual(Instruction *instruction) {
+    bool Interpreter::isLowerOrEqual(Instruction* instruction) {
         if (this->isLower(instruction)) {
             return true;
         }
@@ -408,16 +408,16 @@ namespace Backend {
         return this->isEqual(instruction);
     }
 
-    void Interpreter::call(Instruction *instruction, Parser &parser) {
+    void Interpreter::call(Instruction* instruction, Parser& parser) {
         _backtrack = parser.getIndex();
 
         this->goTo(instruction, parser);
     }
 
-    void Interpreter::goTo(Instruction *instruction, Parser &parser) {
+    void Interpreter::goTo(Instruction* instruction, Parser& parser) {
         enforce(instruction->getOperandAmount() == 1, "goto need exactly one operand");
 
-        Expression *exp = this->resolveExpression(instruction->getOperand(0));
+        Expression* exp = this->resolveExpression(instruction->getOperand(0));
 
         RevelationVisitor<StringExpression> rsv;
         exp->accept(rsv);
@@ -430,7 +430,7 @@ namespace Backend {
         parser.setIndex(index);
     }
 
-    void Interpreter::goToIf(Instruction *instruction, Parser &parser) {
+    void Interpreter::goToIf(Instruction* instruction, Parser& parser) {
         auto val = this->popStack();
 
         RevelationVisitor<NumericExpression> rnv;
@@ -442,7 +442,7 @@ namespace Backend {
             this->goTo(instruction, parser);
     }
 
-    void Interpreter::goToIfNot(Instruction *instruction, Parser &parser) {
+    void Interpreter::goToIfNot(Instruction* instruction, Parser& parser) {
         auto val = this->popStack();
 
         RevelationVisitor<NumericExpression> rnv;
@@ -454,55 +454,55 @@ namespace Backend {
             this->goTo(instruction, parser);
     }
 
-    Expression *Interpreter::makeExpression(Instruction *instruction) {
+    Expression* Interpreter::makeExpression(Instruction* instruction) {
         switch (instruction->getType()) {
             case Instruction::ADD: {
-                Expression *lhs = this->resolveExpression(instruction->getOperand(0));
-                Expression *rhs = this->resolveExpression(instruction->getOperand(1));
+                Expression* lhs = this->resolveExpression(instruction->getOperand(0));
+                Expression* rhs = this->resolveExpression(instruction->getOperand(1));
 
                 return new AddExpression(lhs->clone(), rhs->clone());
             }
             case Instruction::SUB: {
-                Expression *lhs = this->resolveExpression(instruction->getOperand(0));
-                Expression *rhs = this->resolveExpression(instruction->getOperand(1));
+                Expression* lhs = this->resolveExpression(instruction->getOperand(0));
+                Expression* rhs = this->resolveExpression(instruction->getOperand(1));
 
                 return new SubtractExpression(lhs->clone(), rhs->clone());
             }
             case Instruction::MUL: {
-                Expression *lhs = this->resolveExpression(instruction->getOperand(0));
-                Expression *rhs = this->resolveExpression(instruction->getOperand(1));
+                Expression* lhs = this->resolveExpression(instruction->getOperand(0));
+                Expression* rhs = this->resolveExpression(instruction->getOperand(1));
 
                 return new MultiplyExpression(lhs->clone(), rhs->clone());
             }
             case Instruction::DIV: {
-                Expression *lhs = this->resolveExpression(instruction->getOperand(0));
-                Expression *rhs = this->resolveExpression(instruction->getOperand(1));
+                Expression* lhs = this->resolveExpression(instruction->getOperand(0));
+                Expression* rhs = this->resolveExpression(instruction->getOperand(1));
 
                 return new DivideExpression(lhs->clone(), rhs->clone());
             }
             case Instruction::MOD: {
-                Expression *lhs = this->resolveExpression(instruction->getOperand(0));
-                Expression *rhs = this->resolveExpression(instruction->getOperand(1));
+                Expression* lhs = this->resolveExpression(instruction->getOperand(0));
+                Expression* rhs = this->resolveExpression(instruction->getOperand(1));
 
                 return new ModuloExpression(lhs->clone(), rhs->clone());
             }
             case Instruction::NOT: {
-                Expression *val = this->resolveExpression(instruction->getOperand(0));
+                Expression* val = this->resolveExpression(instruction->getOperand(0));
 
                 return new NotExpression(val->clone());
             }
             case Instruction::NEG: {
-                Expression *val = this->resolveExpression(instruction->getOperand(0));
+                Expression* val = this->resolveExpression(instruction->getOperand(0));
 
                 return new NegateExpression(val->clone());
             }
             case Instruction::INC: {
-                Expression *val = this->resolveExpression(instruction->getOperand(0));
+                Expression* val = this->resolveExpression(instruction->getOperand(0));
 
                 return new IncrementExpression(val->clone());
             }
             case Instruction::DEC: {
-                Expression *val = this->resolveExpression(instruction->getOperand(0));
+                Expression* val = this->resolveExpression(instruction->getOperand(0));
 
                 return new DecrementExpression(val->clone());
             }
@@ -513,7 +513,7 @@ namespace Backend {
         return nullptr;
     }
 
-    void Interpreter::math(Instruction *instruction) {
+    void Interpreter::math(Instruction* instruction) {
         std::unique_ptr<Expression> exp(this->makeExpression(instruction));
 
         MathVisitor mv;

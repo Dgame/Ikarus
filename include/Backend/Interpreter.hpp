@@ -20,65 +20,65 @@ namespace Backend {
         u32_t _stack_offset = 0;
         u32_t _backtrack = 0;
 
-        void assignVariable(u32_t, Expression *);
+        void assignVariable(u32_t, Expression*);
 
-        void pushStack(Expression *);
+        void pushStack(Expression*);
 
         std::unique_ptr<Expression> popStack();
 
-        Expression *fetchStack(u32_t);
+        Expression* fetchStack(u32_t);
 
-        Expression *fetchVariable(u32_t);
+        Expression* fetchVariable(u32_t);
 
-        bool interpret(Parser &);
+        bool interpret(Parser&);
 
-        Expression *resolveExpression(OpCode *);
+        Expression* resolveExpression(OpCode*);
 
-        u32_t getIndexOf(OpCode *);
+        u32_t getIndexOf(OpCode*);
 
-        Expression *resolveVariable(OpCode *);
+        Expression* resolveVariable(OpCode*);
 
         template<typename T>
-        Expression *resolveOrMakeVariable(OpCode *);
+        Expression* resolveOrMakeVariable(OpCode*);
 
-        void print(Instruction *);
+        void print(Instruction*);
 
-        void assign(Instruction *);
+        void assign(Instruction*);
 
-        void append(Instruction *);
+        void append(Instruction*);
 
-        void setIndex(Instruction *);
+        void setIndex(Instruction*);
 
-        void emplace(Instruction *);
+        void emplace(Instruction*);
 
-        void fetchDim(Instruction *);
+        void fetchDim(Instruction*);
 
-        void fetch(Instruction *);
+        void fetch(Instruction*);
 
-        void pop(Instruction *);
+        void pop(Instruction*);
 
-        void push(Instruction *);
+        void push(Instruction*);
 
-        bool isLower(Instruction *);
+        bool isLower(Instruction*);
 
-        bool isEqual(Instruction *);
+        bool isEqual(Instruction*);
 
-        bool isLowerOrEqual(Instruction *);
+        bool isLowerOrEqual(Instruction*);
 
-        void call(Instruction *, Parser &);
+        void call(Instruction*, Parser&);
 
-        void goTo(Instruction *, Parser &);
+        void goTo(Instruction*, Parser&);
 
-        void goToIf(Instruction *, Parser &);
+        void goToIf(Instruction*, Parser&);
 
-        void goToIfNot(Instruction *, Parser &);
+        void goToIfNot(Instruction*, Parser&);
 
-        void math(Instruction *);
+        void math(Instruction*);
 
-        Expression *makeExpression(Instruction *);
+        Expression* makeExpression(Instruction*);
 
     public:
-        explicit Interpreter(const char *, const char *const);
+        explicit Interpreter(const char*, const char* const);
     };
 }
 

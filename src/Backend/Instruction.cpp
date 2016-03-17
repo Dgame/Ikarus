@@ -37,7 +37,7 @@ namespace Backend {
 
     u32_t Instruction::Amount = 0;
 
-    Instruction::Type Instruction::DetermineType(const std::string &id) {
+    Instruction::Type Instruction::DetermineType(const std::string& id) {
         auto it = Instructions.find(id);
         if (it != Instructions.end()) {
             return it->second;
@@ -46,12 +46,12 @@ namespace Backend {
         return Instruction::LABEL;
     }
 
-    Instruction::Instruction(const std::string &id) : Instruction(DetermineType(id)) { }
+    Instruction::Instruction(const std::string& id) : Instruction(DetermineType(id)) { }
 
     Instruction::Instruction(Type type) : _type(type), _id(Amount++) {
     }
 
-    void Instruction::addOpCode(OpCode *opcode) {
+    void Instruction::addOpCode(OpCode* opcode) {
         _opcodes.emplace_back(opcode);
     }
 }

@@ -51,10 +51,10 @@ namespace Backend {
         Type _type = NONE;
         u32_t _id = 0;
 
-        static Type DetermineType(const std::string &);
+        static Type DetermineType(const std::string&);
 
     public:
-        explicit Instruction(const std::string &);
+        explicit Instruction(const std::string&);
 
         explicit Instruction(Type);
 
@@ -66,9 +66,9 @@ namespace Backend {
             return _id;
         }
 
-        void addOpCode(OpCode *);
+        void addOpCode(OpCode*);
 
-        OpCode *getOperand(u32_t index) {
+        OpCode* getOperand(u32_t index) {
             return _opcodes.at(index).get();
         }
 
