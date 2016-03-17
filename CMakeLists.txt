@@ -63,7 +63,8 @@ set(SOURCE_FILES
         src/Expression/StringExpression.cpp
         include/Expression/StringExpression.hpp
         src/AbstractLexer.cpp
-        include/AbstractLexer.hpp)
+        include/AbstractLexer.hpp
+        include/NullExpression.hpp)
 
 include_directories("include")
 include_directories("include/Expression")

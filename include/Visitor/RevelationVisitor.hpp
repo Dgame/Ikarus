@@ -3,7 +3,7 @@
 
 #include "Visitor.hpp"
 
-template <typename T, typename std::enable_if<std::is_base_of<Expression, T>::value, i32_t>::type = 0>
+template <typename T>
 class RevelationVisitor : public Visitor {
 private:
     T* _exp = nullptr;

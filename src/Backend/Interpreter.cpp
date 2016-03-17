@@ -1,7 +1,6 @@
 #include "Interpreter.hpp"
 #include "Parser.hpp"
 #include "OutputVisitor.hpp"
-#include "RevelationVisitor.hpp"
 #include "MathVisitor.hpp"
 #include "NumericExpression.hpp"
 #include "StringExpression.hpp"
@@ -167,11 +166,7 @@ namespace Backend {
         switch (opcode->getType()) {
             case OpCode::VARIABLE:
             case OpCode::OFFSET: {
-                RevelationVisitor<NumericExpression> rnv;
-                opcode->getExpression()->accept(rnv);
-                enforce(rnv.isValid(), "Variable-ID must be numeric");
-
-                const u32_t index = rnv.getExpression()->getAs<u32_t>();
+                const u32_t index = opcode->getExpression()->is<NumericExpression>().ensure("Variable-ID must be numeric")->getAs<u32_t>();
                 if (opcode->getType() == OpCode::VARIABLE)
                     return this->fetchVariable(index);
 
@@ -189,11 +184,7 @@ namespace Backend {
     u32_t Interpreter::getIndexOf(OpCode* opcode) {
         enforce(opcode->getType() == OpCode::VARIABLE, "Need a valid Variable as OpCode");
 
-        RevelationVisitor<NumericExpression> rnv;
-        opcode->getExpression()->accept(rnv);
-        enforce(rnv.isValid(), "Variable-ID must be numeric");
-
-        return rnv.getExpression()->getAs<u32_t>();
+        return opcode->getExpression()->is<NumericExpression>().ensure("Variable-ID must be numeric")->getAs<u32_t>();
     }
 
     Expression* Interpreter::resolveVariable(OpCode* opcode) {
@@ -205,7 +196,7 @@ namespace Backend {
         return exp;
     }
 
-    template<typename T>
+    template <typename T>
     Expression* Interpreter::resolveOrMakeVariable(OpCode* opcode) {
         static_assert(std::is_base_of<Expression, T>::value, "That is not an Expression");
         static_assert(std::is_default_constructible<T>::value, "Cannot create Expression. No default CTor");
@@ -256,23 +247,14 @@ namespace Backend {
 #if DEBUG
         ::print(val);
 #endif
-        RevelationVisitor<ArrayExpression> rav;
-        exp->accept(rav);
-
-        enforce(rav.isValid(), "Cann only append on an array");
-
-        rav.getExpression()->append(val->clone());
+        exp->is<ArrayExpression>().ensure("Can only append on an array")->append(val->clone());
     }
 
     void Interpreter::setIndex(Instruction* instruction) {
         enforce(instruction->getOperandAmount() == 1, "set_index need exactly one operand");
 
         Expression* exp = this->resolveExpression(instruction->getOperand(0));
-
-        RevelationVisitor<NumericExpression> rnv;
-        exp->accept(rnv);
-
-        enforce(rnv.isValid(), "Index must be integer");
+        exp->is<NumericExpression>().ensure("Index must be integer");
 
         this->pushStack(exp->clone());
     }
@@ -282,34 +264,20 @@ namespace Backend {
 
         Expression* exp = this->resolveVariable(instruction->getOperand(0));
         Expression* val = this->resolveExpression(instruction->getOperand(1));
+
         auto idx = this->popStack();
+        const u32_t index = idx->is<NumericExpression>().ensure("Index must be numeric")->getAs<u32_t>();
 
-        RevelationVisitor<NumericExpression> rnv;
-        idx->accept(rnv);
-
-        enforce(rnv.isValid(), "Index must be numeric");
-
-        const u32_t index = rnv.getExpression()->getAs<u32_t>();
-
-        RevelationVisitor<ArrayExpression> rav;
-        exp->accept(rav);
-
-        enforce(rav.isValid(), "Need an array for emplace");
-
-        rav.getExpression()->emplace(index, val->clone());
+        exp->is<ArrayExpression>().ensure("Need an array for emplace")->emplace(index, val->clone());
     }
 
     void Interpreter::fetchDim(Instruction* instruction) {
         enforce(instruction->getOperandAmount() == 1, "fetch_dim need exactly one operands");
 
         Expression* exp = this->resolveVariable(instruction->getOperand(0));
+        const u32_t dim = exp->is<ArrayExpression>().ensure("Can only fetch dimension of an array")->getAmount();
 
-        RevelationVisitor<ArrayExpression> rav;
-        exp->accept(rav);
-
-        enforce(rav.isValid(), "Can only fetch dimension of an array");
-
-        this->pushStack(new NumericExpression(rav.getExpression()->getAmount()));
+        this->pushStack(new NumericExpression(dim));
     }
 
     void Interpreter::fetch(Instruction* instruction) {
@@ -318,18 +286,10 @@ namespace Backend {
         Expression* exp = this->resolveVariable(instruction->getOperand(0));
         Expression* idx = this->resolveExpression(instruction->getOperand(1));
 
-        RevelationVisitor<NumericExpression> rnv;
-        idx->accept(rnv);
+        const u32_t index = idx->is<NumericExpression>().ensure("Fetch-Index must be numeric")->getAs<u32_t>();
+        Expression* val = exp->is<ArrayExpression>().ensure("Need an array to fetch")->fetch(index);
 
-        enforce(rnv.isValid(), "Fetch-Index must be numeric");
-        const u32_t index = rnv.getExpression()->getAs<u32_t>();
-
-        RevelationVisitor<ArrayExpression> rav;
-        exp->accept(rav);
-
-        enforce(rav.isValid(), "Need an array for fetch");
-
-        this->pushStack(rav.getExpression()->fetch(index)->clone());
+        this->pushStack(val->clone());
     }
 
     void Interpreter::pop(Instruction* instruction) {
@@ -355,18 +315,8 @@ namespace Backend {
         Expression* lhs = this->resolveExpression(instruction->getOperand(0));
         Expression* rhs = this->resolveExpression(instruction->getOperand(1));
 
-        RevelationVisitor<NumericExpression> rnv_lhs;
-        lhs->accept(rnv_lhs);
-
-        enforce(rnv_lhs.isValid(), "Invalid left hand side expression");
-
-        RevelationVisitor<NumericExpression> rnv_rhs;
-        rhs->accept(rnv_rhs);
-
-        enforce(rnv_rhs.isValid(), "Invalid right hand side expression");
-
-        const f32_t lhs_num = rnv_lhs.getExpression()->getNumber();
-        const f32_t rhs_num = rnv_rhs.getExpression()->getNumber();
+        const f32_t lhs_num = lhs->is<NumericExpression>().ensure("Invalid left hand side expression")->getNumber();
+        const f32_t rhs_num = rhs->is<NumericExpression>().ensure("Invalid right hand side expression")->getNumber();
 
         const i32_t result = lhs_num < rhs_num;
         debug("IS LOWER ", result);
@@ -381,18 +331,8 @@ namespace Backend {
         Expression* lhs = this->resolveExpression(instruction->getOperand(0));
         Expression* rhs = this->resolveExpression(instruction->getOperand(1));
 
-        RevelationVisitor<NumericExpression> rnv_lhs;
-        lhs->accept(rnv_lhs);
-
-        enforce(rnv_lhs.isValid(), "Invalid left hand side expression");
-
-        RevelationVisitor<NumericExpression> rnv_rhs;
-        rhs->accept(rnv_rhs);
-
-        enforce(rnv_rhs.isValid(), "Invalid right hand side expression");
-
-        const f32_t lhs_num = rnv_lhs.getExpression()->getNumber();
-        const f32_t rhs_num = rnv_rhs.getExpression()->getNumber();
+        const f32_t lhs_num = lhs->is<NumericExpression>().ensure("Invalid left hand side expression")->getNumber();
+        const f32_t rhs_num = rhs->is<NumericExpression>().ensure("Invalid right hand side expression")->getNumber();
 
         const i32_t result = std::fabs(lhs_num - rhs_num) < std::numeric_limits<f32_t>::epsilon();
         this->pushStack(new NumericExpression(result));
@@ -419,12 +359,8 @@ namespace Backend {
 
         Expression* exp = this->resolveExpression(instruction->getOperand(0));
 
-        RevelationVisitor<StringExpression> rsv;
-        exp->accept(rsv);
-
-        enforce(rsv.isValid(), "goto need's a string label");
-
-        const u32_t index = parser.getIndexFor(rsv.getExpression()->getValue());
+        const std::string& label = exp->is<StringExpression>().ensure("goto need's a string label")->getValue();
+        const u32_t index = parser.getIndexFor(label);
         debug("goto ", index);
 
         parser.setIndex(index);
@@ -433,24 +369,16 @@ namespace Backend {
     void Interpreter::goToIf(Instruction* instruction, Parser& parser) {
         auto val = this->popStack();
 
-        RevelationVisitor<NumericExpression> rnv;
-        val->accept(rnv);
-
-        enforce(rnv.isValid(), "Expected a numeric condition");
-
-        if (rnv.getExpression()->getAs<i32_t>() != 0)
+        const i32_t cond = val->is<NumericExpression>().ensure("Expected a numeric condition")->getAs<i32_t>();
+        if (cond)
             this->goTo(instruction, parser);
     }
 
     void Interpreter::goToIfNot(Instruction* instruction, Parser& parser) {
         auto val = this->popStack();
 
-        RevelationVisitor<NumericExpression> rnv;
-        val->accept(rnv);
-
-        enforce(rnv.isValid(), "Expected a numeric condition");
-
-        if (rnv.getExpression()->getAs<i32_t>() == 0)
+        const i32_t cond = val->is<NumericExpression>().ensure("Expected a numeric condition")->getAs<i32_t>();
+        if (!cond)
             this->goTo(instruction, parser);
     }
 
