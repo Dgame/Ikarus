@@ -15,12 +15,12 @@ Lpow:
 
     L1:
         is_lower &2, 2
-        goto_if Lend
+        goto_if L2
         mul &3, &1
         pop &3
         dec &2
         pop &2
         goto L1
-    Lend:
+    L2:
         push &3
         return

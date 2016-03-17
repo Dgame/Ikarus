@@ -8,35 +8,39 @@
 
 #include "Instruction.hpp"
 
-class Lexer;
-class Declaration;
 class Token;
 
-class Parser {
-private:
-    u32_t _index = 0;
+namespace Backend {
+    class Lexer;
 
-    OpCode* parseOpCode(Lexer&);
-    void parseOperands(Instruction*, Lexer&);
-    void parse(Lexer&);
+    class Parser {
+    private:
+        u32_t _index = 0;
 
-    std::vector<std::unique_ptr<Instruction>> _instructions;
-    std::map<std::string, u32_t> _labels;
+        OpCode *parseOpCode(Lexer &);
 
-public:
-    explicit Parser(const char*, const char* const);
+        void parseOperands(Instruction *, Lexer &);
 
-    void setIndex(u32_t index) {
-        _index = index;
-    }
+        void parse(Lexer &);
 
-    u32_t getIndex() const {
-        return _index;
-    }
+        std::vector<std::unique_ptr<Instruction>> _instructions;
+        std::map<std::string, u32_t> _labels;
 
-    u32_t getIndexFor(const std::string&) const;
+    public:
+        explicit Parser(const char *, const char *const);
 
-    Instruction* getNext();
-};
+        void setIndex(u32_t index) {
+            _index = index;
+        }
+
+        u32_t getIndex() const {
+            return _index;
+        }
+
+        u32_t getIndexFor(const std::string &) const;
+
+        Instruction *getNext();
+    };
+}
 
 #endif //IKARUS_PARSER_HPP

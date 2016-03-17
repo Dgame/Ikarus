@@ -2,6 +2,8 @@
 #include "Interpreter.hpp"
 #include "util.hpp"
 
+using Backend::Interpreter;
+
 int main() {
     try {
         std::ifstream is("C:/Users/Bjarne/Documents/GitHub/Ikarus.git/func.ik");

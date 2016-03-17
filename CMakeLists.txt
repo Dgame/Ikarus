@@ -28,7 +28,8 @@ set(SOURCE_FILES
         include/Expression/IncrementExpression.hpp
         src/Expression/DecrementExpression.cpp
         include/Expression/DecrementExpression.hpp
-        include/Visitable.hpp include/Visitor/Visitor.hpp
+        include/Visitable.hpp
+        include/Visitor/Visitor.hpp
         src/Expression/NumericExpression.cpp
         include/Expression/NumericExpression.hpp
         include/types.hpp
@@ -36,10 +37,10 @@ set(SOURCE_FILES
         include/util.hpp
         src/Expression/ArrayExpression.cpp
         include/Expression/ArrayExpression.hpp
-        src/Declaration/Declaration.cpp
-        include/Declaration/Declaration.hpp
+        src/Frontend/Declaration/Declaration.cpp
+        include/Frontend/Declaration/Declaration.hpp
         include/StorageClass.hpp
-        include/Declaration/VariableDeclaration.hpp
+        include/Frontend/Declaration/VariableDeclaration.hpp
         src/Visitor/OutputVisitor.cpp
         include/Visitor/OutputVisitor.hpp
         src/Visitor/AppendVisitor.cpp
@@ -58,11 +59,15 @@ set(SOURCE_FILES
         include/Backend/Instruction.hpp
         src/Backend/OpCode.cpp
         include/Backend/OpCode.hpp
-        include/Visitor/RevelationVisitor.hpp src/Expression/StringExpression.cpp include/Expression/StringExpression.hpp)
+        include/Visitor/RevelationVisitor.hpp
+        src/Expression/StringExpression.cpp
+        include/Expression/StringExpression.hpp
+        src/AbstractLexer.cpp
+        include/AbstractLexer.hpp)
 
 include_directories("include")
 include_directories("include/Expression")
-include_directories("include/Declaration")
+include_directories("include/Frontend/Declaration")
 include_directories("include/Visitor")
 include_directories("include/Backend")
 

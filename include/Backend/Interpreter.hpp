@@ -9,55 +9,77 @@
 #include "Expression.hpp"
 #include "Instruction.hpp"
 
-class Parser;
+namespace Backend {
+    class Parser;
 
-class Interpreter {
-private:
-    std::vector<std::unique_ptr<Expression>> _variables;
-    std::vector<std::unique_ptr<Expression>> _stack;
+    class Interpreter {
+    private:
+        std::vector<std::unique_ptr<Expression>> _variables;
+        std::vector<std::unique_ptr<Expression>> _stack;
 
-    u32_t _stack_offset = 0;
-    u32_t _backtrack = 0;
+        u32_t _stack_offset = 0;
+        u32_t _backtrack = 0;
 
-    void assignVariable(u32_t, Expression*);
-    void pushStack(Expression*);
-    std::unique_ptr<Expression> popStack();
+        void assignVariable(u32_t, Expression *);
 
-    Expression* fetchStack(u32_t);
-    Expression* fetchVariable(u32_t);
+        void pushStack(Expression *);
 
-    bool interpret(Parser&);
+        std::unique_ptr<Expression> popStack();
 
-    Expression* resolveExpression(OpCode*);
-    u32_t getIndexOf(OpCode*);
+        Expression *fetchStack(u32_t);
 
-    Expression* resolveVariable(OpCode*);
+        Expression *fetchVariable(u32_t);
 
-    template <typename T>
-    Expression* resolveOrMakeVariable(OpCode*);
+        bool interpret(Parser &);
 
-    void print(Instruction*);
-    void assign(Instruction*);
-    void append(Instruction*);
-    void setIndex(Instruction*);
-    void emplace(Instruction*);
-    void fetchDim(Instruction*);
-    void fetch(Instruction*);
-    void pop(Instruction*);
-    void push(Instruction*);
-    bool isLower(Instruction*);
-    bool isEqual(Instruction*);
-    bool isLowerOrEqual(Instruction*);
-    void call(Instruction*, Parser&);
-    void goTo(Instruction*, Parser&);
-    void goToIf(Instruction*, Parser&);
-    void goToIfNot(Instruction*, Parser&);
-    void math(Instruction*);
+        Expression *resolveExpression(OpCode *);
 
-    Expression* makeExpression(Instruction*);
+        u32_t getIndexOf(OpCode *);
 
-public:
-    explicit Interpreter(const char*, const char* const);
-};
+        Expression *resolveVariable(OpCode *);
+
+        template<typename T>
+        Expression *resolveOrMakeVariable(OpCode *);
+
+        void print(Instruction *);
+
+        void assign(Instruction *);
+
+        void append(Instruction *);
+
+        void setIndex(Instruction *);
+
+        void emplace(Instruction *);
+
+        void fetchDim(Instruction *);
+
+        void fetch(Instruction *);
+
+        void pop(Instruction *);
+
+        void push(Instruction *);
+
+        bool isLower(Instruction *);
+
+        bool isEqual(Instruction *);
+
+        bool isLowerOrEqual(Instruction *);
+
+        void call(Instruction *, Parser &);
+
+        void goTo(Instruction *, Parser &);
+
+        void goToIf(Instruction *, Parser &);
+
+        void goToIfNot(Instruction *, Parser &);
+
+        void math(Instruction *);
+
+        Expression *makeExpression(Instruction *);
+
+    public:
+        explicit Interpreter(const char *, const char *const);
+    };
+}
 
 #endif //IKARUS_INTERPRETER_HPP
