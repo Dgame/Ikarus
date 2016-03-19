@@ -7,10 +7,15 @@
 
 class VariableDeclaration : public Declaration {
 private:
+    std::string _name;
     u32_t _stc = StorageClass.MUTABLE;
 
 public:
-    using Declaration::Declaration;
+    explicit VariableDeclaration(const std::string&, Expression*);
+
+    const std::string& getName() const {
+        return _name;
+    }
 
     void setStorageClass(u32_t stc) {
         _stc = stc;
@@ -31,6 +36,8 @@ public:
     bool isRef() const {
         return (_stc & StorageClass.REFERENCE) != 0;
     }
+
+    virtual void accept(EvalVisitor&) override;
 };
 
 #endif //IKARUS_VARIABLEDECLARATION_HPP

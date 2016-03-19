@@ -1,5 +1,4 @@
 #include "Instruction.hpp"
-#include "util.hpp"
 #include <map>
 
 namespace Backend {
@@ -35,7 +34,7 @@ namespace Backend {
         };
     }
 
-    u32_t Instruction::Amount = 0;
+    size_t Instruction::ID = 0;
 
     Instruction::Type Instruction::DetermineType(const std::string& id) {
         auto it = Instructions.find(id);
@@ -48,7 +47,7 @@ namespace Backend {
 
     Instruction::Instruction(const std::string& id) : Instruction(DetermineType(id)) { }
 
-    Instruction::Instruction(Type type) : _type(type), _id(Amount++) {
+    Instruction::Instruction(Type type) : _type(type), _id(ID++) {
     }
 
     void Instruction::addOpCode(OpCode* opcode) {

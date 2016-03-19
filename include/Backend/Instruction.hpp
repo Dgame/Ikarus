@@ -11,7 +11,7 @@
 namespace Backend {
     class Instruction {
     public:
-        static u32_t Amount;
+        static size_t ID;
 
         enum Type {
             NONE,
@@ -49,7 +49,7 @@ namespace Backend {
         std::vector<std::unique_ptr<OpCode>> _opcodes;
 
         Type _type = NONE;
-        u32_t _id = 0;
+        size_t _id = 0;
 
         static Type DetermineType(const std::string&);
 
@@ -62,7 +62,7 @@ namespace Backend {
             return _type;
         }
 
-        u32_t getId() const {
+        size_t getId() const {
             return _id;
         }
 

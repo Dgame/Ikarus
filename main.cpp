@@ -1,10 +1,27 @@
 #include <fstream>
 #include "Interpreter.hpp"
-#include "util.hpp"
+#include "VariableDeclaration.hpp"
+#include "NumericExpression.hpp"
+#include "ArrayExpression.hpp"
+#include "EvalVisitor.hpp"
 
 using Backend::Interpreter;
 
 int main() {
+    NumericExpression* ne1 = new NumericExpression(42);
+    std::unique_ptr<VariableDeclaration> vd1(new VariableDeclaration("a", ne1));
+
+    ArrayExpression* ae1 = new ArrayExpression();
+    ae1->append(new NumericExpression(42));
+    ae1->append(new NumericExpression(23));
+    std::unique_ptr<VariableDeclaration> vd2(new VariableDeclaration("as", ae1));
+
+    EvalVisitor ev(std::cout);
+    vd1->accept(ev);
+    vd2->accept(ev);
+
+    return 0;
+
     try {
         std::ifstream is("C:/Users/Bjarne/Documents/GitHub/Ikarus.git/func.ik");
         if (!is.good())

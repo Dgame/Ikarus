@@ -2,7 +2,6 @@
 #include "Lexer.hpp"
 #include "StringExpression.hpp"
 #include "NumericExpression.hpp"
-#include "util.hpp"
 
 namespace Backend {
     OpCode* Parser::parseOpCode(Lexer& lexer) {
@@ -96,7 +95,7 @@ namespace Backend {
         debug("---- PARSER FINISHED ---");
     }
 
-    u32_t Parser::getIndexFor(const std::string& label) const {
+    size_t Parser::getIndexFor(const std::string& label) const {
         auto it = _labels.find(label);
         if (it != _labels.end()) {
             return it->second;

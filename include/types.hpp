@@ -12,6 +12,8 @@ using i16_t = std::int16_t;
 using u8_t  = std::uint8_t;
 using i8_t  = std::int8_t;
 
+using size_t  = std::size_t;
+
 using f64_t = double;
 using f32_t = float;
 

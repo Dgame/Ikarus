@@ -17,24 +17,24 @@ namespace Backend {
         std::vector<std::unique_ptr<Expression>> _variables;
         std::vector<std::unique_ptr<Expression>> _stack;
 
-        u32_t _stack_offset = 0;
-        u32_t _backtrack = 0;
+        size_t _stack_offset = 0;
+        size_t _backtrack = 0;
 
-        void assignVariable(u32_t, Expression*);
+        void assignVariable(size_t, Expression*);
 
         void pushStack(Expression*);
 
         std::unique_ptr<Expression> popStack();
 
-        Expression* fetchStack(u32_t);
+        Expression* fetchStack(size_t);
 
-        Expression* fetchVariable(u32_t);
+        Expression* fetchVariable(size_t);
 
         bool interpret(Parser&);
 
         Expression* resolveExpression(OpCode*);
 
-        u32_t getIndexOf(OpCode*);
+        size_t getIndexOf(OpCode*);
 
         Expression* resolveVariable(OpCode*);
 

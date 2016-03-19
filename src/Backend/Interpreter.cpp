@@ -165,7 +165,7 @@ namespace Backend {
         switch (opcode->getType()) {
             case OpCode::VARIABLE:
             case OpCode::OFFSET: {
-                const u32_t index = this->getIndexOf(opcode);
+                const size_t index = this->getIndexOf(opcode);
                 if (opcode->getType() == OpCode::VARIABLE)
                     return this->fetchVariable(index);
                 return this->fetchStack(index);
@@ -188,7 +188,7 @@ namespace Backend {
     Expression* Interpreter::resolveVariable(OpCode* opcode) {
         enforce(opcode->getType() == OpCode::VARIABLE, "Need a valid Variable as OpCode");
 
-        const u32_t vi = this->getIndexOf(opcode);
+        const size_t vi = this->getIndexOf(opcode);
         Expression* exp = this->fetchVariable(vi);
         enforce(exp != nullptr, "Invalid variable accessed @ ", vi);
 
@@ -210,7 +210,7 @@ namespace Backend {
         enforce(instruction->getOperandAmount() == 2, "assign need exactly two operands");
         enforce(instruction->getOperand(0)->getType() == OpCode::VARIABLE, "Expected a variable");
 
-        const u32_t vi = this->getIndexOf(instruction->getOperand(0));
+        const size_t vi = this->getIndexOf(instruction->getOperand(0));
         debug("assign variable ", vi);
         Expression* exp = this->resolveExpression(instruction->getOperand(1));
 #if DEBUG
@@ -222,7 +222,7 @@ namespace Backend {
     void Interpreter::append(Instruction* instruction) {
         enforce(instruction->getOperandAmount() == 2, "append need exactly two operands");
 
-        const u32_t vi = this->getIndexOf(instruction->getOperand(0));
+        const size_t vi = this->getIndexOf(instruction->getOperand(0));
         Expression* exp = this->fetchVariable(vi);
         if (!exp) {
             debug("No variable found, make a new one");
@@ -285,7 +285,7 @@ namespace Backend {
 
         auto val = this->popStack();
 
-        const u32_t vi = this->getIndexOf(instruction->getOperand(0));
+        const size_t vi = this->getIndexOf(instruction->getOperand(0));
         this->assignVariable(vi, val.release());
     }
 
@@ -343,7 +343,7 @@ namespace Backend {
         Expression* exp = this->resolveExpression(instruction->getOperand(0));
 
         const std::string& label = exp->is<StringExpression>().ensure("goto need's a string label")->getValue();
-        const u32_t index = parser.getIndexFor(label);
+        const size_t index = parser.getIndexFor(label);
         debug("goto ", index);
 
         parser.setIndex(index);
@@ -353,16 +353,18 @@ namespace Backend {
         auto val = this->popStack();
 
         const i32_t cond = val->is<NumericExpression>().ensure("Expected a numeric condition")->getAs<i32_t>();
-        if (cond)
+        if (cond) {
             this->goTo(instruction, parser);
+        }
     }
 
     void Interpreter::goToIfNot(Instruction* instruction, Parser& parser) {
         auto val = this->popStack();
 
         const i32_t cond = val->is<NumericExpression>().ensure("Expected a numeric condition")->getAs<i32_t>();
-        if (!cond)
+        if (!cond) {
             this->goTo(instruction, parser);
+        }
     }
 
     Expression* Interpreter::makeExpression(Instruction* instruction) {

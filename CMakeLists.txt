@@ -64,11 +64,15 @@ set(SOURCE_FILES
         include/Expression/StringExpression.hpp
         src/AbstractLexer.cpp
         include/AbstractLexer.hpp
-        include/NullExpression.hpp)
+        include/NullExpression.hpp
+        include/Frontend/Evaluable.hpp
+        include/Visitor/EvalVisitor.hpp src/Frontend/Declaration/VariableDeclaration.cpp src/Visitor/EvalVisitor.cpp include/Frontend/Scope.cpp include/Frontend/Scope.hpp)
 
 include_directories("include")
 include_directories("include/Expression")
+include_directories("include/Frontend")
 include_directories("include/Frontend/Declaration")
+include_directories("include/Frontend/EvalVisitor")
 include_directories("include/Visitor")
 include_directories("include/Backend")
 

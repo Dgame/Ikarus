@@ -15,31 +15,31 @@ namespace Backend {
 
     class Parser {
     private:
-        u32_t _index = 0;
+        size_t _index = 0;
 
-        OpCode *parseOpCode(Lexer &);
+        OpCode* parseOpCode(Lexer&);
 
-        void parseOperands(Instruction *, Lexer &);
+        void parseOperands(Instruction*, Lexer&);
 
-        void parse(Lexer &);
+        void parse(Lexer&);
 
         std::vector<std::unique_ptr<Instruction>> _instructions;
-        std::map<std::string, u32_t> _labels;
+        std::map<std::string, size_t> _labels;
 
     public:
-        explicit Parser(const char *, const char *const);
+        explicit Parser(const char*, const char* const);
 
-        void setIndex(u32_t index) {
+        void setIndex(size_t index) {
             _index = index;
         }
 
-        u32_t getIndex() const {
+        size_t getIndex() const {
             return _index;
         }
 
-        u32_t getIndexFor(const std::string &) const;
+        size_t getIndexFor(const std::string&) const;
 
-        Instruction *getNext();
+        Instruction* getNext();
     };
 }
 

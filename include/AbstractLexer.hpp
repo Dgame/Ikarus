@@ -9,7 +9,7 @@
 class AbstractLexer {
 protected:
     std::vector<Token> _token;
-    u32_t _index = 0;
+    size_t _index = 0;
 
     const char* _ptr = nullptr;
     const char* const _end = nullptr;
@@ -33,11 +33,11 @@ protected:
 public:
     explicit AbstractLexer(const char*, const char* const);
 
-    void setIndex(u32_t index) {
-        _index = 0;
+    void setIndex(size_t index) {
+        _index = index;
     }
 
-    u32_t getIndex() const {
+    size_t getIndex() const {
         return _index;
     }
 

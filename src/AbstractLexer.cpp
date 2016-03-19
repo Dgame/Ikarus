@@ -131,8 +131,9 @@ const Token* AbstractLexer::getToken() const {
 }
 
 const Token* AbstractLexer::nextToken() {
-    if (_index < _token.size())
+    if (_index < _token.size()) {
         _index++;
+    }
 
     return this->getToken();
 }
