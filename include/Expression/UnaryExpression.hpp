@@ -18,6 +18,10 @@ public:
     const Expression* getExpression() const {
         return _expr.get();
     }
+
+    virtual bool isAtomic() const {
+        return false;
+    }
 };
 
 #endif //IKARUS_UNARYEXPRESSION_HPP

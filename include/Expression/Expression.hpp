@@ -13,6 +13,10 @@ public:
     NullExpression<T> is();
 
     virtual Expression* clone() const = 0;
+
+    virtual bool isAtomic() const {
+        return true;
+    }
 };
 
 template <typename T>

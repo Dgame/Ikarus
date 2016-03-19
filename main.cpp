@@ -1,13 +1,23 @@
+#define EVAL false
+
+#if !EVAL
+
 #include <fstream>
 #include "Interpreter.hpp"
-#include "VariableDeclaration.hpp"
-#include "NumericExpression.hpp"
-#include "ArrayExpression.hpp"
-#include "EvalVisitor.hpp"
 
 using Backend::Interpreter;
 
+#else
+#include "VariableDeclaration.hpp"
+#include "NumericExpression.hpp"
+#include "ArrayExpression.hpp"
+#include "AddExpression.hpp"
+#include "MultiplyExpression.hpp"
+#include "EvalVisitor.hpp"
+#endif
+
 int main() {
+#if EVAL
     NumericExpression* ne1 = new NumericExpression(42);
     std::unique_ptr<VariableDeclaration> vd1(new VariableDeclaration("a", ne1));
 
@@ -16,14 +26,52 @@ int main() {
     ae1->append(new NumericExpression(23));
     std::unique_ptr<VariableDeclaration> vd2(new VariableDeclaration("as", ae1));
 
+    AddExpression* m1 = new AddExpression(
+            new NumericExpression(23),
+            new NumericExpression(42)
+    );
+    std::unique_ptr<VariableDeclaration> vd3(new VariableDeclaration("a", m1));
+
+    AddExpression* m2 = new AddExpression(
+            new AddExpression(
+                    new NumericExpression(2),
+                    new NumericExpression(3)
+            ),
+            new NumericExpression(4)
+    );
+    std::unique_ptr<VariableDeclaration> vd4(new VariableDeclaration("a", m2));
+
+    AddExpression* m3 = new AddExpression(
+            new NumericExpression(3),
+            new MultiplyExpression(
+                    new NumericExpression(4),
+                    new NumericExpression(2)
+            )
+    );
+    std::unique_ptr<VariableDeclaration> vd5(new VariableDeclaration("a", m3));
+
+    AddExpression* m4 = new AddExpression(
+            new AddExpression(
+                    new AddExpression(
+                            new NumericExpression(2),
+                            new NumericExpression(3)
+                    ),
+                    new NumericExpression(4)
+            ),
+            new NumericExpression(5)
+    );
+    std::unique_ptr<VariableDeclaration> vd6(new VariableDeclaration("a", m4));
+
     EvalVisitor ev(std::cout);
     vd1->accept(ev);
     vd2->accept(ev);
-
-    return 0;
-
+    vd3->accept(ev);
+    vd4->accept(ev);
+    vd5->accept(ev);
+    vd6->accept(ev);
+#else
     try {
-        std::ifstream is("C:/Users/Bjarne/Documents/GitHub/Ikarus.git/func.ik");
+        std::ifstream is("C:/Users/Bjarne/Documents/GitHub/Ikarus.git/math.ik");
         if (!is.good())
             throw "Unable to open file";
         /*
@@ -49,4 +97,5 @@ int main() {
     } catch (const char* msg) {
         writeln(msg);
     }
+#endif
 }

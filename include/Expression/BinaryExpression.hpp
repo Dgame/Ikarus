@@ -27,6 +27,10 @@ public:
     const Expression* getRightExpression() const {
         return _right.get();
     }
+
+    virtual bool isAtomic() const {
+        return false;
+    }
 };
 
 #endif //IKARUS_BINARYEXPRESSION_HPP
