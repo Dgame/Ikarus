@@ -11,20 +11,28 @@ void EvalVisitor::math(const std::string& cmd, BinaryExpression* exp) {
     Expression* lhs = exp->getLeftExpression();
     Expression* rhs = exp->getRightExpression();
 
-    if (!rhs->isAtomic())
+    if (!rhs->isAtomic()) {
         rhs->accept(*this);
+    }
 
-    if (lhs->isAtomic())
+    if (lhs->isAtomic()) {
         _out << cmd << ' ';
+    }
+
     lhs->accept(*this);
-    if (!lhs->isAtomic())
+
+    if (!lhs->isAtomic()) {
         _out << cmd << " ~" << (_stack_offset - 1);
+    }
+
     _out << ", ";
 
-    if (rhs->isAtomic())
+    if (rhs->isAtomic()) {
         rhs->accept(*this);
-    else
+    } else {
         _out << '~' << (_stack_offset - 1);
+    }
+
     _out << std::endl;
 
     _stack_offset++;

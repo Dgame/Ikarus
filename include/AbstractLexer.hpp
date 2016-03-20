@@ -42,9 +42,9 @@ public:
     }
 
     const Token* getToken() const;
-
     const Token* nextToken();
-
+    const Token* accept(Token::Type);
+    void expect(Token::Type);
 };
 
 #endif //IKARUS_LEXER_H

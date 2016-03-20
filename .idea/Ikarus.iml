@@ -2,14 +2,15 @@
 <module type="CPP_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src/Backend/Parser.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Backend/Interpreter.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Backend/Instruction.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Backend/Lexer.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Backend/Interpreter.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Backend/Parser.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Backend/Instruction.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Backend/OpCode.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Visitor/MathVisitor.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Visitor/AppendVisitor.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Visitor/OutputVisitor.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Visitor/EvalVisitor.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/AbstractLexer.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Expression/IncrementExpression.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Expression/ArrayExpression.cpp" isTestSource="false" />
@@ -25,10 +26,11 @@
       <sourceFolder url="file://$MODULE_DIR$/src/Expression/AddExpression.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Expression/DivideExpression.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Expression/BinaryExpression.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Frontend/Declaration/VariableDeclaration.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Frontend/Declaration/Declaration.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Visitor/EvalVisitor.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Frontend/Lexer.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Frontend/Scope.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Token.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Declaration/VariableDeclaration.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Declaration/Declaration.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Backend/Lexer.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Backend/OpCode.hpp" isTestSource="false" />
@@ -54,17 +56,19 @@
       <sourceFolder url="file://$MODULE_DIR$/include/Expression/MultiplyExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Expression/SubtractExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Expression/AddExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Visitor/EvalVisitor.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Visitor/OutputVisitor.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Visitor/Visitor.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Visitor/AppendVisitor.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Visitor/RevelationVisitor.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Visitor/MathVisitor.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Visitor/Visitor.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Frontend/Scope.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Frontend/Parser.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Frontend/Evaluable.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Frontend/Scope.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Visitor/EvalVisitor.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Frontend/Declaration/VariableDeclaration.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Frontend/Declaration/Declaration.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Frontend/Lexer.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Frontend/Parser.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Frontend/Scope.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Declaration/VariableDeclaration.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Declaration/Declaration.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/StorageClass.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/unique.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/NullExpression.hpp" isTestSource="false" />
@@ -75,13 +79,13 @@
     <orderEntry type="module-library">
       <library name="Header Search Paths">
         <CLASSES>
-          <root url="file://C:/Program Files (x86)/mingw-w64/i686-5.2.0-posix-dwarf-rt_v4-rev0/mingw32/lib/gcc/i686-w64-mingw32/5.2.0/include-fixed" />
           <root url="file://C:/Program Files (x86)/mingw-w64/i686-5.2.0-posix-dwarf-rt_v4-rev0/mingw32/lib/gcc/i686-w64-mingw32/5.2.0/include" />
+          <root url="file://C:/Program Files (x86)/mingw-w64/i686-5.2.0-posix-dwarf-rt_v4-rev0/mingw32/lib/gcc/i686-w64-mingw32/5.2.0/include-fixed" />
           <root url="file://C:/Program Files (x86)/mingw-w64/i686-5.2.0-posix-dwarf-rt_v4-rev0/mingw32/i686-w64-mingw32/include" />
         </CLASSES>
         <SOURCES>
-          <root url="file://C:/Program Files (x86)/mingw-w64/i686-5.2.0-posix-dwarf-rt_v4-rev0/mingw32/lib/gcc/i686-w64-mingw32/5.2.0/include-fixed" />
           <root url="file://C:/Program Files (x86)/mingw-w64/i686-5.2.0-posix-dwarf-rt_v4-rev0/mingw32/lib/gcc/i686-w64-mingw32/5.2.0/include" />
+          <root url="file://C:/Program Files (x86)/mingw-w64/i686-5.2.0-posix-dwarf-rt_v4-rev0/mingw32/lib/gcc/i686-w64-mingw32/5.2.0/include-fixed" />
           <root url="file://C:/Program Files (x86)/mingw-w64/i686-5.2.0-posix-dwarf-rt_v4-rev0/mingw32/i686-w64-mingw32/include" />
         </SOURCES>
       </library>

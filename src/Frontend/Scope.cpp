@@ -1,4 +1,4 @@
-#include "Scope.hpp"
+#include "Frontend/Scope.hpp"
 #include "VariableDeclaration.hpp"
 #include "EvalVisitor.hpp"
 

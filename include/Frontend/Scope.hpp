@@ -17,6 +17,10 @@ private:
 public:
     explicit Scope(Scope*);
 
+    Scope* getPredecessor() {
+        return _predecessor;
+    }
+
     void addVariable(VariableDeclaration*);
     void add(Evaluable*);
 

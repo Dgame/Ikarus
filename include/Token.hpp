@@ -13,8 +13,6 @@ public:
         STRING,
         IDENTIFIER,
         AMPERSAND,
-        AND,
-        OR,
         TILDE,
         COMMA,
         COLON,
@@ -30,6 +28,7 @@ public:
         MODULO,
         INCREMENT,
         DECREMENT,
+        POWER,
         OPEN_CURLY,
         CLOSE_CURLY,
         OPEN_BRACKET,
@@ -58,6 +57,10 @@ public:
 
     Type getType() const {
         return _type;
+    }
+
+    bool is(Type type) const {
+        return _type == type;
     }
 
     const std::string& getIdentifier() const {

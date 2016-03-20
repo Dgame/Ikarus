@@ -1,5 +1,5 @@
-#ifndef IKARUS_LEXER_HPP
-#define IKARUS_LEXER_HPP
+#ifndef IKARUS_BACKEND_LEXER_HPP
+#define IKARUS_BACKEND_LEXER_HPP
 
 #include <string>
 #include <vector>
@@ -19,4 +19,4 @@ namespace Backend {
     };
 }
 
-#endif //IKARUS_LEXER_HPP
+#endif //IKARUS_BACKEND_LEXER_HPP

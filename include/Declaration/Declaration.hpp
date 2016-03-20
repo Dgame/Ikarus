@@ -2,7 +2,7 @@
 #define IKARUS_DECLARATION_HPP
 
 #include "Expression.hpp"
-#include "Evaluable.hpp"
+#include "Frontend/Evaluable.hpp"
 #include "types.hpp"
 #include <memory>
 

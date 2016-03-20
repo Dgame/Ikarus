@@ -137,3 +137,20 @@ const Token* AbstractLexer::nextToken() {
 
     return this->getToken();
 }
+
+const Token* AbstractLexer::accept(Token::Type type) {
+    const Token* tok = this->getToken();
+    if (tok->is(type)) {
+        this->nextToken();
+
+        return tok;
+    }
+
+    return nullptr;
+}
+
+void AbstractLexer::expect(Token::Type type) {
+    if (!this->accept(type)) {
+        error("Unexpected Token");
+    }
+}

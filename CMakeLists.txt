@@ -37,10 +37,10 @@ set(SOURCE_FILES
         include/util.hpp
         src/Expression/ArrayExpression.cpp
         include/Expression/ArrayExpression.hpp
-        src/Frontend/Declaration/Declaration.cpp
-        include/Frontend/Declaration/Declaration.hpp
+        src/Declaration/Declaration.cpp
+        include/Declaration/Declaration.hpp
         include/StorageClass.hpp
-        include/Frontend/Declaration/VariableDeclaration.hpp
+        include/Declaration/VariableDeclaration.hpp
         src/Visitor/OutputVisitor.cpp
         include/Visitor/OutputVisitor.hpp
         src/Visitor/AppendVisitor.cpp
@@ -66,14 +66,18 @@ set(SOURCE_FILES
         include/AbstractLexer.hpp
         include/NullExpression.hpp
         include/Frontend/Evaluable.hpp
-        include/Visitor/EvalVisitor.hpp src/Frontend/Declaration/VariableDeclaration.cpp src/Visitor/EvalVisitor.cpp include/Frontend/Scope.cpp include/Frontend/Scope.hpp)
+        include/Visitor/EvalVisitor.hpp
+        src/Declaration/VariableDeclaration.cpp
+        src/Visitor/EvalVisitor.cpp
+        src/Frontend/Scope.cpp
+        include/Frontend/Scope.hpp
+        src/Frontend/Lexer.cpp
+        include/Frontend/Lexer.hpp src/Frontend/Parser.cpp include/Frontend/Parser.hpp)
 
 include_directories("include")
 include_directories("include/Expression")
-include_directories("include/Frontend")
-include_directories("include/Frontend/Declaration")
+include_directories("include/Declaration")
 include_directories("include/Frontend/EvalVisitor")
 include_directories("include/Visitor")
-include_directories("include/Backend")
 
 add_executable(Ikarus ${SOURCE_FILES})
