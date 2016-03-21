@@ -20,11 +20,11 @@ public:
         return _id;
     }
 
-    void setExpression(Expression* exp) {
-        _expr.reset(exp);
+    Expression* getExpression() {
+        return _expr.get();
     }
 
-    Expression* getExpression() {
+    const Expression* getExpression() const {
         return _expr.get();
     }
 };

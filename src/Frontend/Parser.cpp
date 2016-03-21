@@ -20,6 +20,7 @@ namespace Frontend {
 
     void Parser::popScope() {
         _scope = _scope->getPredecessor();
+        enforce(_scope != nullptr, "Empty Scope?!");
     }
 
     void Parser::parse(Lexer& lexer) {
@@ -77,15 +78,16 @@ namespace Frontend {
     }
 
     void Parser::assignExistingVariable(Lexer& lexer, const std::string& id) {
-        VariableDeclaration* vd = _scope->findVariable(id);
-        enforce(vd != nullptr, "No such variable: ", id);
-        enforce(!vd->isConst(), "Variable ", id, " is const");
+        auto vde = _scope->findVariable(id);
+        enforce(vde != nullptr, "No such variable: ", id);
+        enforce(!vde->isConst(), "Variable ", id, " is const");
 
         lexer.next();
         lexer.expect(Token::ASSIGN);
 
         auto exp = this->parseExpression(lexer);
-        vd->setExpression(exp);
+        auto vd = new VariableDeclaration(id, exp);
+        _scope->addVariable(vd);
     }
 
     Expression* Parser::parseExpression(Lexer& lexer) {
