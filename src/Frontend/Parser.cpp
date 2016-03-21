@@ -1,3 +1,4 @@
+#include <StorageClass.hpp>
 #include "Frontend/Parser.hpp"
 #include "Frontend/Lexer.hpp"
 #include "AddExpression.hpp"
@@ -8,6 +9,8 @@
 #include "NumericExpression.hpp"
 #include "NegateExpression.hpp"
 #include "NotExpression.hpp"
+#include "VariableDeclaration.hpp"
+#include "Frontend/Keyword.hpp"
 
 namespace Frontend {
     void Parser::pushScope() {
@@ -23,10 +26,45 @@ namespace Frontend {
 
     }
 
-    void Parser::parseVarDecl(Lexer& lexer) {
+    void Parser::parseVarDeclaration(Lexer& lexer) {
+        const Token* tok = lexer.getToken();
+        if (tok->is(Token::IDENTIFIER)) {
+            std::string id = tok->getIdentifier();
+            if (Keyword::IsVariable(id)) {
+                this->assignNewVariable(lexer, id);
+            } else {
+                this->assignExistingVariable(lexer, id);
+            }
+        }
     }
 
-    Expression* Parser::parseExpr(Lexer& lexer) {
+    void Parser::assignNewVariable(Lexer& lexer, const std::string& id) {
+        lexer.next();
+        const std::string name = lexer.getToken()->getIdentifier();
+        lexer.next();
+        lexer.expect(Token::ASSIGN);
+
+        auto exp = this->parseExpression(lexer);
+
+        auto vd = new VariableDeclaration(name, exp);
+        if (Keyword::Get(id) == Token::IMMUTABLE)
+            vd->setStorageClass(StorageClass.IMMUTABLE);
+        _scope->addVariable(vd);
+    }
+
+    void Parser::assignExistingVariable(Lexer& lexer, const std::string& id) {
+        VariableDeclaration* vd = _scope->findVariable(id);
+        enforce(vd != nullptr, "No such variable: ", id);
+        enforce(!vd->isConst(), "Variable ", id, " is const");
+
+        lexer.next();
+        lexer.expect(Token::ASSIGN);
+
+        auto exp = this->parseExpression(lexer);
+        vd->setExpression(exp);
+    }
+
+    Expression* Parser::parseExpression(Lexer& lexer) {
         Expression* lhs = this->parseTerm(lexer);
         if (!lhs) {
             return nullptr;
@@ -123,7 +161,7 @@ namespace Frontend {
             exp = new NumericExpression(tok->getDecimal());
             lexer.next();
         } else if (lexer.accept(Token::OPEN_CURLY)) {
-            exp = this->parseExpr(lexer);
+            exp = this->parseExpression(lexer);
             lexer.expect(Token::CLOSE_CURLY);
         }
 

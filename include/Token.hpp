@@ -36,7 +36,12 @@ public:
         OPEN_BRACKET,
         CLOSE_BRACKET,
         OPEN_PAREN,
-        CLOSE_PAREN
+        CLOSE_PAREN,
+        MUTABLE,
+        IMMUTABLE,
+        FUNCTION,
+        IF,
+        ELSE,
     };
 
 private:
