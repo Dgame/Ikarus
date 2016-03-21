@@ -23,24 +23,48 @@ namespace Frontend {
     }
 
     void Parser::parse(Lexer& lexer) {
+        if (lexer.peekNext() == Token::IDENTIFIER) {
+            this->parseIdentifier(lexer);
+        }
+    }
 
+    void Parser::parseIdentifier(Lexer& lexer) {
+        const Token* tok = lexer.getToken();
+        enforce(tok->is(Token::IDENTIFIER), "Should be an identifier");
+
+        const std::string& id = tok->getIdentifier();
+        if (Keyword::Is(id)) {
+            switch (Keyword::Get(id)) {
+                case Token::IF:
+                case Token::ELSE:
+                case Token::FUNCTION:
+                case Token::WHILE:
+                    error("Not implemented");
+                    break;
+                default:
+                    this->parseVarDeclaration(lexer);
+            }
+        } else {
+            error("Unexpected identifier");
+        }
     }
 
     void Parser::parseVarDeclaration(Lexer& lexer) {
         const Token* tok = lexer.getToken();
-        if (tok->is(Token::IDENTIFIER)) {
-            std::string id = tok->getIdentifier();
-            if (Keyword::IsVariable(id)) {
-                this->assignNewVariable(lexer, id);
-            } else {
-                this->assignExistingVariable(lexer, id);
-            }
+        enforce(tok->is(Token::IDENTIFIER), "Should be an identifier");
+
+        const std::string id = tok->getIdentifier();
+        if (Keyword::IsVariable(id)) {
+            this->assignNewVariable(lexer, id);
+        } else {
+            this->assignExistingVariable(lexer, id);
         }
     }
 
     void Parser::assignNewVariable(Lexer& lexer, const std::string& id) {
         lexer.next();
         const std::string name = lexer.getToken()->getIdentifier();
+        enforce(_scope->findVariable(name) == nullptr, "A variable with name ", name, " already exists");
         lexer.next();
         lexer.expect(Token::ASSIGN);
 

@@ -42,6 +42,7 @@ public:
         FUNCTION,
         IF,
         ELSE,
+        WHILE
     };
 
 private:

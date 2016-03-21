@@ -19,6 +19,7 @@ namespace Frontend {
         void popScope();
 
         void parse(Lexer&);
+        void parseIdentifier(Lexer&);
 
         void parseVarDeclaration(Lexer&);
         void assignNewVariable(Lexer&, const std::string&);
