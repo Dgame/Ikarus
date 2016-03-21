@@ -27,11 +27,11 @@ private:
 public:
     explicit EvalVisitor(std::ostream&);
 
-    virtual void visit(MultiplyExpression*);
-    virtual void visit(AddExpression*);
-    virtual void visit(NumericExpression*);
-    virtual void visit(ArrayExpression*);
-    virtual void visit(VariableDeclaration*);
+    virtual void visit(MultiplyExpression*) override;
+    virtual void visit(AddExpression*) override;
+    virtual void visit(NumericExpression*) override;
+    virtual void visit(ArrayExpression*) override;
+    virtual void visit(VariableDeclaration*) override;
 };
 
 #endif //IKARUS_EVALVISITOR_HPP

@@ -7,9 +7,9 @@ class NotExpression : public UnaryExpression {
 public:
     using UnaryExpression::UnaryExpression;
 
-    virtual NotExpression* clone() const;
+    virtual NotExpression* clone() const override;
 
-    virtual void accept(Visitor&);
+    virtual void accept(Visitor&) override;
 };
 
 #endif //IKARUS_NOTEXPRESSION_HPP

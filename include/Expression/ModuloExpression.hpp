@@ -7,9 +7,9 @@ class ModuloExpression : public BinaryExpression {
 public:
     using BinaryExpression::BinaryExpression;
 
-    virtual ModuloExpression* clone() const;
+    virtual ModuloExpression* clone() const override;
 
-    virtual void accept(Visitor&);
+    virtual void accept(Visitor&) override;
 };
 
 #endif //IKARUS_MODEXPRESSION_HPP

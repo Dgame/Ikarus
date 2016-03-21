@@ -43,8 +43,6 @@ set(SOURCE_FILES
         include/Declaration/VariableDeclaration.hpp
         src/Visitor/OutputVisitor.cpp
         include/Visitor/OutputVisitor.hpp
-        src/Visitor/AppendVisitor.cpp
-        include/Visitor/AppendVisitor.hpp
         src/Visitor/MathVisitor.cpp
         include/Visitor/MathVisitor.hpp
         src/Backend/Lexer.cpp

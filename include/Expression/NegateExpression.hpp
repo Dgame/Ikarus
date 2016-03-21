@@ -7,9 +7,9 @@ class NegateExpression : public UnaryExpression {
 public:
     using UnaryExpression::UnaryExpression;
 
-    virtual NegateExpression* clone() const;
+    virtual NegateExpression* clone() const override;
 
-    virtual void accept(Visitor&);
+    virtual void accept(Visitor&) override;
 };
 
 #endif //IKARUS_NEGEXPRESSION_HPP

@@ -23,11 +23,11 @@ public:
         return static_cast<T>(_number);
     }
 
-    virtual NumericExpression* clone() const {
+    virtual NumericExpression* clone() const override{
         return new NumericExpression(_number);
     }
 
-    virtual void accept(Visitor&);
+    virtual void accept(Visitor&) override;
 };
 
 #endif //IKARUS_NUMERICEXPRESSION_HPP

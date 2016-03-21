@@ -7,9 +7,9 @@ class DivideExpression : public BinaryExpression {
 public:
     using BinaryExpression::BinaryExpression;
 
-    virtual DivideExpression* clone() const;
+    virtual DivideExpression* clone() const override;
 
-    virtual void accept(Visitor&);
+    virtual void accept(Visitor&) override;
 };
 
 #endif //IKARUS_DIVEXPRESSION_HPP

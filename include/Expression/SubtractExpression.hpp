@@ -7,9 +7,9 @@ class SubtractExpression : public BinaryExpression {
 public:
     using BinaryExpression::BinaryExpression;
 
-    virtual SubtractExpression* clone() const;
+    virtual SubtractExpression* clone() const override;
 
-    virtual void accept(Visitor&);
+    virtual void accept(Visitor&) override;
 };
 
 #endif //IKARUS_SUBEXPRESSION_HPP

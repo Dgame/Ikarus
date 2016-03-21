@@ -7,9 +7,9 @@ class AddExpression : public BinaryExpression {
 public:
     using BinaryExpression::BinaryExpression;
 
-    virtual AddExpression* clone() const;
+    virtual AddExpression* clone() const override;
 
-    virtual void accept(Visitor&);
+    virtual void accept(Visitor&) override;
 };
 
 #endif //IKARUS_INTEGEREXPRESSION_HPP

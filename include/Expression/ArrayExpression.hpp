@@ -25,9 +25,9 @@ public:
         return _values.size();
     }
 
-    virtual ArrayExpression* clone() const;
+    virtual ArrayExpression* clone() const override;
 
-    virtual void accept(Visitor&);
+    virtual void accept(Visitor&) override;
 };
 
 #endif //IKARUS_ARRAYEXPRESSION_HPP

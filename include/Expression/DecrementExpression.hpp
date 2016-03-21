@@ -7,9 +7,9 @@ class DecrementExpression : public UnaryExpression {
 public:
     using UnaryExpression::UnaryExpression;
 
-    virtual DecrementExpression* clone() const;
+    virtual DecrementExpression* clone() const override;
 
-    virtual void accept(Visitor&);
+    virtual void accept(Visitor&) override;
 };
 
 #endif //IKARUS_DECEXPRESSION_HPP

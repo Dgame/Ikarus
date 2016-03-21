@@ -28,7 +28,7 @@ public:
         return _right.get();
     }
 
-    virtual bool isAtomic() const {
+    virtual bool isAtomic() const override {
         return false;
     }
 };
