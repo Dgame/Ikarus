@@ -5,18 +5,23 @@
 
 namespace Backend {
     OpCode* Parser::parseOpCode(Lexer& lexer) {
-        const Token* tok = lexer.nextToken();
+        lexer.next();
+        const Token* tok = lexer.getToken();
 
         switch (tok->getType()) {
             case Token::AMPERSAND:
-                tok = lexer.nextToken();
-                enforce(tok->getType() == Token::INTEGER, "Expected INTEGER as Variable-ID, got ", tok->getType());
+                lexer.next();
+
+                tok = lexer.getToken();
+                enforce(tok->is(Token::INTEGER), "Expected INTEGER as Variable-ID, got ", tok->getType());
                 debug("VARIABLE ", tok->getInteger());
 
                 return new OpCode(OpCode::VARIABLE, new NumericExpression(tok->getInteger()));
             case Token::TILDE:
-                tok = lexer.nextToken();
-                enforce(tok->getType() == Token::INTEGER, "Expected INTEGER as Offset, got ", tok->getType());
+                lexer.next();
+
+                tok = lexer.getToken();
+                enforce(tok->is(Token::INTEGER), "Expected INTEGER as Offset, got ", tok->getType());
                 debug("OFFSET ", tok->getInteger());
 
                 return new OpCode(OpCode::OFFSET, new NumericExpression(tok->getInteger()));
@@ -44,39 +49,37 @@ namespace Backend {
             OpCode* opcode = this->parseOpCode(lexer);
             instruction->addOpCode(opcode);
 
-            if (lexer.nextToken()->getType() != Token::COMMA) {
+            if (lexer.next() != Token::COMMA) {
                 break;
             }
         }
     }
 
     void Parser::parse(Lexer& lexer) {
-        lexer.setIndex(0);
-
         while (true) {
             const Token* tok = lexer.getToken();
-            if (tok->getType() == Token::NONE)
+            if (tok->is(Token::NONE)) {
                 break;
+            }
 
-            enforce(tok->getType() == Token::IDENTIFIER, "Expected identifier");
+            enforce(tok->is(Token::IDENTIFIER), "Expected identifier");
 
-            const Token* id = tok;
-            debug("INSTRUCTION ", id->getIdentifier());
+            const std::string id = tok->getIdentifier();
+            debug("INSTRUCTION ", id);
 
-            Instruction* instruction = new Instruction(id->getIdentifier());
+            Instruction* instruction = new Instruction(id);
 
             switch (instruction->getType()) {
                 case Instruction::LABEL:
-                    if (lexer.nextToken()->getType() != Token::COLON)
-                        error("Expected ':' after label");
-                    else
-                        lexer.nextToken();
+                    enforce(lexer.next() == Token::COLON, "Expected ':' after label");
 
-                    _labels[id->getIdentifier()] = instruction->getId();
+                    lexer.next();
+
+                    _labels[id] = instruction->getId();
                     break;
                 case Instruction::EXIT:
                 case Instruction::RETURN:
-                    lexer.nextToken();
+                    lexer.next();
                     break;
                 default:
                     this->parseOperands(instruction, lexer);

@@ -71,7 +71,7 @@ int main() {
     vd6->accept(ev);
 #else
     try {
-        std::ifstream is("C:/Users/Bjarne/Documents/GitHub/Ikarus.git/math.ik");
+        std::ifstream is("C:/Users/Bjarne/Documents/GitHub/Ikarus.git/test.ik");
         if (!is.good())
             throw "Unable to open file";
         /*

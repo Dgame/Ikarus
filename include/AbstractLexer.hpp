@@ -8,42 +8,45 @@
 
 class AbstractLexer {
 protected:
-    std::vector<Token> _token;
-    size_t _index = 0;
+    std::unique_ptr<Token> _token;
 
     const char* _ptr = nullptr;
     const char* const _end = nullptr;
 
     void skipSpaces();
 
-    bool accept(char);
+    virtual void parseIdentifier();
 
-    void expect(char);
+    virtual void parseString();
 
-    bool isValid() const;
+    virtual void parseNumeric();
 
-    virtual void parsePrefix();
-
-    virtual void parseIdentifier(Token&);
-
-    virtual void parseString(Token&);
-
-    virtual void parseNumeric(Token&);
+    virtual void scan(Token*) = 0;
 
 public:
     explicit AbstractLexer(const char*, const char* const);
 
-    void setIndex(size_t index) {
-        _index = index;
+    bool isValid() const {
+        return _ptr <= _end && *_ptr != '\0';
     }
 
-    size_t getIndex() const {
-        return _index;
+    bool accept(char);
+
+    void expect(char);
+
+    Token* getToken() {
+        return _token.get();
     }
 
-    const Token* getToken() const;
-    const Token* nextToken();
-    const Token* accept(Token::Type);
+    Token* peek(Token*);
+
+    Token::Type peekNext();
+
+    Token::Type peekNext2();
+
+    Token::Type next();
+
+    bool accept(Token::Type);
     void expect(Token::Type);
 };
 

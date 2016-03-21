@@ -24,10 +24,6 @@ namespace Frontend {
     }
 
     void Parser::parseVarDecl(Lexer& lexer) {
-        const Token* tok = lexer.accept(Token::IDENTIFIER);
-        if (tok) {
-
-        }
     }
 
     Expression* Parser::parseExpr(Lexer& lexer) {
@@ -39,28 +35,20 @@ namespace Frontend {
         while (true) {
             if (lexer.accept(Token::PLUS)) {
                 Expression* rhs = this->parseTerm(lexer);
-                if (!rhs) {
-                    error("Expected factor after +");
-                    break;
-                }
-
+                enforce(rhs != nullptr, "Expected factor after +");
                 lhs = new AddExpression(lhs, rhs);
 
-                lexer.nextToken();
+                lexer.next();
 
                 continue;
             }
 
             if (lexer.accept(Token::MINUS)) {
                 Expression* rhs = this->parseTerm(lexer);
-                if (!rhs) {
-                    error("Expected factor after -");
-                    break;
-                }
-
+                enforce(rhs != nullptr, "Expected factor after -");
                 lhs = new SubtractExpression(rhs, lhs);
 
-                lexer.nextToken();
+                lexer.next();
 
                 continue;
             }
@@ -79,42 +67,30 @@ namespace Frontend {
         while (true) {
             if (lexer.accept(Token::MULTIPLY)) {
                 Expression* rhs = this->parseFactor(lexer);
-                if (!rhs) {
-                    error("Expected factor after *");
-                    break;
-                }
-
+                enforce(rhs != nullptr, "Expected factor after *");
                 lhs = new MultiplyExpression(lhs, rhs);
 
-                lexer.nextToken();
+                lexer.next();
 
                 continue;
             }
 
             if (lexer.accept(Token::DIVIDE)) {
                 Expression* rhs = this->parseFactor(lexer);
-                if (!rhs) {
-                    error("Expected factor after /");
-                    break;
-                }
-
+                enforce(rhs != nullptr, "Expected factor after /");
                 lhs = new DivideExpression(rhs, lhs);
 
-                lexer.nextToken();
+                lexer.next();
 
                 continue;
             }
 
             if (lexer.accept(Token::MODULO)) {
                 Expression* rhs = this->parseFactor(lexer);
-                if (!rhs) {
-                    error("Expected factor after %");
-                    break;
-                }
-
+                enforce(rhs != nullptr, "Expected factor after %");
                 lhs = new ModuloExpression(rhs, lhs);
 
-                lexer.nextToken();
+                lexer.next();
 
                 continue;
             }
@@ -138,29 +114,27 @@ namespace Frontend {
         }
 
         Expression* exp = nullptr;
-        const Token* tok = nullptr;
 
-        if ((tok = lexer.accept(Token::INTEGER)))
+        const Token* tok = lexer.getToken();
+        if (tok->is(Token::INTEGER)) {
             exp = new NumericExpression(tok->getInteger());
-        else if ((tok = lexer.accept(Token::DECIMAL)))
+            lexer.next();
+        } else if (tok->is(Token::DECIMAL)) {
             exp = new NumericExpression(tok->getDecimal());
-        else if (lexer.accept(Token::OPEN_CURLY)) {
+            lexer.next();
+        } else if (lexer.accept(Token::OPEN_CURLY)) {
             exp = this->parseExpr(lexer);
             lexer.expect(Token::CLOSE_CURLY);
         }
 
         if (op_not) {
-            if (!exp)
-                error("Nothing that can be noted");
-            else
-                exp = new NotExpression(exp);
+            enforce(exp != nullptr, "Nothing that can be noted");
+            exp = new NotExpression(exp);
         }
 
         if (op_neg) {
-            if (!exp)
-                error("Nothing that can be negated");
-            else
-                exp = new NegateExpression(exp);
+            enforce(exp != nullptr, "Nothing that can be negated");
+            exp = new NegateExpression(exp);
         }
 
         return exp;

@@ -2,74 +2,61 @@
 #include "util.hpp"
 
 namespace Frontend {
-    bool Lexer::parse(Token& token) {
-        this->skipSpaces();
-
-        if (!this->isValid()) {
-            return false;
-        }
-
+    void Lexer::scan(Token* tok) {
         if (this->accept('=')) {
-            token.setType(Token::ASSIGN);
+            tok->setType(Token::ASSIGN);
         } else if (this->accept('+')) {
             if (this->accept('+')) {
-                token.setType(Token::INCREMENT);
+                tok->setType(Token::INCREMENT);
             } else {
-                token.setType(Token::PLUS);
+                tok->setType(Token::PLUS);
             }
         } else if (this->accept('-')) {
             if (this->accept('-')) {
-                token.setType(Token::DECREMENT);
+                tok->setType(Token::DECREMENT);
             } else {
-                token.setType(Token::MINUS);
+                tok->setType(Token::MINUS);
             }
         } else if (this->accept('*')) {
             if (this->accept('*')) {
-                token.setType(Token::POWER);
+                tok->setType(Token::POWER);
             } else {
-                token.setType(Token::MULTIPLY);
+                tok->setType(Token::MULTIPLY);
             }
         } else if (this->accept('/')) {
-            token.setType(Token::DIVIDE);
+            tok->setType(Token::DIVIDE);
         } else if (this->accept('%')) {
-            token.setType(Token::MODULO);
+            tok->setType(Token::MODULO);
         } else if (this->accept('(')) {
-            token.setType(Token::OPEN_PAREN);
+            tok->setType(Token::OPEN_PAREN);
         } else if (this->accept(')')) {
-            token.setType(Token::CLOSE_PAREN);
+            tok->setType(Token::CLOSE_PAREN);
         } else if (this->accept('[')) {
-            token.setType(Token::OPEN_BRACKET);
+            tok->setType(Token::OPEN_BRACKET);
         } else if (this->accept(']')) {
-            token.setType(Token::CLOSE_BRACKET);
+            tok->setType(Token::CLOSE_BRACKET);
         } else if (this->accept('{')) {
-            token.setType(Token::OPEN_CURLY);
+            tok->setType(Token::OPEN_CURLY);
         } else if (this->accept('}')) {
-            token.setType(Token::CLOSE_CURLY);
+            tok->setType(Token::CLOSE_CURLY);
+        } else if (this->accept('!')) {
+            tok->setType(Token::NOT);
+        } else if (this->accept('?')) {
+            tok->setType(Token::QUERY);
         } else if (*_ptr == '"') {
-            this->parseString(token);
+            this->parseString();
         } else if (std::isalpha(*_ptr)) {
-            this->parseIdentifier(token);
+            this->parseIdentifier();
         } else if (std::isdigit(*_ptr)) {
             debug("found numeric");
 
-            this->parseNumeric(token);
+            this->parseNumeric();
         } else {
-            error("Unexpected Token ", *_ptr, _ptr);
+            tok->setType(Token::NONE);
         }
-
-        return token.getType() != Token::NONE;
     }
 
     Lexer::Lexer(const char* pos, const char* const end) : AbstractLexer(pos, end) {
-        debug("---- LEXER START ----");
-
-        while (this->isValid()) {
-            Token token;
-            if (this->parse(token)) {
-                _token.push_back(token);
-            }
-        }
-
-        debug("---- LEXER FINISHED ----");
+        this->next();
     }
 }

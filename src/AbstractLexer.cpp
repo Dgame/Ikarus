@@ -25,34 +25,7 @@ void AbstractLexer::expect(char c) {
     }
 }
 
-bool AbstractLexer::isValid() const {
-    return _ptr <= _end && *_ptr != '\0';
-}
-
-void AbstractLexer::parsePrefix() {
-    bool op_not = false;
-    bool op_neg = false;
-
-    while (this->isValid()) {
-        if (this->accept('!')) {
-            op_not = !op_not;
-        } else if (this->accept('-')) {
-            op_neg = !op_neg;
-        } else {
-            break;
-        }
-    }
-
-    if (op_not) {
-        _token.push_back(Token(Token::NOT));
-    }
-
-    if (op_not) {
-        _token.push_back(Token(Token::NEGATE));
-    }
-}
-
-void AbstractLexer::parseString(Token& token) {
+void AbstractLexer::parseString() {
     this->expect('"');
 
     std::string str;
@@ -62,10 +35,10 @@ void AbstractLexer::parseString(Token& token) {
         _ptr++;
     }
 
-    token.setString(str);
+    _token->setString(str);
 }
 
-void AbstractLexer::parseIdentifier(Token& token) {
+void AbstractLexer::parseIdentifier() {
     std::string str;
     str.reserve(8);
 
@@ -79,13 +52,10 @@ void AbstractLexer::parseIdentifier(Token& token) {
         _ptr++;
     }
 
-    token.setIdentifier(str);
+    _token->setIdentifier(str);
 }
 
-void AbstractLexer::parseNumeric(Token& token) {
-    this->parsePrefix();
-    this->skipSpaces();
-
+void AbstractLexer::parseNumeric() {
     enforce(std::isdigit(*_ptr), "Expected number");
 
     i32_t value = 0;
@@ -108,45 +78,62 @@ void AbstractLexer::parseNumeric(Token& token) {
             _ptr++;
         }
 
-        token.setDecimal(value + (dec / pot));
+        _token->setDecimal(value + (dec / pot));
 
-        debug("Found decimal ", token.getDecimal());
+        debug("Found decimal ", _token->getDecimal());
     } else {
-        token.setInteger(value);
+        _token->setInteger(value);
 
-        debug("Found integer ", token.getInteger());
+        debug("Found integer ", _token->getInteger());
     }
 }
 
-AbstractLexer::AbstractLexer(const char* pos, const char* const end) : _ptr(pos), _end(end) { }
+AbstractLexer::AbstractLexer(const char* pos, const char* const end) : _ptr(pos), _end(end), _token(new Token()) { }
 
-const Token* AbstractLexer::getToken() const {
-    static Token Invalid;
-
-    if (_index >= _token.size()) {
-        return &Invalid;
+Token* AbstractLexer::peek(Token* tok) {
+    Token* result = nullptr;
+    if (tok->next) {
+        result = tok->next.get();
+    } else {
+        result = new Token();
+        this->scan(result);
+        tok->next.reset(result);
     }
 
-    return &_token.at(_index);
+    return result;
 }
 
-const Token* AbstractLexer::nextToken() {
-    if (_index < _token.size()) {
-        _index++;
-    }
-
-    return this->getToken();
+Token::Type AbstractLexer::peekNext() {
+    Token* tok = this->getToken();
+    return this->peek(tok)->getType();
 }
 
-const Token* AbstractLexer::accept(Token::Type type) {
-    const Token* tok = this->getToken();
-    if (tok->is(type)) {
-        this->nextToken();
+Token::Type AbstractLexer::peekNext2() {
+    Token* tok = this->getToken();
+    tok = this->peek(tok);
 
-        return tok;
+    return this->peek(tok)->getType();
+}
+
+Token::Type AbstractLexer::next() {
+    if (_token->next) {
+        _token.swap(_token->next);
+    } else {
+        Token* tok = this->getToken();
+        this->scan(tok);
     }
 
-    return nullptr;
+    return _token->getType();
+}
+
+bool AbstractLexer::accept(Token::Type type) {
+    if (this->getToken()->is(type)) {
+        this->next();
+
+        return true;
+    }
+
+    return false;
 }
 
 void AbstractLexer::expect(Token::Type type) {

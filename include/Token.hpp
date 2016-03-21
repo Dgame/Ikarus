@@ -3,6 +3,7 @@
 
 #include "types.hpp"
 #include <string>
+#include <memory>
 
 class Token {
 public:
@@ -20,6 +21,7 @@ public:
         ASSIGN,
         DOT,
         NOT,
+        QUERY,
         NEGATE,
         PLUS,
         MINUS,
@@ -34,7 +36,7 @@ public:
         OPEN_BRACKET,
         CLOSE_BRACKET,
         OPEN_PAREN,
-        CLOSE_PAREN,
+        CLOSE_PAREN
     };
 
 private:
@@ -48,6 +50,8 @@ private:
     };
 
 public:
+    std::unique_ptr<Token> next;
+
     Token() = default;
     explicit Token(Type);
 

@@ -5,8 +5,8 @@
 
 namespace Frontend {
     class Lexer : public AbstractLexer {
-    private:
-        bool parse(Token&);
+    protected:
+        virtual void scan(Token*) override;
 
     public:
         explicit Lexer(const char*, const char* const);
