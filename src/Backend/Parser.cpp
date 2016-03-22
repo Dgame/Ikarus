@@ -6,7 +6,7 @@
 namespace Backend {
     OpCode* Parser::parseOpCode(Lexer& lexer) {
         lexer.next();
-        const Token* tok = lexer.getToken();
+        auto tok = lexer.getToken();
 
         switch (tok->getType()) {
             case Token::AMPERSAND:
@@ -57,14 +57,14 @@ namespace Backend {
 
     void Parser::parse(Lexer& lexer) {
         while (true) {
-            const Token* tok = lexer.getToken();
+            auto tok = lexer.getToken();
             if (tok->is(Token::NONE)) {
                 break;
             }
 
             enforce(tok->is(Token::IDENTIFIER), "Expected identifier");
 
-            const std::string id = tok->getIdentifier();
+            auto id = tok->getIdentifier();
             debug("INSTRUCTION ", id);
 
             Instruction* instruction = new Instruction(id);

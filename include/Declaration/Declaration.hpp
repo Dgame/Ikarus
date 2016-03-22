@@ -13,6 +13,9 @@ private:
     size_t _id = 0;
     std::unique_ptr<Expression> _expr;
 
+protected:
+    explicit Declaration(size_t, Expression*);
+
 public:
     explicit Declaration(Expression*);
 
@@ -27,6 +30,8 @@ public:
     const Expression* getExpression() const {
         return _expr.get();
     }
+
+    virtual Declaration* child(Expression*) const = 0;
 };
 
 #endif //IKARUS_DECLARATION_HPP

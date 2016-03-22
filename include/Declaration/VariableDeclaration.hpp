@@ -10,6 +10,8 @@ private:
     std::string _name;
     u32_t _stc = StorageClass.MUTABLE;
 
+    explicit VariableDeclaration(const std::string&, size_t, Expression*);
+
 public:
     explicit VariableDeclaration(const std::string&, Expression*);
 
@@ -38,6 +40,7 @@ public:
     }
 
     virtual void accept(EvalVisitor&) override;
+    virtual VariableDeclaration* child(Expression*) const override;
 };
 
 #endif //IKARUS_VARIABLEDECLARATION_HPP

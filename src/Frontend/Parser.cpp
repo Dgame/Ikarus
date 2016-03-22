@@ -30,7 +30,7 @@ namespace Frontend {
     }
 
     void Parser::parseIdentifier(Lexer& lexer) {
-        const Token* tok = lexer.getToken();
+        auto tok = lexer.getToken();
         enforce(tok->is(Token::IDENTIFIER), "Should be an identifier");
 
         const std::string& id = tok->getIdentifier();
@@ -86,7 +86,7 @@ namespace Frontend {
         lexer.expect(Token::ASSIGN);
 
         auto exp = this->parseExpression(lexer);
-        auto vd = new VariableDeclaration(id, exp);
+        auto vd = vde->child(exp);
         _scope->addVariable(vd);
     }
 
