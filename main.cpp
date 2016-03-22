@@ -1,23 +1,57 @@
-#define EVAL false
-
-#if !EVAL
+#define EVAL 2
 
 #include <fstream>
+
+#if EVAL == 0
+
 #include "Backend/Interpreter.hpp"
 
 using Backend::Interpreter;
-
-#else
+#elif EVAL == 1
 #include "VariableDeclaration.hpp"
 #include "NumericExpression.hpp"
 #include "ArrayExpression.hpp"
 #include "AddExpression.hpp"
 #include "MultiplyExpression.hpp"
 #include "EvalVisitor.hpp"
+#else
+
+#include "Frontend/Parser.hpp"
+#include "types.hpp"
+#include "util.hpp"
+
+using Frontend::Parser;
 #endif
 
 int main() {
-#if EVAL
+#if EVAL == 2
+    try {
+        std::ifstream is("C:/Users/Bjarne/Documents/GitHub/Ikarus.git/main.ik");
+        if (!is.good())
+            throw "Unable to open file";
+        /*
+         * Get the size of the file
+         */
+        is.seekg(0, std::ios::end);
+        auto len = static_cast<i32_t>(is.tellg());
+        if (len <= 0)
+            throw "Empty file";
+
+        const u32_t size = static_cast<u32_t>(len);
+
+        is.seekg(0, std::ios::beg);
+        /*
+         * Read the whole file into the buffer.
+         */
+        std::vector<char> buffer(size);
+        is.read(&buffer[0], size);
+
+        Parser parser(&buffer.front(), &buffer.back());
+        parser.eval(std::cout);
+    } catch (const char* msg) {
+        writeln(msg);
+    }
+#elif EVAL == 1
     NumericExpression* ne1 = new NumericExpression(42);
     std::unique_ptr<VariableDeclaration> vd1(new VariableDeclaration("a", ne1));
 

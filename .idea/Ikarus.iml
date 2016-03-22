@@ -30,13 +30,18 @@
       <sourceFolder url="file://$MODULE_DIR$/src/Frontend/Parser.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Frontend/Scope.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Frontend/Lexer.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Frontend/Keyword.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Token.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Backend/Lexer.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Backend/OpCode.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Backend/Instruction.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Backend/Interpreter.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Backend/Parser.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Visitor/OutputVisitor.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Visitor/EvalVisitor.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Visitor/RevelationVisitor.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Visitor/MathVisitor.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Visitor/Visitor.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Token.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/types.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Visitable.hpp" isTestSource="false" />
@@ -56,23 +61,18 @@
       <sourceFolder url="file://$MODULE_DIR$/include/Expression/MultiplyExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Expression/SubtractExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Expression/AddExpression.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Visitor/OutputVisitor.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Visitor/EvalVisitor.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Visitor/RevelationVisitor.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Visitor/MathVisitor.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Visitor/Visitor.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Frontend/Evaluable.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Frontend/Keyword.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Frontend/Lexer.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Frontend/Scope.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Frontend/Evaluable.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Frontend/Lexer.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Frontend/Keyword.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Frontend/Parser.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Frontend/Keyword.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Declaration/VariableDeclaration.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Declaration/Declaration.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/StorageClass.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/unique.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/NullExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/AbstractLexer.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />

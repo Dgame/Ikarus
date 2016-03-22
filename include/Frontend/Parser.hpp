@@ -31,6 +31,8 @@ namespace Frontend {
 
     public:
         explicit Parser(const char*, const char* const);
+
+        void eval(std::ostream&);
     };
 }
 

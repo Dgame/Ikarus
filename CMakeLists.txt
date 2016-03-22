@@ -70,7 +70,7 @@ set(SOURCE_FILES
         src/Frontend/Scope.cpp
         include/Frontend/Scope.hpp
         src/Frontend/Lexer.cpp
-        include/Frontend/Lexer.hpp src/Frontend/Parser.cpp include/Frontend/Parser.hpp)
+        include/Frontend/Lexer.hpp src/Frontend/Parser.cpp include/Frontend/Parser.hpp src/Frontend/Keyword.cpp include/Frontend/Keyword.hpp)
 
 include_directories("include")
 include_directories("include/Expression")

@@ -24,9 +24,16 @@ namespace Frontend {
     }
 
     void Parser::parse(Lexer& lexer) {
-        if (lexer.peekNext() == Token::IDENTIFIER) {
-            this->parseIdentifier(lexer);
-        }
+        const Token* tok = nullptr;
+        do {
+            tok = lexer.getToken();
+            if (tok->is(Token::IDENTIFIER)) {
+                this->parseIdentifier(lexer);
+            } else {
+                error("Not implemented");
+                break;
+            }
+        } while (!tok->is(Token::NONE));
     }
 
     void Parser::parseIdentifier(Lexer& lexer) {
@@ -102,8 +109,6 @@ namespace Frontend {
                 enforce(rhs != nullptr, "Expected factor after +");
                 lhs = new AddExpression(lhs, rhs);
 
-                lexer.next();
-
                 continue;
             }
 
@@ -111,8 +116,6 @@ namespace Frontend {
                 Expression* rhs = this->parseTerm(lexer);
                 enforce(rhs != nullptr, "Expected factor after -");
                 lhs = new SubtractExpression(rhs, lhs);
-
-                lexer.next();
 
                 continue;
             }
@@ -134,8 +137,6 @@ namespace Frontend {
                 enforce(rhs != nullptr, "Expected factor after *");
                 lhs = new MultiplyExpression(lhs, rhs);
 
-                lexer.next();
-
                 continue;
             }
 
@@ -144,8 +145,6 @@ namespace Frontend {
                 enforce(rhs != nullptr, "Expected factor after /");
                 lhs = new DivideExpression(rhs, lhs);
 
-                lexer.next();
-
                 continue;
             }
 
@@ -153,8 +152,6 @@ namespace Frontend {
                 Expression* rhs = this->parseFactor(lexer);
                 enforce(rhs != nullptr, "Expected factor after %");
                 lhs = new ModuloExpression(rhs, lhs);
-
-                lexer.next();
 
                 continue;
             }
@@ -209,5 +206,11 @@ namespace Frontend {
 
         this->pushScope();
         this->parse(lexer);
+    }
+
+    void Parser::eval(std::ostream& out) {
+        for (auto& scope : _scopes) {
+            scope->eval(out);
+        }
     }
 }
