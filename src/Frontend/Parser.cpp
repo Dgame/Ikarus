@@ -9,7 +9,7 @@
 #include "NegateExpression.hpp"
 #include "NotExpression.hpp"
 #include "ArrayExpression.hpp"
-#include "VariableDeclaration.hpp"
+#include "IndexAssignExpression.hpp"
 #include "Frontend/Keyword.hpp"
 
 namespace Frontend {
@@ -30,7 +30,7 @@ namespace Frontend {
             if (tok->is(Token::IDENTIFIER)) {
                 this->parseIdentifier();
             } else {
-                error("Not implemented");
+                error("#1 Not implemented");
                 break;
             }
         } while (!tok->is(Token::NONE));
@@ -46,15 +46,15 @@ namespace Frontend {
                 case Token::IF:
                 case Token::ELSE:
                 case Token::FUNCTION:
-                    error("Not implemented");
                 case Token::WHILE:
-                    this->parseWhile();
+//                    this->parseWhile();
+                    error("#2 Not implemented");
                     break;
                 default:
                     this->parseVarDeclaration();
             }
         } else {
-            error("Unexpected identifier");
+            this->parseVarDeclaration();
         }
     }
 
@@ -62,7 +62,7 @@ namespace Frontend {
         auto tok = _lexer.getToken();
         enforce(tok->is(Token::IDENTIFIER), "Should be an identifier");
 
-
+        // TODO: implement
     }
 
     void Parser::parseVarDeclaration() {
@@ -98,11 +98,29 @@ namespace Frontend {
         enforce(!vde->isConst(), "Variable ", id, " is const");
 
         _lexer.next();
+
+        Expression* index = nullptr;
+        if (_lexer.getToken()->is(Token::OPEN_BRACKET)) {
+            index = this->parseIndexExpression();
+        }
+
         _lexer.expect(Token::ASSIGN);
 
         auto exp = this->parseExpression();
+        if (index != nullptr) {
+            exp = new IndexAssignExpression(vde, index, exp);
+        }
+
         auto vd = vde->child(exp);
         _scope->addVariable(vd);
+    }
+
+    Expression* Parser::parseIndexExpression() {
+        _lexer.expect(Token::OPEN_BRACKET);
+        Expression* exp = this->parseExpression();
+        _lexer.expect(Token::CLOSE_BRACKET);
+
+        return exp;
     }
 
     Expression* Parser::parseArrayExpression() {
@@ -214,9 +232,15 @@ namespace Frontend {
         } else if (tok->is(Token::DECIMAL)) {
             exp = new NumericExpression(tok->getDecimal());
             _lexer.next();
-        } else if (_lexer.accept(Token::OPEN_CURLY)) {
+        } else if (_lexer.accept(Token::OPEN_PAREN)) {
             exp = this->parseExpression();
-            _lexer.expect(Token::CLOSE_CURLY);
+            _lexer.expect(Token::CLOSE_PAREN);
+        } else if (_lexer.getToken()->is(Token::IDENTIFIER)) {
+            const std::string& id = _lexer.getToken()->getIdentifier();
+            _lexer.next();
+
+            auto vde = _scope->findVariable(id);
+            exp = new VariableExpression(vde);
         }
 
         if (op_not) {
@@ -228,6 +252,8 @@ namespace Frontend {
             enforce(exp != nullptr, "Nothing that can be negated");
             exp = new NegateExpression(exp);
         }
+
+        enforce(exp != nullptr, "No Expression found");
 
         return exp;
     }

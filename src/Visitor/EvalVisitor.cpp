@@ -3,7 +3,8 @@
 #include "ArrayExpression.hpp"
 #include "AddExpression.hpp"
 #include "MultiplyExpression.hpp"
-#include "VariableDeclaration.hpp"
+#include "VariableExpression.hpp"
+#include "IndexAssignExpression.hpp"
 
 EvalVisitor::EvalVisitor(std::ostream& out) : _out(out) { }
 
@@ -46,6 +47,42 @@ void EvalVisitor::visit(AddExpression* exp) {
     this->math("add", exp);
 }
 
+void EvalVisitor::visit(VariableExpression* exp) {
+    _out << '&' << exp->getVariableDeclaration()->getId();
+}
+
+void EvalVisitor::visit(IndexAssignExpression* exp) {
+    const u32_t state = _state;
+    _state &= ~VARIABLE;
+
+    auto index = exp->getIndexExpression();
+
+    if (index->isAtomic()) {
+        _out << "set_index ";
+    }
+
+    index->accept(*this);
+
+    if (!index->isAtomic()) {
+        _out << "set_index ~" << _stack_offset;
+    }
+    _out << std::endl;
+
+    auto value = exp->getValueExpression();
+    if (value->isAtomic()) {
+        _out << "emplace &" << exp->getVariableDeclaration()->getId() << ", ";
+    }
+
+    value->accept(*this);
+
+    if (!value->isAtomic()) {
+        _out << "emplace &" << exp->getVariableDeclaration()->getId() << ", ~" << _stack_offset;
+    }
+    _out << std::endl;
+
+    _state = state;
+}
+
 void EvalVisitor::visit(NumericExpression* exp) {
     if (_state & VARIABLE) {
         _state &= ~VARIABLE;
@@ -66,7 +103,7 @@ void EvalVisitor::visit(ArrayExpression* exp) {
             _out << std::endl;
         }
     } else {
-        error("Not implemented");
+        error("#3 Not implemented");
     }
 }
 

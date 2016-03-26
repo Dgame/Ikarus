@@ -24,7 +24,7 @@ public:
     void addVariable(VariableDeclaration*);
     void add(Evaluable*);
 
-    const VariableDeclaration* findVariable(const std::string&);
+    VariableDeclaration* findVariable(const std::string&);
 
     void eval(std::ostream&);
 };

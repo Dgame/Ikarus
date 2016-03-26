@@ -13,18 +13,18 @@ public:
         return _value;
     }
 
-    virtual void visit(NumericExpression*) override;
+    void visit(NumericExpression*) override;
 
-    virtual void visit(NotExpression*) override;
-    virtual void visit(NegateExpression*) override;
+    void visit(NotExpression*) override;
+    void visit(NegateExpression*) override;
 
-    virtual void visit(AddExpression*) override;
-    virtual void visit(SubtractExpression*) override;
-    virtual void visit(MultiplyExpression*) override;
-    virtual void visit(DivideExpression*) override;
-    virtual void visit(ModuloExpression*) override;
-    virtual void visit(IncrementExpression*) override;
-    virtual void visit(DecrementExpression*) override;
+    void visit(AddExpression*) override;
+    void visit(SubtractExpression*) override;
+    void visit(MultiplyExpression*) override;
+    void visit(DivideExpression*) override;
+    void visit(ModuloExpression*) override;
+    void visit(IncrementExpression*) override;
+    void visit(DecrementExpression*) override;
 };
 
 #endif //IKARUS_MATHVISITOR_HPP

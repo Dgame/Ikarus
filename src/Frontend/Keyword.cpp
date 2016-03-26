@@ -3,8 +3,8 @@
 
 namespace {
     const std::map<std::string, Token::Type> Keywords = {
-            {"let",      Token::MUTABLE},
-            {"var",      Token::IMMUTABLE},
+            {"let",      Token::IMMUTABLE},
+            {"var",      Token::MUTABLE},
             {"function", Token::FUNCTION},
             {"if",       Token::IF},
             {"else",     Token::ELSE}

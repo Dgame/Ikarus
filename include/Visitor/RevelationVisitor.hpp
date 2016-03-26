@@ -9,7 +9,7 @@ private:
     T* _exp = nullptr;
 
 public:
-    virtual void visit(T* exp) override {
+    void visit(T* exp) override {
         _exp = exp;
     }
 

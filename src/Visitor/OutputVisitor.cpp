@@ -22,7 +22,10 @@ void OutputVisitor::visit(ArrayExpression* exp) {
         } else {
             _out << "NULL";
         }
-        _out << ',';
+
+        if ((i + 1) < exp->getAmount()) {
+            _out << ", ";
+        }
     }
     _out << ']';
 }

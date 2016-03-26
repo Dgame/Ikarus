@@ -1,24 +1,19 @@
 #ifndef IKARUS_INDEXASSIGNEXPRESSION_HPP
 #define IKARUS_INDEXASSIGNEXPRESSION_HPP
 
-#include "Expression.hpp"
+#include "VariableExpression.hpp"
 #include <memory>
 
-class IndexAssignExpression : public Expression {
+class IndexAssignExpression : public VariableExpression {
 private:
     std::unique_ptr<Expression> _index;
     std::unique_ptr<Expression> _value;
-    ArrayExpression* _array;
 
 public:
-    explicit IndexAssignExpression(ArrayExpression*, Expression*, Expression*);
+    explicit IndexAssignExpression(VariableDeclaration*, Expression*, Expression*);
 
     IndexAssignExpression* clone() const override {
-        return new IndexAssignExpression(_array, _index->clone(), _value->clone());
-    }
-
-    ArrayExpression* getArrayExpression() const {
-        return _array;
+        return new IndexAssignExpression(this->getVariableDeclaration(), _index->clone(), _value->clone());
     }
 
     Expression* getIndexExpression() {

@@ -66,7 +66,7 @@ set(SOURCE_FILES
         src/Frontend/Keyword.cpp
         include/Frontend/Keyword.hpp
         include/Expression/BoolExpression.hpp
-        include/Expression/LowerExpression.hpp include/Expression/GreaterExpression.hpp include/Expression/LowerEqualExpression.hpp include/Expression/GreaterEqualExpression.hpp include/Expression/EqualExpression.hpp include/Expression/NotEqualExpression.hpp include/Expression/IndexAccessExpression.hpp src/Expression/IndexAssignExpression.cpp include/Expression/IndexAssignExpression.hpp src/Expression/IndexAccessExpression.cpp)
+        include/Expression/LowerExpression.hpp include/Expression/GreaterExpression.hpp include/Expression/LowerEqualExpression.hpp include/Expression/GreaterEqualExpression.hpp include/Expression/EqualExpression.hpp include/Expression/NotEqualExpression.hpp include/Expression/IndexAccessExpression.hpp src/Expression/IndexAssignExpression.cpp include/Expression/IndexAssignExpression.hpp src/Expression/IndexAccessExpression.cpp include/Expression/VariableExpression.hpp)
 
 include_directories("include")
 include_directories("include/Expression")

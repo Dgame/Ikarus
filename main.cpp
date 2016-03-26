@@ -1,4 +1,8 @@
-#define EVAL 2
+#define COMPILE 2
+#define TEST 1
+#define INTERPRET 0
+
+#define EVAL INTERPRET
 
 #include <fstream>
 
@@ -17,7 +21,6 @@ using Backend::Interpreter;
 #else
 
 #include "Frontend/Parser.hpp"
-#include "util.hpp"
 
 using Frontend::Parser;
 #endif
@@ -104,7 +107,7 @@ int main() {
     vd6->accept(ev);
 #else
     try {
-        std::ifstream is("C:/Users/Bjarne/Documents/GitHub/Ikarus.git/test.ik");
+        std::ifstream is("C:/Users/Bjarne/Documents/GitHub/Ikarus.git/test_main.ik");
         if (!is.good())
             throw "Unable to open file";
         /*

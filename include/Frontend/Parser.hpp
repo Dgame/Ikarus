@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <memory>
+#include <Expression/Expression.hpp>
 #include "Frontend/Scope.hpp"
 #include "Frontend/Lexer.hpp"
 
@@ -26,6 +27,7 @@ namespace Frontend {
         void assignNewVariable(const std::string&);
         void assignExistingVariable(const std::string&);
 
+        Expression* parseIndexExpression();
         Expression* parseArrayExpression();
         Expression* parseExpression();
         Expression* parseTerm();

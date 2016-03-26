@@ -49,6 +49,7 @@
       <sourceFolder url="file://$MODULE_DIR$/include/Expression/StringExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Expression/LowerEqualExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Expression/UnaryExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/VariableExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Expression/NotExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Expression/NumericExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Expression/ArrayExpression.hpp" isTestSource="false" />

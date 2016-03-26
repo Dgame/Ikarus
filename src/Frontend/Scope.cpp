@@ -14,7 +14,7 @@ void Scope::add(Evaluable* e) {
     _evals.emplace_back(e);
 }
 
-const VariableDeclaration* Scope::findVariable(const std::string& name) {
+VariableDeclaration* Scope::findVariable(const std::string& name) {
     auto it = _variables.find(name);
     if (it != _variables.end()) {
         return it->second;

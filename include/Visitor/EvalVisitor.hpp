@@ -2,6 +2,7 @@
 #define IKARUS_EVALVISITOR_HPP
 
 #include <iostream>
+#include <Expression/VariableExpression.hpp>
 #include "types.hpp"
 #include "Visitor.hpp"
 
@@ -27,11 +28,15 @@ private:
 public:
     explicit EvalVisitor(std::ostream&);
 
-    virtual void visit(MultiplyExpression*) override;
-    virtual void visit(AddExpression*) override;
-    virtual void visit(NumericExpression*) override;
-    virtual void visit(ArrayExpression*) override;
-    virtual void visit(VariableDeclaration*) override;
+    void visit(MultiplyExpression*) override;
+    void visit(AddExpression*) override;
+
+    void visit(VariableExpression*) override;
+    void visit(IndexAssignExpression*) override;
+
+    void visit(NumericExpression*) override;
+    void visit(ArrayExpression*) override;
+    void visit(VariableDeclaration*) override;
 };
 
 #endif //IKARUS_EVALVISITOR_HPP

@@ -28,6 +28,8 @@ class GreaterEqualExpression;
 class EqualExpression;
 class NotEqualExpression;
 
+class VariableExpression;
+
 class VariableDeclaration;
 class OffsetDeclaration;
 class ValueDeclaration;
@@ -60,6 +62,8 @@ public:
     virtual void visit(GreaterEqualExpression*) { }
     virtual void visit(EqualExpression*) { }
     virtual void visit(NotEqualExpression*) { }
+
+    virtual void visit(VariableExpression*) { }
 
     virtual void visit(VariableDeclaration*) { }
     virtual void visit(OffsetDeclaration*) { }

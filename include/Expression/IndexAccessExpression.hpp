@@ -1,23 +1,18 @@
 #ifndef IKARUS_INDEXACCESSEXPRESSION_HPP
 #define IKARUS_INDEXACCESSEXPRESSION_HPP
 
-#include "Expression.hpp"
+#include "VariableExpression.hpp"
 #include <memory>
 
-class IndexAccessExpression : public Expression {
+class IndexAccessExpression : public VariableExpression {
 private:
     std::unique_ptr<Expression> _index;
-    ArrayExpression* _array;
 
 public:
-    explicit IndexAccessExpression(ArrayExpression*, Expression*);
+    explicit IndexAccessExpression(VariableDeclaration*, Expression*);
 
     IndexAccessExpression* clone() const override {
-        return new IndexAccessExpression(_array, _index->clone());
-    }
-
-    ArrayExpression* getArrayExpression() const {
-        return _array;
+        return new IndexAccessExpression(this->getVariableDeclaration(), _index->clone());
     }
 
     Expression* getIndexExpression() {

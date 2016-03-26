@@ -1,3 +1,5 @@
 #include "IndexAccessExpression.hpp"
 
-IndexAccessExpression::IndexAccessExpression(ArrayExpression* array, Expression* index) : _array(array), _index(index) { }
+IndexAccessExpression::IndexAccessExpression(VariableDeclaration* var, Expression* index) : VariableExpression(var), _index(index) {
+    var->getExpression()->is<ArrayExpression>().ensure("Need ArrayExpression for index access");
+}

@@ -12,9 +12,9 @@ private:
 public:
     explicit OutputVisitor(std::ostream&);
 
-    virtual void visit(StringExpression*) override;
-    virtual void visit(NumericExpression*) override;
-    virtual void visit(ArrayExpression*) override;
+    void visit(StringExpression*) override;
+    void visit(NumericExpression*) override;
+    void visit(ArrayExpression*) override;
 };
 
 class Expression;
