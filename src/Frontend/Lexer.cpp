@@ -43,6 +43,12 @@ namespace Frontend {
             tok->setType(Token::NOT);
         } else if (this->accept('?')) {
             tok->setType(Token::QUERY);
+        } else if (this->accept(',')) {
+            tok->setType(Token::COMMA);
+        } else if (this->accept(':')) {
+            tok->setType(Token::COLON);
+        } else if (this->accept(';')) {
+            tok->setType(Token::SEMICOLON);
         } else if (*_ptr == '"') {
             this->parseString();
         } else if (std::isalpha(*_ptr)) {

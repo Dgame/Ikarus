@@ -138,6 +138,6 @@ bool AbstractLexer::accept(Token::Type type) {
 
 void AbstractLexer::expect(Token::Type type) {
     if (!this->accept(type)) {
-        error("Unexpected Token");
+        error("Unexpected Token '", this->getToken()->asString(), "'. Expected '", Token::AsString(type), "'");
     }
 }

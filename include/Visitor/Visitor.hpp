@@ -17,6 +17,17 @@ class ArrayExpression;
 class VarExpression;
 class OffsetExpression;
 
+class BoolExpression;
+class CastExpression;
+class IndexAccessExpression;
+class IndexAssignExpression;
+class LowerExpression;
+class GreaterExpression;
+class LowerEqualExpression;
+class GreaterEqualExpression;
+class EqualExpression;
+class NotEqualExpression;
+
 class VariableDeclaration;
 class OffsetDeclaration;
 class ValueDeclaration;
@@ -38,6 +49,17 @@ public:
     virtual void visit(ArrayExpression*) { }
     virtual void visit(VarExpression*) { }
     virtual void visit(OffsetExpression*) { }
+
+    virtual void visit(BoolExpression*) { }
+    virtual void visit(CastExpression*) { }
+    virtual void visit(IndexAccessExpression*) { }
+    virtual void visit(IndexAssignExpression*) { }
+    virtual void visit(LowerExpression*) { }
+    virtual void visit(GreaterExpression*) { }
+    virtual void visit(LowerEqualExpression*) { }
+    virtual void visit(GreaterEqualExpression*) { }
+    virtual void visit(EqualExpression*) { }
+    virtual void visit(NotEqualExpression*) { }
 
     virtual void visit(VariableDeclaration*) { }
     virtual void visit(OffsetDeclaration*) { }

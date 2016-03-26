@@ -1,5 +1,4 @@
 #include "ArrayExpression.hpp"
-#include "Visitor.hpp"
 
 void ArrayExpression::emplace(u32_t index, Expression* exp) {
     if (index >= this->getAmount()) {
@@ -19,8 +18,4 @@ ArrayExpression* ArrayExpression::clone() const {
     }
 
     return ae;
-}
-
-void ArrayExpression::accept(Visitor& v) {
-    v.visit(this);
 }

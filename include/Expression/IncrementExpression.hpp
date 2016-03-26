@@ -1,5 +1,5 @@
-#ifndef IKARUS_INCEXPRESSION_HPP
-#define IKARUS_INCEXPRESSION_HPP
+#ifndef IKARUS_INC_EXPRESSION_HPP
+#define IKARUS_INC_EXPRESSION_HPP
 
 #include "UnaryExpression.hpp"
 
@@ -7,9 +7,13 @@ class IncrementExpression : public UnaryExpression {
 public:
     using UnaryExpression::UnaryExpression;
 
-    virtual IncrementExpression* clone() const override;
+    IncrementExpression* clone() const override {
+        return new IncrementExpression(this->getExpression()->clone());
+    }
 
-    virtual void accept(Visitor&) override;
+    void accept(Visitor& v) override {
+        v.visit(this);
+    }
 };
 
-#endif //IKARUS_INCEXPRESSION_HPP
+#endif //IKARUS_INC_EXPRESSION_HPP

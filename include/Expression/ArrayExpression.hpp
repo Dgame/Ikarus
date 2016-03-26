@@ -1,5 +1,5 @@
-#ifndef IKARUS_ARRAYEXPRESSION_HPP
-#define IKARUS_ARRAYEXPRESSION_HPP
+#ifndef IKARUS_ARRAY_EXPRESSION_HPP
+#define IKARUS_ARRAY_EXPRESSION_HPP
 
 #include "Expression.hpp"
 #include "types.hpp"
@@ -25,9 +25,11 @@ public:
         return _values.size();
     }
 
-    virtual ArrayExpression* clone() const override;
+    ArrayExpression* clone() const override;
 
-    virtual void accept(Visitor&) override;
+    void accept(Visitor& v) override {
+        v.visit(this);
+    }
 };
 
-#endif //IKARUS_ARRAYEXPRESSION_HPP
+#endif //IKARUS_ARRAY_EXPRESSION_HPP

@@ -1,5 +1,5 @@
-#ifndef IKARUS_INTEGEREXPRESSION_HPP
-#define IKARUS_INTEGEREXPRESSION_HPP
+#ifndef IKARUS_INTEGER_EXPRESSION_HPP
+#define IKARUS_INTEGER_EXPRESSION_HPP
 
 #include "BinaryExpression.hpp"
 
@@ -7,9 +7,13 @@ class AddExpression : public BinaryExpression {
 public:
     using BinaryExpression::BinaryExpression;
 
-    virtual AddExpression* clone() const override;
+    AddExpression* clone() const override {
+        return new AddExpression(this->getLeftExpression()->clone(), this->getRightExpression()->clone());
+    }
 
-    virtual void accept(Visitor&) override;
+    void accept(Visitor& v) override {
+        v.visit(this);
+    }
 };
 
-#endif //IKARUS_INTEGEREXPRESSION_HPP
+#endif //IKARUS_INTEGER_EXPRESSION_HPP

@@ -1,5 +1,5 @@
-#ifndef IKARUS_UNARYEXPRESSION_HPP
-#define IKARUS_UNARYEXPRESSION_HPP
+#ifndef IKARUS_UNARY_EXPRESSION_HPP
+#define IKARUS_UNARY_EXPRESSION_HPP
 
 #include "Expression.hpp"
 #include <memory>
@@ -19,9 +19,9 @@ public:
         return _expr.get();
     }
 
-    virtual bool isAtomic() const override {
+    bool isAtomic() const override {
         return false;
     }
 };
 
-#endif //IKARUS_UNARYEXPRESSION_HPP
+#endif //IKARUS_UNARY_EXPRESSION_HPP

@@ -1,5 +1,5 @@
-#ifndef IKARUS_MULEXPRESSION_HPP
-#define IKARUS_MULEXPRESSION_HPP
+#ifndef IKARUS_MUL_EXPRESSION_HPP
+#define IKARUS_MUL_EXPRESSION_HPP
 
 #include "BinaryExpression.hpp"
 
@@ -7,9 +7,13 @@ class MultiplyExpression : public BinaryExpression {
 public:
     using BinaryExpression::BinaryExpression;
 
-    virtual MultiplyExpression* clone() const override;
+    MultiplyExpression* clone() const override {
+        return new MultiplyExpression(this->getLeftExpression()->clone(), this->getRightExpression()->clone());
+    }
 
-    virtual void accept(Visitor&) override;
+    void accept(Visitor& v) override {
+        v.visit(this);
+    }
 };
 
-#endif //IKARUS_MULEXPRESSION_HPP
+#endif //IKARUS_MUL_EXPRESSION_HPP

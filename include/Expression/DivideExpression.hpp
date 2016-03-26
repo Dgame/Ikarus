@@ -1,5 +1,5 @@
-#ifndef IKARUS_DIVEXPRESSION_HPP
-#define IKARUS_DIVEXPRESSION_HPP
+#ifndef IKARUS_DIV_EXPRESSION_HPP
+#define IKARUS_DIV_EXPRESSION_HPP
 
 #include "BinaryExpression.hpp"
 
@@ -7,9 +7,13 @@ class DivideExpression : public BinaryExpression {
 public:
     using BinaryExpression::BinaryExpression;
 
-    virtual DivideExpression* clone() const override;
+    DivideExpression* clone() const override {
+        return new DivideExpression(this->getLeftExpression()->clone(), this->getRightExpression()->clone());
+    }
 
-    virtual void accept(Visitor&) override;
+    void accept(Visitor& v) override {
+        v.visit(this);
+    }
 };
 
-#endif //IKARUS_DIVEXPRESSION_HPP
+#endif //IKARUS_DIV_EXPRESSION_HPP

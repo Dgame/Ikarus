@@ -1,5 +1,5 @@
-#ifndef IKARUS_MODEXPRESSION_HPP
-#define IKARUS_MODEXPRESSION_HPP
+#ifndef IKARUS_MOD_EXPRESSION_HPP
+#define IKARUS_MOD_EXPRESSION_HPP
 
 #include "BinaryExpression.hpp"
 
@@ -7,9 +7,13 @@ class ModuloExpression : public BinaryExpression {
 public:
     using BinaryExpression::BinaryExpression;
 
-    virtual ModuloExpression* clone() const override;
+    ModuloExpression* clone() const override {
+        return new ModuloExpression(this->getLeftExpression()->clone(), this->getRightExpression()->clone());
+    }
 
-    virtual void accept(Visitor&) override;
+    void accept(Visitor& v) override {
+        v.visit(this);
+    }
 };
 
-#endif //IKARUS_MODEXPRESSION_HPP
+#endif //IKARUS_MOD_EXPRESSION_HPP

@@ -1,5 +1,5 @@
-#ifndef IKARUS_NOTEXPRESSION_HPP
-#define IKARUS_NOTEXPRESSION_HPP
+#ifndef IKARUS_NOT_EXPRESSION_HPP
+#define IKARUS_NOT_EXPRESSION_HPP
 
 #include "UnaryExpression.hpp"
 
@@ -7,9 +7,13 @@ class NotExpression : public UnaryExpression {
 public:
     using UnaryExpression::UnaryExpression;
 
-    virtual NotExpression* clone() const override;
+    NotExpression* clone() const override {
+        return new NotExpression(this->getExpression()->clone());
+    }
 
-    virtual void accept(Visitor&) override;
+    void accept(Visitor& v) override {
+        v.visit(this);
+    }
 };
 
-#endif //IKARUS_NOTEXPRESSION_HPP
+#endif //IKARUS_NOT_EXPRESSION_HPP

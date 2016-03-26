@@ -4,30 +4,32 @@
 #include <vector>
 #include <memory>
 #include "Frontend/Scope.hpp"
+#include "Frontend/Lexer.hpp"
 
 class Expression;
 
 namespace Frontend {
-    class Lexer;
-
     class Parser {
     private:
-        std::vector<std::unique_ptr<Scope>> _scopes;
         Scope* _scope = nullptr;
+        std::vector<std::unique_ptr<Scope>> _scopes;
+        Lexer _lexer;
 
         void pushScope();
         void popScope();
 
-        void parse(Lexer&);
-        void parseIdentifier(Lexer&);
+        void parse();
+        void parseIdentifier();
 
-        void parseVarDeclaration(Lexer&);
-        void assignNewVariable(Lexer&, const std::string&);
-        void assignExistingVariable(Lexer&, const std::string&);
+        void parseWhile();
+        void parseVarDeclaration();
+        void assignNewVariable(const std::string&);
+        void assignExistingVariable(const std::string&);
 
-        Expression* parseExpression(Lexer&);
-        Expression* parseTerm(Lexer&);
-        Expression* parseFactor(Lexer&);
+        Expression* parseArrayExpression();
+        Expression* parseExpression();
+        Expression* parseTerm();
+        Expression* parseFactor();
 
     public:
         explicit Parser(const char*, const char* const);

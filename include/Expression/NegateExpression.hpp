@@ -1,5 +1,5 @@
-#ifndef IKARUS_NEGEXPRESSION_HPP
-#define IKARUS_NEGEXPRESSION_HPP
+#ifndef IKARUS_NEG_EXPRESSION_HPP
+#define IKARUS_NEG_EXPRESSION_HPP
 
 #include "UnaryExpression.hpp"
 
@@ -7,9 +7,13 @@ class NegateExpression : public UnaryExpression {
 public:
     using UnaryExpression::UnaryExpression;
 
-    virtual NegateExpression* clone() const override;
+    NegateExpression* clone() const override {
+        return new NegateExpression(this->getExpression()->clone());
+    }
 
-    virtual void accept(Visitor&) override;
+    void accept(Visitor& v) override {
+        v.visit(this);
+    }
 };
 
-#endif //IKARUS_NEGEXPRESSION_HPP
+#endif //IKARUS_NEG_EXPRESSION_HPP

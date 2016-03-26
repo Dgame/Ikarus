@@ -1,5 +1,5 @@
-#ifndef IKARUS_STRINGEXPRESSION_HPP
-#define IKARUS_STRINGEXPRESSION_HPP
+#ifndef IKARUS_STRING_EXPRESSION_HPP
+#define IKARUS_STRING_EXPRESSION_HPP
 
 #include <string>
 #include "Expression.hpp"
@@ -15,11 +15,13 @@ public:
         return _value;
     }
 
-    virtual StringExpression* clone() const override{
+    StringExpression* clone() const override {
         return new StringExpression(_value);
     }
 
-    virtual void accept(Visitor&) override;
+    void accept(Visitor& v) override {
+        v.visit(this);
+    }
 };
 
-#endif //IKARUS_STRINGEXPRESSION_HPP
+#endif //IKARUS_STRING_EXPRESSION_HPP

@@ -2,10 +2,10 @@
 <module type="CPP_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src/Backend/Lexer.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Backend/Interpreter.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Backend/Parser.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Backend/Interpreter.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Backend/Instruction.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Backend/Lexer.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Backend/OpCode.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Visitor/MathVisitor.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Visitor/OutputVisitor.cpp" isTestSource="false" />
@@ -13,20 +13,12 @@
       <sourceFolder url="file://$MODULE_DIR$/src/Declaration/VariableDeclaration.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Declaration/Declaration.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/AbstractLexer.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Expression/IncrementExpression.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Expression/ArrayExpression.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Expression/BinaryExpression.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Expression/UnaryExpression.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Expression/StringExpression.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Expression/ModuloExpression.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Expression/NotExpression.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Expression/DecrementExpression.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Expression/NumericExpression.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Expression/MultiplyExpression.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Expression/NegateExpression.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Expression/SubtractExpression.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Expression/AddExpression.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Expression/DivideExpression.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Expression/BinaryExpression.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Expression/ArrayExpression.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Expression/IndexAccessExpression.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Expression/IndexAssignExpression.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Frontend/Parser.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Frontend/Scope.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Frontend/Lexer.cpp" isTestSource="false" />
@@ -46,20 +38,29 @@
       <sourceFolder url="file://$MODULE_DIR$/include/types.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Visitable.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/util.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Expression/ArrayExpression.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Expression/BinaryExpression.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Expression/NegateExpression.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Expression/IncrementExpression.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Expression/UnaryExpression.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Expression/StringExpression.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Expression/Expression.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Expression/NotExpression.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Expression/DecrementExpression.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Expression/NumericExpression.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Expression/ModuloExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Expression/DivideExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/BinaryExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/DecrementExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/IndexAccessExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/NegateExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/IndexAssignExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/Expression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/ModuloExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/StringExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/LowerEqualExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/UnaryExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/NotExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/NumericExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/ArrayExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/IncrementExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/EqualExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/LowerExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/BoolExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/NotEqualExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/GreaterExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Expression/MultiplyExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Expression/SubtractExpression.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Expression/GreaterEqualExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Expression/AddExpression.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Frontend/Scope.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Frontend/Evaluable.hpp" isTestSource="false" />

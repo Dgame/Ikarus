@@ -17,7 +17,6 @@ using Backend::Interpreter;
 #else
 
 #include "Frontend/Parser.hpp"
-#include "types.hpp"
 #include "util.hpp"
 
 using Frontend::Parser;
