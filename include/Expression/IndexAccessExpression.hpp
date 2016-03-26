@@ -8,11 +8,13 @@ class IndexAccessExpression : public VariableExpression {
 private:
     std::unique_ptr<Expression> _index;
 
+    explicit IndexAccessExpression(size_t, Expression*);
+
 public:
     explicit IndexAccessExpression(VariableDeclaration*, Expression*);
 
     IndexAccessExpression* clone() const override {
-        return new IndexAccessExpression(this->getVariableDeclaration(), _index->clone());
+        return new IndexAccessExpression(this->getVariableId(), _index->clone());
     }
 
     Expression* getIndexExpression() {

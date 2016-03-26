@@ -3,7 +3,6 @@
 #include "ArrayExpression.hpp"
 #include "AddExpression.hpp"
 #include "MultiplyExpression.hpp"
-#include "VariableExpression.hpp"
 #include "IndexAssignExpression.hpp"
 
 EvalVisitor::EvalVisitor(std::ostream& out) : _out(out) { }
@@ -48,7 +47,7 @@ void EvalVisitor::visit(AddExpression* exp) {
 }
 
 void EvalVisitor::visit(VariableExpression* exp) {
-    _out << '&' << exp->getVariableDeclaration()->getId();
+    _out << '&' << exp->getVariableId();
 }
 
 void EvalVisitor::visit(IndexAssignExpression* exp) {
@@ -70,13 +69,13 @@ void EvalVisitor::visit(IndexAssignExpression* exp) {
 
     auto value = exp->getValueExpression();
     if (value->isAtomic()) {
-        _out << "emplace &" << exp->getVariableDeclaration()->getId() << ", ";
+        _out << "emplace &" << exp->getVariableId() << ", ";
     }
 
     value->accept(*this);
 
     if (!value->isAtomic()) {
-        _out << "emplace &" << exp->getVariableDeclaration()->getId() << ", ~" << _stack_offset;
+        _out << "emplace &" << exp->getVariableId() << ", ~" << _stack_offset;
     }
     _out << std::endl;
 
