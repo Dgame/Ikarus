@@ -6,12 +6,12 @@
 
 #include <fstream>
 
-#if EVAL == 0
+#if EVAL == INTERPRET
 
 #include "Backend/Interpreter.hpp"
 
 using Backend::Interpreter;
-#elif EVAL == 1
+#elif EVAL == TEST
 #include "VariableDeclaration.hpp"
 #include "NumericExpression.hpp"
 #include "ArrayExpression.hpp"
@@ -26,7 +26,7 @@ using Frontend::Parser;
 #endif
 
 int main() {
-#if EVAL == 2
+#if EVAL == COMPILE
     try {
         std::ifstream is("C:/Users/Bjarne/Documents/GitHub/Ikarus.git/main.ik");
         if (!is.good())
@@ -53,7 +53,7 @@ int main() {
     } catch (const char* msg) {
         writeln(msg);
     }
-#elif EVAL == 1
+#elif EVAL == TEST
     NumericExpression* ne1 = new NumericExpression(42);
     std::unique_ptr<VariableDeclaration> vd1(new VariableDeclaration("a", ne1));
 
@@ -105,7 +105,7 @@ int main() {
     vd4->accept(ev);
     vd5->accept(ev);
     vd6->accept(ev);
-#else
+#elif EVAL == INTERPRET
     try {
         std::ifstream is("C:/Users/Bjarne/Documents/GitHub/Ikarus.git/test_main.ik");
         if (!is.good())
