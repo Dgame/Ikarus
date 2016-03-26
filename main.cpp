@@ -2,7 +2,7 @@
 #define TEST 1
 #define INTERPRET 0
 
-#define EVAL INTERPRET
+#define EVAL COMPILE
 
 #include <fstream>
 
