@@ -9,6 +9,7 @@ class Token {
 public:
     enum Type {
         NONE,
+        EOL,
         INTEGER,
         DECIMAL,
         STRING,

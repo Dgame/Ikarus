@@ -32,6 +32,7 @@ namespace Frontend {
         Expression* parseExpression();
         Expression* parseTerm();
         Expression* parseFactor();
+        Expression* parseVariableExpression();
 
     public:
         explicit Parser(const char*, const char* const);

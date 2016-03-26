@@ -10,6 +10,7 @@
 #include "IncrementExpression.hpp"
 #include "DecrementExpression.hpp"
 #include "IndexAssignExpression.hpp"
+#include "IndexAccessExpression.hpp"
 
 EvalVisitor::EvalVisitor(std::ostream& out) : _out(out) { }
 
@@ -44,7 +45,6 @@ void EvalVisitor::math(const std::string& cmd, BinaryExpression* exp) {
 
 void EvalVisitor::math(const std::string& cmd, UnaryExpression* exp) {
     Expression* e = exp->getExpression();
-
     if (e->isAtomic()) {
         _out << cmd << ' ';
     }
@@ -95,7 +95,6 @@ void EvalVisitor::visit(IndexAssignExpression* exp) {
     _state &= ~VARIABLE;
 
     auto index = exp->getIndexExpression();
-
     if (index->isAtomic()) {
         _out << "set_index ";
     }
@@ -113,11 +112,31 @@ void EvalVisitor::visit(IndexAssignExpression* exp) {
     }
 
     value->accept(*this);
-
     if (!value->isAtomic()) {
         _out << "emplace &" << exp->getVariableId() << ", ~" << _stack_offset;
     }
     _out << std::endl;
+}
+
+void EvalVisitor::visit(IndexAccessExpression* exp) {
+    if (_state & VARIABLE) {
+        _state &= ~VARIABLE;
+
+        auto index = exp->getIndexExpression();
+        if (index->isAtomic()) {
+            _out << "fetch &" << exp->getVariableId() << ", ";
+        }
+
+        index->accept(*this);
+
+        if (!index->isAtomic()) {
+            _out << "fetch &" << exp->getVariableId() << ", ~" << _stack_offset;
+        }
+        _out << std::endl;
+        _out << "assign &" << _vid << ", ~" << _stack_offset << std::endl;
+    } else {
+        error("#4 Not implemented");
+    }
 }
 
 void EvalVisitor::visit(NumericExpression* exp) {

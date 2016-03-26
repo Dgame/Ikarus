@@ -14,7 +14,7 @@ public:
     explicit NullExpression(T* exp) : _exp(exp) { }
 
     T* ensure(const std::string& msg = "") {
-        enforce(_exp != nullptr, "Unexpected type: ", msg);
+        enforce(is(_exp), "Unexpected type: ", msg);
 
         return _exp;
     }

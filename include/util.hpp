@@ -37,4 +37,9 @@ void enforce(bool cond, const T& val, const Args ...args) {
     }
 }
 
+template <typename T>
+bool is(T* ptr) {
+    return ptr != nullptr;
+}
+
 #endif //IKARUS_UTIL_HPP

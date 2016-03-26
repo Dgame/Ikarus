@@ -18,7 +18,7 @@ public:
     }
 
     bool isValid() const {
-        return _exp != nullptr;
+        return is(_exp);
     }
 };
 

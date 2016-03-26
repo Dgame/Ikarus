@@ -10,6 +10,7 @@
 #include "NotExpression.hpp"
 #include "ArrayExpression.hpp"
 #include "IndexAssignExpression.hpp"
+#include "IndexAccessExpression.hpp"
 #include "Frontend/Keyword.hpp"
 
 namespace Frontend {
@@ -20,7 +21,7 @@ namespace Frontend {
 
     void Parser::popScope() {
         _scope = _scope->getPredecessor();
-        enforce(_scope != nullptr, "Empty Scope?!");
+        enforce(is(_scope), "Empty Scope?!");
     }
 
     void Parser::parse() {
@@ -80,21 +81,22 @@ namespace Frontend {
     void Parser::assignNewVariable(const std::string& id) {
         _lexer.next();
         const std::string name = _lexer.getToken()->getIdentifier();
-        enforce(_scope->findVariable(name) == nullptr, "A variable with name ", name, " already exists");
+        enforce(!is(_scope->findVariable(name)), "A variable with name ", name, " already exists");
         _lexer.next();
         _lexer.expect(Token::ASSIGN);
 
         auto exp = this->parseExpression();
 
         auto vd = new VariableDeclaration(name, exp);
-        if (Keyword::Get(id) == Token::IMMUTABLE)
+        if (Keyword::Get(id) == Token::IMMUTABLE) {
             vd->setStorageClass(StorageClass.IMMUTABLE);
+        }
         _scope->addVariable(vd);
     }
 
     void Parser::assignExistingVariable(const std::string& id) {
         auto vde = _scope->findVariable(id);
-        enforce(vde != nullptr, "No such variable: ", id);
+        enforce(is(vde), "No such variable: ", id);
         enforce(!vde->isConst(), "Variable ", id, " is const");
 
         _lexer.next();
@@ -107,12 +109,16 @@ namespace Frontend {
         _lexer.expect(Token::ASSIGN);
 
         auto exp = this->parseExpression();
-        if (index != nullptr) {
+        if (is(index)) {
             exp = new IndexAssignExpression(vde, index, exp);
         }
 
         auto vd = vde->child(exp);
-        _scope->addVariable(vd);
+        if (is(index)) {
+            _scope->add(vd);
+        } else {
+            _scope->addVariable(vd);
+        }
     }
 
     Expression* Parser::parseIndexExpression() {
@@ -146,14 +152,12 @@ namespace Frontend {
         }
 
         Expression* lhs = this->parseTerm();
-        if (!lhs) {
-            return nullptr;
-        }
+        enforce(is(lhs), "Empty Left-Hand-Expression");
 
         while (true) {
             if (_lexer.accept(Token::PLUS)) {
                 Expression* rhs = this->parseTerm();
-                enforce(rhs != nullptr, "Expected factor after +");
+                enforce(is(rhs), "Expected factor after +");
                 lhs = new AddExpression(lhs, rhs);
 
                 continue;
@@ -161,7 +165,7 @@ namespace Frontend {
 
             if (_lexer.accept(Token::MINUS)) {
                 Expression* rhs = this->parseTerm();
-                enforce(rhs != nullptr, "Expected factor after -");
+                enforce(is(rhs), "Expected factor after -");
                 lhs = new SubtractExpression(rhs, lhs);
 
                 continue;
@@ -175,13 +179,12 @@ namespace Frontend {
 
     Expression* Parser::parseTerm() {
         Expression* lhs = this->parseFactor();
-        if (!lhs)
-            return nullptr;
+        enforce(is(lhs), "[Term] Empty Left-Hand-Expression");
 
         while (true) {
             if (_lexer.accept(Token::MULTIPLY)) {
                 Expression* rhs = this->parseFactor();
-                enforce(rhs != nullptr, "Expected factor after *");
+                enforce(is(rhs), "Expected factor after *");
                 lhs = new MultiplyExpression(lhs, rhs);
 
                 continue;
@@ -189,7 +192,7 @@ namespace Frontend {
 
             if (_lexer.accept(Token::DIVIDE)) {
                 Expression* rhs = this->parseFactor();
-                enforce(rhs != nullptr, "Expected factor after /");
+                enforce(is(rhs), "Expected factor after /");
                 lhs = new DivideExpression(rhs, lhs);
 
                 continue;
@@ -197,7 +200,7 @@ namespace Frontend {
 
             if (_lexer.accept(Token::MODULO)) {
                 Expression* rhs = this->parseFactor();
-                enforce(rhs != nullptr, "Expected factor after %");
+                enforce(is(rhs), "Expected factor after %");
                 lhs = new ModuloExpression(rhs, lhs);
 
                 continue;
@@ -236,26 +239,39 @@ namespace Frontend {
             exp = this->parseExpression();
             _lexer.expect(Token::CLOSE_PAREN);
         } else if (_lexer.getToken()->is(Token::IDENTIFIER)) {
-            const std::string& id = _lexer.getToken()->getIdentifier();
-            _lexer.next();
-
-            auto vde = _scope->findVariable(id);
-            exp = new VariableExpression(vde);
+            exp = this->parseVariableExpression();
         }
 
         if (op_not) {
-            enforce(exp != nullptr, "Nothing that can be noted");
+            enforce(is(exp), "Nothing that can be noted");
             exp = new NotExpression(exp);
         }
 
         if (op_neg) {
-            enforce(exp != nullptr, "Nothing that can be negated");
+            enforce(is(exp), "Nothing that can be negated");
             exp = new NegateExpression(exp);
         }
 
-        enforce(exp != nullptr, "No Expression found");
+        enforce(is(exp), "No Expression found");
 
         return exp;
+    }
+
+    Expression* Parser::parseVariableExpression() {
+        enforce(_lexer.getToken()->is(Token::IDENTIFIER), "Expected identifier as variable name");
+
+        const std::string& id = _lexer.getToken()->getIdentifier();
+        _lexer.next();
+
+        auto vde = _scope->findVariable(id);
+
+        if (_lexer.getToken()->is(Token::OPEN_BRACKET)) {
+            Expression* index = this->parseIndexExpression();
+
+            return new IndexAccessExpression(vde, index);
+        }
+
+        return new VariableExpression(vde);
     }
 
     Parser::Parser(const char* pos, const char* const end) : _lexer(pos, end) {

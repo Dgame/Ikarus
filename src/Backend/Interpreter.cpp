@@ -68,7 +68,7 @@ namespace Backend {
     }
 
     bool Interpreter::interpret(Parser& parser) {
-        for (Instruction* instruction = parser.getNext(); instruction != nullptr; instruction = parser.getNext()) {
+        for (Instruction* instruction = parser.getNext(); is(instruction); instruction = parser.getNext()) {
             switch (instruction->getType()) {
                 case Instruction::EXIT:
                     debug("EXIT");
@@ -190,7 +190,7 @@ namespace Backend {
 
         const size_t vi = this->getIndexOf(opcode);
         Expression* exp = this->fetchVariable(vi);
-        enforce(exp != nullptr, "Invalid variable accessed @ ", vi);
+        enforce(is(exp), "Invalid variable accessed @ ", vi);
 
         return exp;
     }

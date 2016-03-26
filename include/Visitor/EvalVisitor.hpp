@@ -49,6 +49,8 @@ public:
 
     void visit(IndexAssignExpression*) override;
 
+    void visit(IndexAccessExpression*) override;
+
     void visit(NumericExpression*) override;
 
     void visit(BoolExpression*) override;
