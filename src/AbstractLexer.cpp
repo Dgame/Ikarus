@@ -42,14 +42,13 @@ void AbstractLexer::parseIdentifier() {
     std::string str;
     str.reserve(8);
 
-    char c = _location.get();
     if (!_location.isAlpha() && !_location.is('_')) {
         error("Invalid identifier @ ", _location.getLine());
     }
 
     while (_location.isValid() && (_location.isAlphaNumeric() || _location.is('_'))) {
-        str += c;
-        c = _location.next();
+        str += _location.get();
+        _location.next();
     }
 
     _token->setIdentifier(str);
