@@ -22,7 +22,12 @@ emplace &4, 42
 
 print &4
 
-fetch &4, 0
-assign &5, ~1
+add &0, &1
+pop &5
 
 print &5
+
+fetch &4, 0
+assign &6, ~1
+
+print &6

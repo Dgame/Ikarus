@@ -23,7 +23,7 @@ namespace Frontend {
         void parseIdentifier();
 
         void parseWhile();
-        void parseVarDeclaration();
+        void parseVariableDeclaration();
         void assignNewVariable(const std::string&);
         void assignExistingVariable(const std::string&);
 

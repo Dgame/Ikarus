@@ -52,10 +52,10 @@ namespace Frontend {
                     error("#2 Not implemented");
                     break;
                 default:
-                    this->parseVarDeclaration();
+                    this->parseVariableDeclaration();
             }
         } else {
-            this->parseVarDeclaration();
+            this->parseVariableDeclaration();
         }
     }
 
@@ -66,7 +66,7 @@ namespace Frontend {
         // TODO: implement
     }
 
-    void Parser::parseVarDeclaration() {
+    void Parser::parseVariableDeclaration() {
         const Token* tok = _lexer.getToken();
         enforce(tok->is(Token::IDENTIFIER), "Should be an identifier");
 
@@ -238,7 +238,7 @@ namespace Frontend {
         } else if (_lexer.accept(Token::OPEN_PAREN)) {
             exp = this->parseExpression();
             _lexer.expect(Token::CLOSE_PAREN);
-        } else if (_lexer.getToken()->is(Token::IDENTIFIER)) {
+        } else if (tok->is(Token::IDENTIFIER)) {
             exp = this->parseVariableExpression();
         }
 
@@ -260,10 +260,11 @@ namespace Frontend {
     Expression* Parser::parseVariableExpression() {
         enforce(_lexer.getToken()->is(Token::IDENTIFIER), "Expected identifier as variable name");
 
-        const std::string& id = _lexer.getToken()->getIdentifier();
+        const std::string id = _lexer.getToken()->getIdentifier();
         _lexer.next();
 
         auto vde = _scope->findVariable(id);
+        enforce(is(vde), "No variable with name ", id, " exists");
 
         if (_lexer.getToken()->is(Token::OPEN_BRACKET)) {
             Expression* index = this->parseIndexExpression();
