@@ -47,6 +47,7 @@ public:
     Token::Type next();
 
     bool accept(Token::Type);
+
     void expect(Token::Type);
 };
 
