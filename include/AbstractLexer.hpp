@@ -26,6 +26,10 @@ protected:
 public:
     explicit AbstractLexer(const char*, const char* const);
 
+    const Location& getLocation() const {
+        return _location;
+    }
+
     bool accept(char);
 
     void expect(char);

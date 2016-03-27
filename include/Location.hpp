@@ -9,7 +9,7 @@ private:
     const char* _ptr = nullptr;
     const char* const _end = nullptr;
 
-    u32_t _line = 1;
+    u32_t _line = 0;
 
 public:
     explicit Location(const char* pos, const char* const end) : _ptr(pos), _end(end) { }

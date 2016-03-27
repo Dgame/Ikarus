@@ -30,7 +30,7 @@ namespace Frontend {
             if (tok->is(Token::IDENTIFIER)) {
                 this->parseIdentifier();
             } else {
-                error("#1 Not implemented");
+                error("#1 Not implemented @ ", _lexer.getLocation().getLine());
                 break;
             }
         } while (!tok->is(Token::NONE));
@@ -38,7 +38,7 @@ namespace Frontend {
 
     void Parser::parseIdentifier() {
         auto tok = _lexer.getToken();
-        enforce(tok->is(Token::IDENTIFIER), "Should be an identifier");
+        enforce(tok->is(Token::IDENTIFIER), "Should be an identifier @ ", _lexer.getLocation().getLine());
 
         const std::string& id = tok->getIdentifier();
         if (Keyword::Is(id)) {
@@ -48,7 +48,7 @@ namespace Frontend {
                 case Token::FUNCTION:
                 case Token::WHILE:
 //                    this->parseWhile();
-                    error("#2 Not implemented");
+                    error("#2 Not implemented @ ", _lexer.getLocation().getLine());
                     break;
                 default:
                     this->parseVariableDeclaration();
@@ -60,14 +60,14 @@ namespace Frontend {
 
     void Parser::parseWhile() {
         auto tok = _lexer.getToken();
-        enforce(tok->is(Token::IDENTIFIER), "Should be an identifier");
+        enforce(tok->is(Token::IDENTIFIER), "Should be an identifier @ ", _lexer.getLocation().getLine());
 
         // TODO: implement
     }
 
     void Parser::parseVariableDeclaration() {
         const Token* tok = _lexer.getToken();
-        enforce(tok->is(Token::IDENTIFIER), "Should be an identifier");
+        enforce(tok->is(Token::IDENTIFIER), "Should be an identifier @ ", _lexer.getLocation().getLine());
 
         const std::string id = tok->getIdentifier();
         if (Keyword::IsVariable(id)) {
@@ -81,7 +81,7 @@ namespace Frontend {
         _lexer.next();
 
         const std::string name = _lexer.getToken()->getIdentifier();
-        enforce(!is(_scope->findVariable(name)), "A variable with name ", name, " already exists");
+        enforce(!is(_scope->findVariable(name)), "A variable with name ", name, " already exists @ ", _lexer.getLocation().getLine());
 
         _lexer.next();
         _lexer.expect(Token::ASSIGN);
@@ -96,8 +96,8 @@ namespace Frontend {
 
     void Parser::assignExistingVariable(const std::string& id) {
         auto vde = _scope->findVariable(id);
-        enforce(is(vde), "No such variable: ", id);
-        enforce(!vde->isConst(), "Variable ", id, " is const");
+        enforce(is(vde), "No such variable: ", id, " @ ", _lexer.getLocation().getLine());
+        enforce(!vde->isConst(), "Variable ", id, " is const @ ", _lexer.getLocation().getLine());
 
         _lexer.next();
 
@@ -152,12 +152,12 @@ namespace Frontend {
         }
 
         Expression* lhs = this->parseTerm();
-        enforce(is(lhs), "Empty Left-Hand-Expression");
+        enforce(is(lhs), "Empty Left-Hand-Expression @ ", _lexer.getLocation().getLine());
 
         while (true) {
             if (_lexer.accept(Token::PLUS)) {
                 Expression* rhs = this->parseTerm();
-                enforce(is(rhs), "Expected factor after +");
+                enforce(is(rhs), "Expected factor after + @ ", _lexer.getLocation().getLine());
                 lhs = new AddExpression(lhs, rhs);
 
                 continue;
@@ -165,7 +165,7 @@ namespace Frontend {
 
             if (_lexer.accept(Token::MINUS)) {
                 Expression* rhs = this->parseTerm();
-                enforce(is(rhs), "Expected factor after -");
+                enforce(is(rhs), "Expected factor after - @ ", _lexer.getLocation().getLine());
                 lhs = new SubtractExpression(rhs, lhs);
 
                 continue;
@@ -179,12 +179,12 @@ namespace Frontend {
 
     Expression* Parser::parseTerm() {
         Expression* lhs = this->parseFactor();
-        enforce(is(lhs), "[Term] Empty Left-Hand-Expression");
+        enforce(is(lhs), "[Term] Empty Left-Hand-Expression @ ", _lexer.getLocation().getLine());
 
         while (true) {
             if (_lexer.accept(Token::MULTIPLY)) {
                 Expression* rhs = this->parseFactor();
-                enforce(is(rhs), "Expected factor after *");
+                enforce(is(rhs), "Expected factor after * @ ", _lexer.getLocation().getLine());
                 lhs = new MultiplyExpression(lhs, rhs);
 
                 continue;
@@ -192,7 +192,7 @@ namespace Frontend {
 
             if (_lexer.accept(Token::DIVIDE)) {
                 Expression* rhs = this->parseFactor();
-                enforce(is(rhs), "Expected factor after /");
+                enforce(is(rhs), "Expected factor after / @ ", _lexer.getLocation().getLine());
                 lhs = new DivideExpression(rhs, lhs);
 
                 continue;
@@ -200,7 +200,7 @@ namespace Frontend {
 
             if (_lexer.accept(Token::MODULO)) {
                 Expression* rhs = this->parseFactor();
-                enforce(is(rhs), "Expected factor after %");
+                enforce(is(rhs), "Expected factor after % @ ", _lexer.getLocation().getLine());
                 lhs = new ModuloExpression(rhs, lhs);
 
                 continue;
@@ -243,27 +243,27 @@ namespace Frontend {
         }
 
         if (op_not) {
-            enforce(is(exp), "Nothing that can be noted");
+            enforce(is(exp), "Nothing that can be noted @ ", _lexer.getLocation().getLine());
             exp = new NotExpression(exp);
         }
 
         if (op_neg) {
-            enforce(is(exp), "Nothing that can be negated");
+            enforce(is(exp), "Nothing that can be negated @ ", _lexer.getLocation().getLine());
             exp = new NegateExpression(exp);
         }
 
-        enforce(is(exp), "No Expression found");
+        enforce(is(exp), "No Expression found @ ", _lexer.getLocation().getLine());
 
         return exp;
     }
 
     Expression* Parser::parseVariableExpression() {
-        enforce(_lexer.getToken()->is(Token::IDENTIFIER), "Expected identifier as variable name");
+        enforce(_lexer.getToken()->is(Token::IDENTIFIER), "Expected identifier as variable name @ ", _lexer.getLocation().getLine());
 
         const std::string& id = _lexer.getToken()->getIdentifier();
 
         auto vde = _scope->findVariable(id);
-        enforce(is(vde), "No variable with name ", id, " exists");
+        enforce(is(vde), "No variable with name ", id, " exists @ ", _lexer.getLocation().getLine());
 
         _lexer.next();
 

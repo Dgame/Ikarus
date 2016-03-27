@@ -21,7 +21,7 @@ bool AbstractLexer::accept(char c) {
 
 void AbstractLexer::expect(char c) {
     if (!this->accept(c)) {
-        error("Expected ", c, " not found");
+        error("Expected ", c, " not found @ ", _location.getLine());
     }
 }
 
@@ -44,7 +44,7 @@ void AbstractLexer::parseIdentifier() {
 
     char c = _location.get();
     if (!_location.isAlpha() && !_location.is('_')) {
-        error("Invalid identifier");
+        error("Invalid identifier @ ", _location.getLine());
     }
 
     while (_location.isValid() && (_location.isAlphaNumeric() || _location.is('_'))) {
@@ -56,7 +56,7 @@ void AbstractLexer::parseIdentifier() {
 }
 
 void AbstractLexer::parseNumeric() {
-    enforce(_location.isDigit(), "Expected number");
+    enforce(_location.isDigit(), "Expected number @ ", _location.getLine());
 
     i32_t value = 0;
     while (_location.isDigit()) {
@@ -142,6 +142,6 @@ bool AbstractLexer::accept(Token::Type type) {
 
 void AbstractLexer::expect(Token::Type type) {
     if (!this->accept(type)) {
-        error("Unexpected Token '", this->getToken()->asString(), "'. Expected '", Token::AsString(type), "'");
+        error("Unexpected Token '", this->getToken()->asString(), "'. Expected '", Token::AsString(type), "' @ ", _location.getLine());
     }
 }
