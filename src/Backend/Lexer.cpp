@@ -1,6 +1,5 @@
 #include "Backend/Lexer.hpp"
 
-#include <locale>
 #include "util.hpp"
 
 namespace Backend {
@@ -23,11 +22,11 @@ namespace Backend {
             tok->setType(Token::SEMICOLON);
         } else if (this->accept(':')) {
             tok->setType(Token::COLON);
-        } else if (*_ptr == '"') {
+        } else if (this->accept('"')) {
             this->parseString();
-        } else if (std::isalpha(*_ptr)) {
+        } else if (_location.isAlpha()) {
             this->parseIdentifier();
-        } else if (std::isdigit(*_ptr)) {
+        } else if (_location.isDigit()) {
             debug("found numeric");
 
             this->parseNumeric();

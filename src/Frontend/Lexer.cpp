@@ -49,11 +49,11 @@ namespace Frontend {
             tok->setType(Token::COLON);
         } else if (this->accept(';')) {
             tok->setType(Token::SEMICOLON);
-        } else if (*_ptr == '"') {
+        } else if (this->accept('"')) {
             this->parseString();
-        } else if (std::isalpha(*_ptr)) {
+        } else if (_location.isAlpha()) {
             this->parseIdentifier();
-        } else if (std::isdigit(*_ptr)) {
+        } else if (_location.isDigit()) {
             debug("found numeric");
 
             this->parseNumeric();

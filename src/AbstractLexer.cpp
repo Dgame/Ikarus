@@ -2,16 +2,16 @@
 #include "util.hpp"
 
 void AbstractLexer::skipSpaces() {
-    while (std::isspace(*_ptr)) {
-        _ptr++;
+    while (_location.isSpace()) {
+        _location.next();
     }
 }
 
 bool AbstractLexer::accept(char c) {
     this->skipSpaces();
 
-    if (*_ptr == c) {
-        _ptr++;
+    if (_location.is(c)) {
+        _location.next();
 
         return true;
     }
@@ -30,9 +30,9 @@ void AbstractLexer::parseString() {
 
     std::string str;
     str.reserve(8);
-    while (this->isValid() && !this->accept('"')) {
-        str += *_ptr;
-        _ptr++;
+    while (_location.isValid() && !this->accept('"')) {
+        str += _location.get();
+        _location.next();
     }
 
     _token->setString(str);
@@ -42,40 +42,44 @@ void AbstractLexer::parseIdentifier() {
     std::string str;
     str.reserve(8);
 
-    if (!(std::isalpha(*_ptr) || *_ptr == '_')) {
+    char c = _location.get();
+    if (!_location.isAlpha() && !_location.is('_')) {
         error("Invalid identifier");
     }
 
-    while (this->isValid() && (std::isalnum(*_ptr) || *_ptr == '_')) {
-        str += *_ptr;
-
-        _ptr++;
+    while (_location.isValid() && (_location.isAlphaNumeric() || _location.is('_'))) {
+        str += c;
+        c = _location.next();
     }
 
     _token->setIdentifier(str);
 }
 
 void AbstractLexer::parseNumeric() {
-    enforce(std::isdigit(*_ptr), "Expected number");
+    enforce(_location.isDigit(), "Expected number");
 
     i32_t value = 0;
-    while (isdigit(*_ptr)) {
-        value *= 10;
-        value += static_cast<i32_t>(*_ptr - '0');
+    while (_location.isDigit()) {
+        const char c = _location.get();
 
-        _ptr++;
+        value *= 10;
+        value += static_cast<i32_t>(c - '0');
+
+        _location.next();
     }
 
     if (this->accept('.')) {
         f32_t pot = 1;
         f32_t dec = 0;
 
-        while (isdigit(*_ptr)) {
+        while (_location.isDigit()) {
+            const char c = _location.get();
+
             pot *= 10;
             dec *= 10;
-            dec += static_cast<i32_t>(*_ptr - '0');
+            dec += static_cast<i32_t>(c - '0');
 
-            _ptr++;
+            _location.next();
         }
 
         _token->setDecimal(value + (dec / pot));
@@ -88,7 +92,7 @@ void AbstractLexer::parseNumeric() {
     }
 }
 
-AbstractLexer::AbstractLexer(const char* pos, const char* const end) : _ptr(pos), _end(end), _token(new Token()) { }
+AbstractLexer::AbstractLexer(const char* pos, const char* const end) : _location(pos, end), _token(new Token()) { }
 
 Token* AbstractLexer::peek(Token* tok) {
     Token* result = nullptr;

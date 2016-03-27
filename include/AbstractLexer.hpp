@@ -4,14 +4,14 @@
 #include <vector>
 
 #include "Token.hpp"
+#include "Location.hpp"
 #include "types.hpp"
 
 class AbstractLexer {
 protected:
     std::unique_ptr<Token> _token;
 
-    const char* _ptr = nullptr;
-    const char* const _end = nullptr;
+    Location _location;
 
     void skipSpaces();
 
@@ -25,10 +25,6 @@ protected:
 
 public:
     explicit AbstractLexer(const char*, const char* const);
-
-    bool isValid() const {
-        return _ptr <= _end && *_ptr != '\0';
-    }
 
     bool accept(char);
 

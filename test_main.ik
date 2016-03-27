@@ -31,3 +31,7 @@ fetch &4, 0
 assign &6, ~1
 
 print &6
+
+assign &4, 1337
+
+print &4
