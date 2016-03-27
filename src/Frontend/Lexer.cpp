@@ -49,7 +49,7 @@ namespace Frontend {
             tok->setType(Token::COLON);
         } else if (this->accept(';')) {
             tok->setType(Token::SEMICOLON);
-        } else if (this->accept('"')) {
+        } else if (_location.is('"')) {
             this->parseString();
         } else if (_location.isAlpha()) {
             this->parseIdentifier();
