@@ -1,7 +1,6 @@
 #ifndef IKARUS_VARIABLEDECLARATION_HPP
 #define IKARUS_VARIABLEDECLARATION_HPP
 
-#include <StorageClass.hpp>
 #include "Declaration.hpp"
 #include "StorageClass.hpp"
 

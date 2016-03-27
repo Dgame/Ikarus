@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <memory>
-#include <Expression/Expression.hpp>
 #include "Frontend/Scope.hpp"
 #include "Frontend/Lexer.hpp"
 

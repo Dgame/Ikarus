@@ -1,4 +1,3 @@
-#include <StorageClass.hpp>
 #include "Frontend/Parser.hpp"
 #include "AddExpression.hpp"
 #include "SubtractExpression.hpp"
@@ -80,13 +79,14 @@ namespace Frontend {
 
     void Parser::assignNewVariable(const std::string& id) {
         _lexer.next();
+
         const std::string name = _lexer.getToken()->getIdentifier();
         enforce(!is(_scope->findVariable(name)), "A variable with name ", name, " already exists");
+
         _lexer.next();
         _lexer.expect(Token::ASSIGN);
 
         auto exp = this->parseExpression();
-
         auto vd = new VariableDeclaration(name, exp);
         if (Keyword::Get(id) == Token::IMMUTABLE) {
             vd->setStorageClass(StorageClass.IMMUTABLE);
@@ -260,11 +260,12 @@ namespace Frontend {
     Expression* Parser::parseVariableExpression() {
         enforce(_lexer.getToken()->is(Token::IDENTIFIER), "Expected identifier as variable name");
 
-        const std::string id = _lexer.getToken()->getIdentifier();
-        _lexer.next();
+        const std::string& id = _lexer.getToken()->getIdentifier();
 
         auto vde = _scope->findVariable(id);
         enforce(is(vde), "No variable with name ", id, " exists");
+
+        _lexer.next();
 
         if (_lexer.getToken()->is(Token::OPEN_BRACKET)) {
             Expression* index = this->parseIndexExpression();
