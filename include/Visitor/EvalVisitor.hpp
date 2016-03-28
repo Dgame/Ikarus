@@ -4,6 +4,7 @@
 #include <iostream>
 #include "types.hpp"
 #include "Visitor.hpp"
+#include "Backend/VM/Code.hpp"
 
 class VariableDeclaration;
 
@@ -21,6 +22,8 @@ private:
     size_t _vid = 0;
     u32_t _state = NONE;
     u32_t _stack_offset = 0;
+
+    Backend::Code _code;
 
     std::ostream& _out;
 

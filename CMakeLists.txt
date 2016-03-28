@@ -78,7 +78,10 @@ set(SOURCE_FILES
         include/Expression/VariableExpression.hpp
         include/Location.hpp
         src/Location.cpp
-        include/Frontend/Operator.hpp)
+        include/Frontend/Operator.hpp
+        include/Backend/VM/Code.hpp
+        src/Backend/VM/Operand.cpp
+        include/Backend/VM/Operand.hpp src/Backend/VM/Code.cpp)
 
 include_directories("include")
 include_directories("include/Expression")

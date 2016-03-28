@@ -2,7 +2,7 @@
 #define TEST 1
 #define INTERPRET 0
 
-#define EVAL COMPILE
+#define EVAL INTERPRET
 
 #include <fstream>
 #include "util.hpp"

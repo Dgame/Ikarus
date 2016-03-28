@@ -233,7 +233,7 @@ namespace Backend {
         const size_t vi = this->getIndexOf(instruction->getOperand(0));
         Expression* exp = this->fetchVariable(vi);
         if (!exp) {
-            debug("No variable found, make a new one");
+            debug("No variable found, gen a new one");
             exp = new ArrayExpression();
             this->assignVariable(vi, exp);
         }
