@@ -1,6 +1,5 @@
 #include "EvalVisitor.hpp"
 #include "NumericExpression.hpp"
-#include "BoolExpression.hpp"
 #include "ArrayExpression.hpp"
 #include "MultiplyExpression.hpp"
 #include "DivideExpression.hpp"
@@ -11,6 +10,12 @@
 #include "DecrementExpression.hpp"
 #include "IndexAssignExpression.hpp"
 #include "IndexAccessExpression.hpp"
+#include "LowerExpression.hpp"
+#include "GreaterExpression.hpp"
+#include "LowerEqualExpression.hpp"
+#include "GreaterEqualExpression.hpp"
+#include "EqualExpression.hpp"
+#include "NotEqualExpression.hpp"
 
 EvalVisitor::EvalVisitor(std::ostream& out) : _out(out) { }
 
@@ -149,16 +154,6 @@ void EvalVisitor::visit(NumericExpression* exp) {
     }
 }
 
-void EvalVisitor::visit(BoolExpression* exp) {
-    if (_state & VARIABLE) {
-        _state &= ~VARIABLE;
-
-        _out << "assign &" << _vid << ", " << static_cast<i32_t>(exp->getValue()) << std::endl;
-    } else {
-        _out << static_cast<i32_t>(exp->getValue());
-    }
-}
-
 void EvalVisitor::visit(ArrayExpression* exp) {
     if (_state & VARIABLE) {
         _state &= ~VARIABLE;
@@ -187,3 +182,42 @@ void EvalVisitor::visit(VariableDeclaration* vd) {
         _stack_offset--;
     }
 }
+
+void EvalVisitor::visit(LowerExpression* exp) {
+    this->math("is_lower", exp);
+}
+
+void EvalVisitor::visit(GreaterExpression* exp) {
+    // reverse ordering
+    auto e = std::make_unique<LowerExpression>(exp->getRightExpression()->clone(), exp->getLeftExpression()->clone());
+    e->accept(*this);
+}
+
+void EvalVisitor::visit(LowerEqualExpression* exp) {
+    this->math("is_lower_or_equal", exp);
+}
+
+void EvalVisitor::visit(GreaterEqualExpression* exp) {
+    // reverse ordering
+    auto e = std::make_unique<LowerEqualExpression>(exp->getRightExpression()->clone(), exp->getLeftExpression()->clone());
+    e->accept(*this);
+}
+
+void EvalVisitor::visit(EqualExpression* exp) {
+    this->math("is_equal", exp);
+}
+
+void EvalVisitor::visit(NotEqualExpression* exp) {
+    this->math("is_not_equal", exp);
+}
+
+
+
+
+
+
+
+
+
+
+

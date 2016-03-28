@@ -1,19 +1,20 @@
 #include "Token.hpp"
+#include "Frontend/Keyword.hpp"
 
 Token::Token(Type type) : _type(type) { }
 
 std::string Token::AsString(Type type) {
     switch (type) {
         case NONE:
-            return "None";
+            return "<None>";
         case INTEGER:
-            return "Integer";
+            return ">Integer>";
         case DECIMAL:
-            return "Decimal";
+            return "<Decimal>";
         case STRING:
-            return "String";
+            return "<String>";
         case IDENTIFIER:
-            return "Identifier";
+            return "<Identifier>";
         case AMPERSAND:
             return "&";
         case TILDE:
@@ -60,23 +61,35 @@ std::string Token::AsString(Type type) {
             return "(";
         case CLOSE_PAREN:
             return ")";
-        case MUTABLE:
-            return "var";
-        case IMMUTABLE:
-            return "let";
-        case FUNCTION:
-            return "function";
-        case IF:
-            return "if";
-        case ELSE:
-            return "else";
-        case WHILE:
-            return "while";
+        case LOWER:
+            return "<";
+        case LOWER_EQUAL:
+            return "<=";
+        case GREATER:
+            return ">";
+        case GREATER_EQUAL:
+            return ">=";
+        case EQUAL:
+            return "==";
+        case NOT_EQUAL:
+            return "!=";
     }
 }
 
 std::string Token::asString() {
     return Token::AsString(_type);
+}
+
+bool Token::isKeyword() const {
+    return this->is(Token::IDENTIFIER) && Frontend::Keyword::Is(_identifier);
+}
+
+u32_t Token::asKeyword() const {
+    if (!this->isKeyword()) {
+        return Frontend::Keyword::NONE;
+    }
+
+    return Frontend::Keyword::Get(_identifier);
 }
 
 void Token::setIdentifier(const std::string& id) {

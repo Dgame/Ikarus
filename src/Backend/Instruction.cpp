@@ -24,6 +24,7 @@ namespace Backend {
                 {"dec",               Instruction::DEC},
                 {"is_lower",          Instruction::IS_LOWER},
                 {"is_equal",          Instruction::IS_EQUAL},
+                {"is_not_equal",      Instruction::IS_NOT_EQUAL},
                 {"is_lower_or_equal", Instruction::IS_LOWER_OR_EQUAL},
                 {"call",              Instruction::CALL},
                 {"goto",              Instruction::GOTO},

@@ -17,7 +17,6 @@ class ArrayExpression;
 class VarExpression;
 class OffsetExpression;
 
-class BoolExpression;
 class CastExpression;
 class IndexAccessExpression;
 class IndexAssignExpression;
@@ -52,7 +51,6 @@ public:
     virtual void visit(VarExpression*) { }
     virtual void visit(OffsetExpression*) { }
 
-    virtual void visit(BoolExpression*) { }
     virtual void visit(CastExpression*) { }
     virtual void visit(IndexAccessExpression*) { }
     virtual void visit(IndexAssignExpression*) { }

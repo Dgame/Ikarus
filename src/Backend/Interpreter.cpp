@@ -123,6 +123,10 @@ namespace Backend {
                     debug("IS_EQUAL");
                     this->isEqual(instruction);
                     break;
+                case Instruction::IS_NOT_EQUAL:
+                    debug("IS_NOT_EQUAL");
+                    this->isNotEqual(instruction);
+                    break;
                 case Instruction::IS_LOWER_OR_EQUAL:
                     debug("IS_LOWER_OR_EQUAL");
                     this->isLowerOrEqual(instruction);
@@ -154,6 +158,10 @@ namespace Backend {
                 case Instruction::NOT:
                     debug("MATH");
                     this->math(instruction);
+                    break;
+                case Instruction::NONE:
+                case Instruction::LABEL:
+                    error("Unexpected Instruction");
                     break;
             }
         }
@@ -325,6 +333,15 @@ namespace Backend {
         this->pushStack(new NumericExpression(result));
 
         return result != 0;
+    }
+
+    bool Interpreter::isNotEqual(Instruction* instruction) {
+        const bool result = this->isEqual(instruction);
+
+        this->popStack();
+        this->pushStack(new NumericExpression(!result));
+
+        return !result;
     }
 
     bool Interpreter::isLowerOrEqual(Instruction* instruction) {

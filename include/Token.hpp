@@ -36,28 +36,26 @@ public:
         CLOSE_BRACKET,
         OPEN_PAREN,
         CLOSE_PAREN,
-        MUTABLE,
-        IMMUTABLE,
-        FUNCTION,
-        IF,
-        ELSE,
-        WHILE
+        LOWER,
+        LOWER_EQUAL,
+        GREATER,
+        GREATER_EQUAL,
+        EQUAL,
+        NOT_EQUAL,
     };
 
 private:
     Type _type = NONE;
 
     std::string _identifier;
-
-    union {
-        i32_t _integer;
-        f32_t _decimal;
-    };
+    i32_t _integer = 0;
+    f32_t _decimal = 0;
 
 public:
     std::unique_ptr<Token> next;
 
     Token() = default;
+
     explicit Token(Type);
 
     static std::string AsString(Type);
@@ -76,6 +74,10 @@ public:
         return _type == type;
     }
 
+    bool isKeyword() const;
+
+    u32_t asKeyword() const;
+
     const std::string& getIdentifier() const {
         return _identifier;
     }
@@ -89,8 +91,11 @@ public:
     }
 
     void setIdentifier(const std::string&);
+
     void setString(const std::string&);
+
     void setDecimal(f32_t);
+
     void setInteger(i32_t);
 };
 

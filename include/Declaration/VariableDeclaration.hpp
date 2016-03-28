@@ -2,7 +2,7 @@
 #define IKARUS_VARIABLEDECLARATION_HPP
 
 #include "Declaration.hpp"
-#include "StorageClass.hpp"
+#include "Frontend/StorageClass.hpp"
 
 class VariableDeclaration : public Declaration {
 private:

@@ -51,9 +51,19 @@ public:
 
     void visit(IndexAccessExpression*) override;
 
-    void visit(NumericExpression*) override;
+    void visit(LowerExpression*) override;
 
-    void visit(BoolExpression*) override;
+    void visit(GreaterExpression*) override;
+
+    void visit(LowerEqualExpression*) override;
+
+    void visit(GreaterEqualExpression*) override;
+
+    void visit(EqualExpression*) override;
+
+    void visit(NotEqualExpression*) override;
+
+    void visit(NumericExpression*) override;
 
     void visit(ArrayExpression*) override;
 

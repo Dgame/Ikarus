@@ -35,6 +35,7 @@ namespace Backend {
             DEC,
             IS_LOWER,
             IS_EQUAL,
+            IS_NOT_EQUAL,
             IS_LOWER_OR_EQUAL,
             LABEL,
             CALL,

@@ -29,7 +29,7 @@ set(SOURCE_FILES
         include/Expression/ArrayExpression.hpp
         src/Declaration/Declaration.cpp
         include/Declaration/Declaration.hpp
-        include/StorageClass.hpp
+        include/Frontend/StorageClass.hpp
         include/Declaration/VariableDeclaration.hpp
         src/Visitor/OutputVisitor.cpp
         include/Visitor/OutputVisitor.hpp
@@ -65,8 +65,20 @@ set(SOURCE_FILES
         include/Frontend/Parser.hpp
         src/Frontend/Keyword.cpp
         include/Frontend/Keyword.hpp
-        include/Expression/BoolExpression.hpp
-        include/Expression/LowerExpression.hpp include/Expression/GreaterExpression.hpp include/Expression/LowerEqualExpression.hpp include/Expression/GreaterEqualExpression.hpp include/Expression/EqualExpression.hpp include/Expression/NotEqualExpression.hpp include/Expression/IndexAccessExpression.hpp src/Expression/IndexAssignExpression.cpp include/Expression/IndexAssignExpression.hpp src/Expression/IndexAccessExpression.cpp include/Expression/VariableExpression.hpp include/Location.hpp src/Location.cpp)
+        include/Expression/LowerExpression.hpp
+        include/Expression/GreaterExpression.hpp
+        include/Expression/LowerEqualExpression.hpp
+        include/Expression/GreaterEqualExpression.hpp
+        include/Expression/EqualExpression.hpp
+        include/Expression/NotEqualExpression.hpp
+        include/Expression/IndexAccessExpression.hpp
+        src/Expression/IndexAssignExpression.cpp
+        include/Expression/IndexAssignExpression.hpp
+        src/Expression/IndexAccessExpression.cpp
+        include/Expression/VariableExpression.hpp
+        include/Location.hpp
+        src/Location.cpp
+        include/Frontend/Operator.hpp)
 
 include_directories("include")
 include_directories("include/Expression")

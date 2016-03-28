@@ -2,34 +2,36 @@
 #include <map>
 
 namespace {
-    const std::map<std::string, Token::Type> Keywords = {
-            {"let",      Token::IMMUTABLE},
-            {"var",      Token::MUTABLE},
-            {"function", Token::FUNCTION},
-            {"if",       Token::IF},
-            {"else",     Token::ELSE}
+    using namespace Frontend;
+
+    const std::map<std::string, u32_t> Keywords = {
+            {"let",      Keyword::IMMUTABLE},
+            {"var",      Keyword::MUTABLE},
+            {"true",     Keyword::TRUE},
+            {"false",    Keyword::FALSE},
+            {"function", Keyword::FUNCTION},
+            {"if",       Keyword::IF},
+            {"else",     Keyword::ELSE}
     };
 }
 
 namespace Frontend {
-    namespace Keyword {
-        Token::Type Get(const std::string& id) {
-            auto it = Keywords.find(id);
-            if (it != Keywords.end()) {
-                return it->second;
-            }
-
-            return Token::NONE;
+    u32_t Keyword::Get(const std::string& id) {
+        auto it = Keywords.find(id);
+        if (it != Keywords.end()) {
+            return it->second;
         }
 
-        bool Is(const std::string& id) {
-            return Get(id) != Token::NONE;
-        }
+        return Keyword::NONE;
+    }
 
-        bool IsVariable(const std::string& id) {
-            auto type = Get(id);
+    bool Keyword::Is(const std::string& id) {
+        return Get(id) != Token::NONE;
+    }
 
-            return type == Token::MUTABLE || type == Token::IMMUTABLE;
-        }
+    bool Keyword::IsVariable(const std::string& id) {
+        auto type = Get(id);
+
+        return type == Keyword::MUTABLE || type == Keyword::IMMUTABLE;
     }
 }

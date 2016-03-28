@@ -26,6 +26,7 @@ namespace Frontend {
         void assignNewVariable(const std::string&);
         void assignExistingVariable(const std::string&);
 
+        Expression* parseKeywordExpression();
         Expression* parseIndexExpression();
         Expression* parseArrayExpression();
         Expression* parseExpression();

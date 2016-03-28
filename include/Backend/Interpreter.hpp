@@ -60,6 +60,8 @@ namespace Backend {
 
         bool isEqual(Instruction*);
 
+        bool isNotEqual(Instruction*);
+
         bool isLowerOrEqual(Instruction*);
 
         void call(Instruction*, Parser&);

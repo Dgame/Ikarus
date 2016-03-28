@@ -4,7 +4,11 @@
 namespace Frontend {
     void Lexer::scan(Token* tok) {
         if (this->accept('=')) {
-            tok->setType(Token::ASSIGN);
+            if (this->accept('=')) {
+                tok->setType(Token::EQUAL);
+            } else {
+                tok->setType(Token::ASSIGN);
+            }
         } else if (this->accept('+')) {
             if (this->accept('+')) {
                 tok->setType(Token::INCREMENT);
@@ -23,6 +27,24 @@ namespace Frontend {
             } else {
                 tok->setType(Token::MULTIPLY);
             }
+        } else if (this->accept('<')) {
+            if (this->accept('=')) {
+                tok->setType(Token::LOWER_EQUAL);
+            } else {
+                tok->setType(Token::LOWER);
+            }
+        } else if (this->accept('>')) {
+            if (this->accept('=')) {
+                tok->setType(Token::GREATER_EQUAL);
+            } else {
+                tok->setType(Token::GREATER);
+            }
+        } else if (this->accept('!')) {
+            if (this->accept('=')) {
+                tok->setType(Token::NOT_EQUAL);
+            } else {
+                tok->setType(Token::NOT);
+            }
         } else if (this->accept('/')) {
             tok->setType(Token::DIVIDE);
         } else if (this->accept('%')) {
@@ -39,8 +61,6 @@ namespace Frontend {
             tok->setType(Token::OPEN_CURLY);
         } else if (this->accept('}')) {
             tok->setType(Token::CLOSE_CURLY);
-        } else if (this->accept('!')) {
-            tok->setType(Token::NOT);
         } else if (this->accept('?')) {
             tok->setType(Token::QUERY);
         } else if (this->accept(',')) {

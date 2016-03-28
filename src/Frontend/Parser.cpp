@@ -10,7 +10,14 @@
 #include "ArrayExpression.hpp"
 #include "IndexAssignExpression.hpp"
 #include "IndexAccessExpression.hpp"
+#include "LowerExpression.hpp"
+#include "LowerEqualExpression.hpp"
+#include "GreaterExpression.hpp"
+#include "GreaterEqualExpression.hpp"
+#include "EqualExpression.hpp"
+#include "NotEqualExpression.hpp"
 #include "Frontend/Keyword.hpp"
+#include "Frontend/Operator.hpp"
 
 namespace Frontend {
     void Parser::pushScope() {
@@ -41,12 +48,12 @@ namespace Frontend {
         enforce(tok->is(Token::IDENTIFIER), "Should be an identifier @ ", _lexer.getLocation().getLine());
 
         const std::string& id = tok->getIdentifier();
-        if (Keyword::Is(id)) {
+        if (tok->isKeyword()) {
             switch (Keyword::Get(id)) {
-                case Token::IF:
-                case Token::ELSE:
-                case Token::FUNCTION:
-                case Token::WHILE:
+                case Keyword::IF:
+                case Keyword::ELSE:
+                case Keyword::FUNCTION:
+                case Keyword::WHILE:
 //                    this->parseWhile();
                     error("#2 Not implemented @ ", _lexer.getLocation().getLine());
                     break;
@@ -82,13 +89,14 @@ namespace Frontend {
 
         const std::string name = _lexer.getToken()->getIdentifier();
         enforce(!is(_scope->findVariable(name)), "A variable with name ", name, " already exists @ ", _lexer.getLocation().getLine());
+        enforce(Keyword::Is(name) == Keyword::NONE, "Variables cannot have names of Keywords");
 
         _lexer.next();
         _lexer.expect(Token::ASSIGN);
 
         auto exp = this->parseExpression();
         auto vd = new VariableDeclaration(name, exp);
-        if (Keyword::Get(id) == Token::IMMUTABLE) {
+        if (Keyword::Get(id) == Keyword::IMMUTABLE) {
             vd->setStorageClass(StorageClass.IMMUTABLE);
         }
         _scope->addVariable(vd);
@@ -119,6 +127,27 @@ namespace Frontend {
         } else {
             _scope->addVariable(vd);
         }
+    }
+
+    Expression* Parser::parseKeywordExpression() {
+        const Token* tok = _lexer.getToken();
+        enforce(tok->isKeyword(), "Expected a keyword @ ", _lexer.getLocation().getLine());
+
+        if (tok->asKeyword() == Keyword::TRUE) {
+            _lexer.next();
+
+            return new NumericExpression(1);
+        }
+
+        if (tok->asKeyword() == Keyword::FALSE) {
+            _lexer.next();
+
+            return new NumericExpression(0);
+        }
+
+        error("Invalid use of Keyword as Expression @ ", _lexer.getLocation().getLine());
+
+        return nullptr;
     }
 
     Expression* Parser::parseIndexExpression() {
@@ -206,6 +235,54 @@ namespace Frontend {
                 continue;
             }
 
+            if (_lexer.accept(Token::LOWER)) {
+                Expression* rhs = this->parseFactor();
+                enforce(is(rhs), "Expected Expression after < @ ", _lexer.getLocation().getLine());
+                lhs = new LowerExpression(rhs, lhs);
+
+                continue;
+            }
+
+            if (_lexer.accept(Token::LOWER_EQUAL)) {
+                Expression* rhs = this->parseFactor();
+                enforce(is(rhs), "Expected Expression after <= @ ", _lexer.getLocation().getLine());
+                lhs = new LowerEqualExpression(rhs, lhs);
+
+                continue;
+            }
+
+            if (_lexer.accept(Token::GREATER)) {
+                Expression* rhs = this->parseFactor();
+                enforce(is(rhs), "Expected Expression after > @ ", _lexer.getLocation().getLine());
+                lhs = new GreaterExpression(rhs, lhs);
+
+                continue;
+            }
+
+            if (_lexer.accept(Token::GREATER_EQUAL)) {
+                Expression* rhs = this->parseFactor();
+                enforce(is(rhs), "Expected Expression after >= @ ", _lexer.getLocation().getLine());
+                lhs = new GreaterEqualExpression(rhs, lhs);
+
+                continue;
+            }
+
+            if (_lexer.accept(Token::EQUAL)) {
+                Expression* rhs = this->parseFactor();
+                enforce(is(rhs), "Expected Expression after == @ ", _lexer.getLocation().getLine());
+                lhs = new EqualExpression(rhs, lhs);
+
+                continue;
+            }
+
+            if (_lexer.accept(Token::NOT_EQUAL)) {
+                Expression* rhs = this->parseFactor();
+                enforce(is(rhs), "Expected Expression after != @ ", _lexer.getLocation().getLine());
+                lhs = new NotEqualExpression(rhs, lhs);
+
+                continue;
+            }
+
             break;
         }
 
@@ -213,14 +290,12 @@ namespace Frontend {
     }
 
     Expression* Parser::parseFactor() {
-        bool op_neg = false;
-        bool op_not = false;
-
+        i32_t op = Operator.NONE;
         while (true) {
             if (_lexer.accept(Token::NOT)) {
-                op_not = !op_not;
+                op ^= Operator.NOT;
             } else if (_lexer.accept(Token::NEGATE)) {
-                op_neg = !op_neg;
+                op ^= Operator.NEGATE;
             } else {
                 break;
             }
@@ -235,19 +310,21 @@ namespace Frontend {
         } else if (tok->is(Token::DECIMAL)) {
             exp = new NumericExpression(tok->getDecimal());
             _lexer.next();
+        } else if (tok->isKeyword()) {
+            exp = this->parseKeywordExpression();
+        } else if (tok->is(Token::IDENTIFIER)) {
+            exp = this->parseVariableExpression();
         } else if (_lexer.accept(Token::OPEN_PAREN)) {
             exp = this->parseExpression();
             _lexer.expect(Token::CLOSE_PAREN);
-        } else if (tok->is(Token::IDENTIFIER)) {
-            exp = this->parseVariableExpression();
         }
 
-        if (op_not) {
+        if (op & Operator.NOT) {
             enforce(is(exp), "Nothing that can be noted @ ", _lexer.getLocation().getLine());
             exp = new NotExpression(exp);
         }
 
-        if (op_neg) {
+        if (op & Operator.NEGATE) {
             enforce(is(exp), "Nothing that can be negated @ ", _lexer.getLocation().getLine());
             exp = new NegateExpression(exp);
         }
@@ -261,7 +338,6 @@ namespace Frontend {
         enforce(_lexer.getToken()->is(Token::IDENTIFIER), "Expected identifier as variable name @ ", _lexer.getLocation().getLine());
 
         const std::string& id = _lexer.getToken()->getIdentifier();
-
         auto vde = _scope->findVariable(id);
         enforce(is(vde), "No variable with name ", id, " exists @ ", _lexer.getLocation().getLine());
 
