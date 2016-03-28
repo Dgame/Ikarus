@@ -222,7 +222,7 @@ namespace Frontend {
             if (_lexer.accept(Token::DIVIDE)) {
                 Expression* rhs = this->parseFactor();
                 enforce(is(rhs), "Expected factor after / @ ", _lexer.getLocation().getLine());
-                lhs = new DivideExpression(rhs, lhs);
+                lhs = new DivideExpression(lhs, rhs);
 
                 continue;
             }
@@ -230,7 +230,7 @@ namespace Frontend {
             if (_lexer.accept(Token::MODULO)) {
                 Expression* rhs = this->parseFactor();
                 enforce(is(rhs), "Expected factor after % @ ", _lexer.getLocation().getLine());
-                lhs = new ModuloExpression(rhs, lhs);
+                lhs = new ModuloExpression(lhs, rhs);
 
                 continue;
             }
@@ -238,7 +238,7 @@ namespace Frontend {
             if (_lexer.accept(Token::LOWER)) {
                 Expression* rhs = this->parseFactor();
                 enforce(is(rhs), "Expected Expression after < @ ", _lexer.getLocation().getLine());
-                lhs = new LowerExpression(rhs, lhs);
+                lhs = new LowerExpression(lhs, rhs);
 
                 continue;
             }
@@ -246,7 +246,7 @@ namespace Frontend {
             if (_lexer.accept(Token::LOWER_EQUAL)) {
                 Expression* rhs = this->parseFactor();
                 enforce(is(rhs), "Expected Expression after <= @ ", _lexer.getLocation().getLine());
-                lhs = new LowerEqualExpression(rhs, lhs);
+                lhs = new LowerEqualExpression(lhs, rhs);
 
                 continue;
             }
@@ -254,7 +254,7 @@ namespace Frontend {
             if (_lexer.accept(Token::GREATER)) {
                 Expression* rhs = this->parseFactor();
                 enforce(is(rhs), "Expected Expression after > @ ", _lexer.getLocation().getLine());
-                lhs = new GreaterExpression(rhs, lhs);
+                lhs = new GreaterExpression(lhs, rhs);
 
                 continue;
             }
@@ -262,7 +262,7 @@ namespace Frontend {
             if (_lexer.accept(Token::GREATER_EQUAL)) {
                 Expression* rhs = this->parseFactor();
                 enforce(is(rhs), "Expected Expression after >= @ ", _lexer.getLocation().getLine());
-                lhs = new GreaterEqualExpression(rhs, lhs);
+                lhs = new GreaterEqualExpression(lhs, rhs);
 
                 continue;
             }
@@ -270,7 +270,7 @@ namespace Frontend {
             if (_lexer.accept(Token::EQUAL)) {
                 Expression* rhs = this->parseFactor();
                 enforce(is(rhs), "Expected Expression after == @ ", _lexer.getLocation().getLine());
-                lhs = new EqualExpression(rhs, lhs);
+                lhs = new EqualExpression(lhs, rhs);
 
                 continue;
             }
@@ -278,7 +278,7 @@ namespace Frontend {
             if (_lexer.accept(Token::NOT_EQUAL)) {
                 Expression* rhs = this->parseFactor();
                 enforce(is(rhs), "Expected Expression after != @ ", _lexer.getLocation().getLine());
-                lhs = new NotEqualExpression(rhs, lhs);
+                lhs = new NotEqualExpression(lhs, rhs);
 
                 continue;
             }

@@ -9,3 +9,4 @@ let g = e[0]
 e = 1337
 let h = true
 let i = 2 < 3
+let j = e > 2012

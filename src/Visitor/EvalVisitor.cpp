@@ -210,14 +210,3 @@ void EvalVisitor::visit(EqualExpression* exp) {
 void EvalVisitor::visit(NotEqualExpression* exp) {
     this->math("is_not_equal", exp);
 }
-
-
-
-
-
-
-
-
-
-
-
