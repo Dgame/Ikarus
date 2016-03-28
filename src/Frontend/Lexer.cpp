@@ -48,7 +48,8 @@ namespace Frontend {
         } else if (this->accept(':')) {
             tok->setType(Token::COLON);
         } else if (this->accept(';')) {
-            tok->setType(Token::SEMICOLON);
+            this->skipLineComment();
+            this->scan(tok);
         } else if (_location.is('"')) {
             this->parseString();
         } else if (_location.isAlpha()) {

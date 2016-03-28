@@ -22,8 +22,6 @@ std::string Token::AsString(Type type) {
             return ",";
         case COLON:
             return ":";
-        case SEMICOLON:
-            return ";";
         case ASSIGN:
             return "=";
         case DOT:

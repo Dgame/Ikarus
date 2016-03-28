@@ -15,6 +15,8 @@ protected:
 
     void skipSpaces();
 
+    void skipLineComment();
+
     virtual void parseIdentifier();
 
     virtual void parseString();

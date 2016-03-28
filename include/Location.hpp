@@ -41,7 +41,7 @@ public:
     char get() const {
         return *_ptr;
     }
-
+    
     char peek(u32_t n = 1) const;
 
     char next();

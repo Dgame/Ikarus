@@ -7,6 +7,12 @@ void AbstractLexer::skipSpaces() {
     }
 }
 
+void AbstractLexer::skipLineComment() {
+    while (_location.isValid() && !_location.is('\n')) {
+        _location.next();
+    }
+}
+
 bool AbstractLexer::accept(char c) {
     this->skipSpaces();
 

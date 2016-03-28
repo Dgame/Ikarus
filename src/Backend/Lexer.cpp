@@ -19,7 +19,8 @@ namespace Backend {
         } else if (this->accept(',')) {
             tok->setType(Token::COMMA);
         } else if (this->accept(';')) {
-            tok->setType(Token::SEMICOLON);
+            this->skipLineComment();
+            this->scan(tok);
         } else if (this->accept(':')) {
             tok->setType(Token::COLON);
         } else if (_location.is('"')) {

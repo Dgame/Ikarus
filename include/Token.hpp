@@ -17,7 +17,6 @@ public:
         TILDE,
         COMMA,
         COLON,
-        SEMICOLON,
         ASSIGN,
         DOT,
         NOT,
