@@ -7,21 +7,21 @@
 #include <memory>
 
 #include "Instruction.hpp"
+#include "Backend/Lexer.hpp"
 
 class Token;
 
 namespace Backend {
-    class Lexer;
-
     class Parser {
     private:
         size_t _index = 0;
+        Lexer _lexer;
 
-        OpCode* parseOpCode(Lexer&);
+        OpCode* parseOpCode();
 
-        void parseOperands(Instruction*, Lexer&);
+        void parseOperands(Instruction*);
 
-        void parse(Lexer&);
+        void parse();
 
         std::vector<std::unique_ptr<Instruction>> _instructions;
         std::map<std::string, size_t> _labels;

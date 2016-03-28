@@ -1,26 +1,25 @@
 #include "Backend/Parser.hpp"
-#include "Backend/Lexer.hpp"
 #include "StringExpression.hpp"
 #include "NumericExpression.hpp"
 
 namespace Backend {
-    OpCode* Parser::parseOpCode(Lexer& lexer) {
-        lexer.next();
-        auto tok = lexer.getToken();
+    OpCode* Parser::parseOpCode() {
+        _lexer.next();
+        auto tok = _lexer.getToken();
 
         switch (tok->getType()) {
             case Token::AMPERSAND:
-                lexer.next();
+                _lexer.next();
 
-                tok = lexer.getToken();
+                tok = _lexer.getToken();
                 enforce(tok->is(Token::INTEGER), "Expected INTEGER as Variable-ID, got ", tok->getType());
                 debug("VARIABLE ", tok->getInteger());
 
                 return new OpCode(OpCode::VARIABLE, new NumericExpression(tok->getInteger()));
             case Token::TILDE:
-                lexer.next();
+                _lexer.next();
 
-                tok = lexer.getToken();
+                tok = _lexer.getToken();
                 enforce(tok->is(Token::INTEGER), "Expected INTEGER as Offset, got ", tok->getType());
                 debug("OFFSET ", tok->getInteger());
 
@@ -44,20 +43,20 @@ namespace Backend {
         }
     }
 
-    void Parser::parseOperands(Instruction* instruction, Lexer& lexer) {
-        while (true) {
-            OpCode* opcode = this->parseOpCode(lexer);
+    void Parser::parseOperands(Instruction* instruction) {
+        while (_lexer.getLocation().isValid()) {
+            OpCode* opcode = this->parseOpCode();
             instruction->addOpCode(opcode);
 
-            if (lexer.next() != Token::COMMA) {
+            if (_lexer.next() != Token::COMMA) {
                 break;
             }
         }
     }
 
-    void Parser::parse(Lexer& lexer) {
-        while (true) {
-            auto tok = lexer.getToken();
+    void Parser::parse() {
+        while (_lexer.getLocation().isValid()) {
+            auto tok = _lexer.getToken();
             if (tok->is(Token::NONE)) {
                 break;
             }
@@ -71,29 +70,27 @@ namespace Backend {
 
             switch (instruction->getType()) {
                 case Instruction::LABEL:
-                    enforce(lexer.next() == Token::COLON, "Expected ':' after label");
-
-                    lexer.next();
+                    enforce(_lexer.next() == Token::COLON, "Expected ':' after label");
+                    _lexer.next();
 
                     _labels[id] = instruction->getId();
                     break;
                 case Instruction::EXIT:
                 case Instruction::RETURN:
-                    lexer.next();
+                    _lexer.next();
                     break;
                 default:
-                    this->parseOperands(instruction, lexer);
+                    this->parseOperands(instruction);
             }
 
             _instructions.emplace_back(instruction);
         }
     }
 
-    Parser::Parser(const char* pos, const char* const end) {
+    Parser::Parser(const char* pos, const char* const end) : _lexer(pos, end) {
         debug("---- PARSER START ---");
 
-        Lexer lexer(pos, end);
-        this->parse(lexer);
+        this->parse();
 
         debug("---- PARSER FINISHED ---");
     }

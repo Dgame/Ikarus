@@ -129,6 +129,22 @@ namespace Frontend {
         }
     }
 
+    u32_t Parser::parsePrefix() {
+        u32_t op = Operator.NONE;
+
+        while (_lexer.getLocation().isValid()) {
+            if (_lexer.accept(Token::NOT)) {
+                op ^= Operator.NOT;
+            } else if (_lexer.accept(Token::NEGATE)) {
+                op ^= Operator.NEGATE;
+            } else {
+                break;
+            }
+        }
+
+        return op;
+    }
+
     Expression* Parser::parseKeywordExpression() {
         const Token* tok = _lexer.getToken();
         enforce(tok->isKeyword(), "Expected a keyword @ ", _lexer.getLocation().getLine());
@@ -183,7 +199,7 @@ namespace Frontend {
         Expression* lhs = this->parseTerm();
         enforce(is(lhs), "Empty Left-Hand-Expression @ ", _lexer.getLocation().getLine());
 
-        while (true) {
+        while (_lexer.getLocation().isValid()) {
             if (_lexer.accept(Token::PLUS)) {
                 Expression* rhs = this->parseTerm();
                 enforce(is(rhs), "Expected factor after + @ ", _lexer.getLocation().getLine());
@@ -210,7 +226,7 @@ namespace Frontend {
         Expression* lhs = this->parseFactor();
         enforce(is(lhs), "[Term] Empty Left-Hand-Expression @ ", _lexer.getLocation().getLine());
 
-        while (true) {
+        while (_lexer.getLocation().isValid()) {
             if (_lexer.accept(Token::MULTIPLY)) {
                 Expression* rhs = this->parseFactor();
                 enforce(is(rhs), "Expected factor after * @ ", _lexer.getLocation().getLine());
@@ -290,16 +306,7 @@ namespace Frontend {
     }
 
     Expression* Parser::parseFactor() {
-        i32_t op = Operator.NONE;
-        while (true) {
-            if (_lexer.accept(Token::NOT)) {
-                op ^= Operator.NOT;
-            } else if (_lexer.accept(Token::NEGATE)) {
-                op ^= Operator.NEGATE;
-            } else {
-                break;
-            }
-        }
+        const u32_t op = this->parsePrefix();
 
         Expression* exp = nullptr;
 
