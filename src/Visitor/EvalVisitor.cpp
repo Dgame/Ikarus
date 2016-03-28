@@ -1,4 +1,5 @@
 #include "EvalVisitor.hpp"
+#include "Backend/VM/Operand.hpp"
 #include "NumericExpression.hpp"
 #include "ArrayExpression.hpp"
 #include "MultiplyExpression.hpp"

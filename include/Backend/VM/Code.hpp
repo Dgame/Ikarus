@@ -3,7 +3,6 @@
 
 #include <string>
 #include <iostream>
-#include "Backend/VM/Operand.hpp"
 
 namespace Backend {
     class Operand;

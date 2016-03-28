@@ -1,4 +1,5 @@
 #include "Backend/VM/Code.hpp"
+#include "Backend/VM/Operand.hpp"
 
 namespace Backend {
     Code::Code(std::ostream& out) : _out(out) { }
