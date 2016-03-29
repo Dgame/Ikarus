@@ -8,14 +8,14 @@ namespace Backend {
         return op;
     }
 
-    Operand Operand::Offset(u32_t offset) {
+    Operand Operand::Offset(size_t offset) {
         Operand op(Type::OFFSET);
         op._offset = offset;
 
         return op;
     }
 
-    Operand Operand::Variable(u64_t vid) {
+    Operand Operand::Variable(size_t vid) {
         Operand op(Type::VARIABLE);
         op._vid = vid;
 

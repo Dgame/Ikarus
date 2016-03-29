@@ -160,8 +160,8 @@ namespace Backend {
                     this->math(instruction);
                     break;
                 case Instruction::NONE:
-                case Instruction::LABEL:
                     error("Unexpected Instruction");
+                case Instruction::LABEL:
                     break;
             }
         }

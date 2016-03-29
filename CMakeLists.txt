@@ -81,11 +81,12 @@ set(SOURCE_FILES
         include/Frontend/Operator.hpp
         include/Backend/VM/Code.hpp
         src/Backend/VM/Operand.cpp
-        include/Backend/VM/Operand.hpp src/Backend/VM/Code.cpp)
+        include/Backend/VM/Operand.hpp src/Backend/VM/Code.cpp include/Statement/Statement.hpp src/Statement/WhileStatement.cpp include/Statement/WhileStatement.hpp src/Statement/Statement.cpp)
 
 include_directories("include")
 include_directories("include/Expression")
 include_directories("include/Declaration")
+include_directories("include/Statement")
 include_directories("include/Frontend/EvalVisitor")
 include_directories("include/Visitor")
 

@@ -18,8 +18,8 @@ namespace Backend {
         Type _type;
 
         union {
-            u32_t _offset;
-            u64_t _vid;
+            size_t _offset;
+            size_t _vid;
             f32_t _number;
         };
 
@@ -28,9 +28,9 @@ namespace Backend {
 
         static Operand Number(f32_t);
 
-        static Operand Offset(u32_t);
+        static Operand Offset(size_t);
 
-        static Operand Variable(u64_t);
+        static Operand Variable(size_t);
 
         void print(std::ostream&) const;
     };

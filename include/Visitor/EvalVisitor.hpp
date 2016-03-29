@@ -7,10 +7,9 @@
 #include "Backend/VM/Code.hpp"
 
 class VariableDeclaration;
-
 class BinaryExpression;
-
 class UnaryExpression;
+class WhileStatement;
 
 class EvalVisitor : public Visitor {
 private:
@@ -71,6 +70,8 @@ public:
     void visit(ArrayExpression*) override;
 
     void visit(VariableDeclaration*) override;
+
+    void visit(WhileStatement*) override;
 };
 
 #endif //IKARUS_EVALVISITOR_HPP

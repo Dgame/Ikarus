@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <memory>
+#include <Declaration/VariableDeclaration.hpp>
 #include "Frontend/Scope.hpp"
 #include "Frontend/Lexer.hpp"
 
@@ -12,7 +13,6 @@ namespace Frontend {
     class Parser {
     private:
         Scope* _scope = nullptr;
-        std::vector<std::unique_ptr<Scope>> _scopes;
         Lexer _lexer;
 
         void pushScope();
@@ -21,7 +21,8 @@ namespace Frontend {
         void parse();
         void parseIdentifier();
 
-        void parseWhile();
+        void parseWhileStatement();
+
         void parseVariableDeclaration();
         void assignNewVariable(const std::string&);
         void assignExistingVariable(const std::string&);
@@ -38,6 +39,7 @@ namespace Frontend {
 
     public:
         explicit Parser(const char*, const char* const);
+        ~Parser();
 
         void eval(std::ostream&);
     };

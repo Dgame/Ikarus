@@ -10,3 +10,11 @@ e = 1337
 let h = true
 let i = 2 < 3
 let j = e > 2012
+
+var y = 2
+var z = 3
+while (z > 1) {
+    z--
+    y = y * 2
+}
+

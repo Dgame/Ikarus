@@ -11,7 +11,8 @@ namespace {
             {"false",    Keyword::FALSE},
             {"function", Keyword::FUNCTION},
             {"if",       Keyword::IF},
-            {"else",     Keyword::ELSE}
+            {"else",     Keyword::ELSE},
+            {"while",    Keyword::WHILE},
     };
 }
 

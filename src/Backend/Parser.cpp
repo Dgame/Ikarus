@@ -56,21 +56,22 @@ namespace Backend {
 
     void Parser::parse() {
         while (_lexer.getLocation().isValid()) {
-            auto tok = _lexer.getToken();
+            const Token* tok = _lexer.getToken();
             if (tok->is(Token::NONE)) {
                 break;
             }
 
-            enforce(tok->is(Token::IDENTIFIER), "Expected identifier");
+            enforce(tok->is(Token::IDENTIFIER), "Expected identifier, not ", tok->asString(), " @ ", _lexer.getLocation().getLine());
 
-            auto id = tok->getIdentifier();
+            const std::string id = tok->getIdentifier();
             debug("INSTRUCTION ", id);
 
             Instruction* instruction = new Instruction(id);
 
             switch (instruction->getType()) {
                 case Instruction::LABEL:
-                    enforce(_lexer.next() == Token::COLON, "Expected ':' after label");
+                    enforce(_lexer.next() == Token::COLON, "Expected ':' after label, not ", tok->asString(), " @ ",
+                            _lexer.getLocation().getLine());
                     _lexer.next();
 
                     _labels[id] = instruction->getId();

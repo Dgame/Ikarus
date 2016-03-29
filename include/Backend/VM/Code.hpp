@@ -9,6 +9,8 @@ namespace Backend {
 
     class Code {
     private:
+        static size_t Labels;
+
         std::ostream& _out;
 
     public:
@@ -17,6 +19,13 @@ namespace Backend {
         void gen(const std::string&, const Operand&, bool nl = true);
 
         void gen(const std::string&, const Operand&, const Operand&);
+
+        void gen(const std::string&, const std::string&);
+
+        void genLabel(const std::string&);
+        void genLabel(size_t);
+
+        std::string label(size_t);
     };
 }
 

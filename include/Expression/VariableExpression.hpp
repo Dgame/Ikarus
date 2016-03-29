@@ -12,7 +12,7 @@ protected:
     explicit VariableExpression(size_t vid) : _vid(vid) { }
 
 public:
-    explicit VariableExpression(VariableDeclaration* var) : VariableExpression(var->getId()) { }
+    explicit VariableExpression(VariableDeclaration* vd) : VariableExpression(vd->getId()) { }
 
     virtual VariableExpression* clone() const override {
         return new VariableExpression(_vid);

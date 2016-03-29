@@ -8,7 +8,7 @@ std::string Token::AsString(Type type) {
         case NONE:
             return "<None>";
         case INTEGER:
-            return ">Integer>";
+            return "<Integer>";
         case DECIMAL:
             return "<Decimal>";
         case STRING:
@@ -76,7 +76,11 @@ std::string Token::AsString(Type type) {
     }
 }
 
-std::string Token::asString() {
+std::string Token::asString() const {
+    if (this->is(Token::IDENTIFIER) || this->is(Token::STRING)) {
+        return _identifier;
+    }
+
     return Token::AsString(_type);
 }
 

@@ -8,6 +8,8 @@
 #include "NegateExpression.hpp"
 #include "NotExpression.hpp"
 #include "ArrayExpression.hpp"
+#include "IncrementExpression.hpp"
+#include "DecrementExpression.hpp"
 #include "IndexAssignExpression.hpp"
 #include "IndexAccessExpression.hpp"
 #include "LowerExpression.hpp"
@@ -18,11 +20,11 @@
 #include "NotEqualExpression.hpp"
 #include "Frontend/Keyword.hpp"
 #include "Frontend/Operator.hpp"
+#include "WhileStatement.hpp"
 
 namespace Frontend {
     void Parser::pushScope() {
         _scope = new Scope(_scope);
-        _scopes.emplace_back(_scope);
     }
 
     void Parser::popScope() {
@@ -36,8 +38,11 @@ namespace Frontend {
             tok = _lexer.getToken();
             if (tok->is(Token::IDENTIFIER)) {
                 this->parseIdentifier();
+            } else if (tok->is(Token::CLOSE_CURLY)) {
+                this->popScope();
+                _lexer.next();
             } else {
-                error("#1 Not implemented @ ", _lexer.getLocation().getLine());
+                error("#1 Not implemented '", _lexer.getToken()->asString(), "' @ ", _lexer.getLocation().getLine());
                 break;
             }
         } while (!tok->is(Token::NONE));
@@ -53,9 +58,9 @@ namespace Frontend {
                 case Keyword::IF:
                 case Keyword::ELSE:
                 case Keyword::FUNCTION:
-                case Keyword::WHILE:
-//                    this->parseWhile();
                     error("#2 Not implemented @ ", _lexer.getLocation().getLine());
+                case Keyword::WHILE:
+                    this->parseWhileStatement();
                     break;
                 default:
                     this->parseVariableDeclaration();
@@ -65,11 +70,21 @@ namespace Frontend {
         }
     }
 
-    void Parser::parseWhile() {
+    void Parser::parseWhileStatement() {
         auto tok = _lexer.getToken();
         enforce(tok->is(Token::IDENTIFIER), "Should be an identifier @ ", _lexer.getLocation().getLine());
+        enforce(tok->asKeyword() == Keyword::WHILE, "Expected while");
 
-        // TODO: implement
+        _lexer.next();
+
+        Expression* exp = this->parseExpression();
+
+        _lexer.expect(Token::OPEN_CURLY);
+
+        this->pushScope();
+        auto stmt = new WhileStatement(exp, _scope);
+
+        _scope->getPredecessor()->add(stmt);
     }
 
     void Parser::parseVariableDeclaration() {
@@ -96,6 +111,7 @@ namespace Frontend {
 
         auto exp = this->parseExpression();
         auto vd = new VariableDeclaration(name, exp);
+
         if (Keyword::Get(id) == Keyword::IMMUTABLE) {
             vd->setStorageClass(StorageClass.IMMUTABLE);
         }
@@ -114,9 +130,20 @@ namespace Frontend {
             index = this->parseIndexExpression();
         }
 
-        _lexer.expect(Token::ASSIGN);
+        Expression* exp = nullptr;
+        if (_lexer.getToken()->is(Token::ASSIGN)) {
+            _lexer.next();
+            exp = this->parseExpression();
+        } else if (_lexer.getToken()->is(Token::INCREMENT)) {
+            _lexer.next();
+            exp = new IncrementExpression(new VariableExpression(vde));
+        } else if (_lexer.getToken()->is(Token::DECREMENT)) {
+            _lexer.next();
+            exp = new DecrementExpression(new VariableExpression(vde));
+        } else {
+            error("Invalid assignment '", _lexer.getToken()->asString(), "' @ ", _lexer.getLocation().getLine(), " => ");
+        }
 
-        auto exp = this->parseExpression();
         if (is(index)) {
             exp = new IndexAssignExpression(vde, index, exp);
         }
@@ -350,13 +377,24 @@ namespace Frontend {
 
         _lexer.next();
 
+        Expression* exp = nullptr;
         if (_lexer.getToken()->is(Token::OPEN_BRACKET)) {
             Expression* index = this->parseIndexExpression();
 
-            return new IndexAccessExpression(vde, index);
+            exp = new IndexAccessExpression(vde, index);
+        } else {
+            exp = new VariableExpression(vde);
         }
 
-        return new VariableExpression(vde);
+        if (_lexer.getToken()->is(Token::INCREMENT)) {
+            _lexer.next();
+            exp = new IncrementExpression(exp);
+        } else if (_lexer.getToken()->is(Token::DECREMENT)) {
+            _lexer.next();
+            exp = new DecrementExpression(exp);
+        }
+
+        return exp;
     }
 
     Parser::Parser(const char* pos, const char* const end) : _lexer(pos, end) {
@@ -364,9 +402,11 @@ namespace Frontend {
         this->parse();
     }
 
+    Parser::~Parser() {
+        delete _scope;
+    }
+
     void Parser::eval(std::ostream& out) {
-        for (auto& scope : _scopes) {
-            scope->eval(out);
-        }
+        _scope->eval(out);
     }
 }

@@ -17,6 +17,7 @@
 #include "GreaterEqualExpression.hpp"
 #include "EqualExpression.hpp"
 #include "NotEqualExpression.hpp"
+#include "WhileStatement.hpp"
 
 using Backend::Operand;
 
@@ -63,6 +64,8 @@ void EvalVisitor::math(const std::string& cmd, UnaryExpression* exp) {
 
     if (!e->isAtomic()) {
         _code.gen(cmd, Operand::Offset(_stack_offset - 1));
+    } else {
+        _out << std::endl;
     }
 
     _stack_offset++;
@@ -214,4 +217,18 @@ void EvalVisitor::visit(EqualExpression* exp) {
 
 void EvalVisitor::visit(NotEqualExpression* exp) {
     this->math("is_not_equal", exp);
+}
+
+void EvalVisitor::visit(WhileStatement* stmt) {
+    const std::string start = _code.label(stmt->getId());
+    const std::string end = _code.label(stmt->getId());
+
+    _code.genLabel(start);
+    stmt->getExpression()->accept(*this);
+    _code.gen("goto_if", end);
+
+    stmt->getScope()->eval(_out);
+
+    _code.gen("goto", start);
+    _code.genLabel(end);
 }

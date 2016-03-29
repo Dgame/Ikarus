@@ -10,7 +10,7 @@ class Declaration : public Evaluable {
 private:
     static size_t ID;
 
-    size_t _id = 0;
+    const size_t _id = 0;
     std::unique_ptr<Expression> _expr;
 
 protected:

@@ -60,7 +60,7 @@ public:
 
     static std::string AsString(Type);
 
-    std::string asString();
+    std::string asString() const;
 
     void setType(Type type) {
         _type = type;

@@ -39,3 +39,16 @@ print &8
 is_lower 2012, &4
 pop &9
 print &9
+
+assign &10, 8
+assign &11, 1
+L1:
+    is_lower &10, 2
+    goto_if L2
+    mul &11, &10
+    pop &11
+    dec &10
+    pop &10
+    goto L1
+L2:
+    print &11

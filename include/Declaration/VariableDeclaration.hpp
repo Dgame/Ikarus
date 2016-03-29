@@ -38,8 +38,9 @@ public:
         return (_stc & StorageClass.REFERENCE) != 0;
     }
 
-    virtual void accept(EvalVisitor&) override;
-    virtual VariableDeclaration* child(Expression*) const override;
+    void accept(EvalVisitor&) override;
+
+    VariableDeclaration* child(Expression*) const override;
 };
 
 #endif //IKARUS_VARIABLEDECLARATION_HPP
