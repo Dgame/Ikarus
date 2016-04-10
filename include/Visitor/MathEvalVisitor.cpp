@@ -128,22 +128,6 @@ void MathEvalVisitor::visit(IndexAssignExpression* exp) {
         Backend::Offset().print(_out);
     }
 
-    auto value = exp->getValueExpression();
-    if (value->isAtomic()) {
-        _out << "\nemplace ";
-        Backend::Variable(exp->getVariableId()).print(_out);
-        _out << ", ";
-    }
-
-    value->accept(*this);
-
-    if (!value->isAtomic()) {
-        _out << "\nemplace ";
-        Backend::Variable(exp->getVariableId()).print(_out);
-        _out << ", ";
-        Backend::Offset().print(_out);
-    }
-
     _out << '\n';
 }
 

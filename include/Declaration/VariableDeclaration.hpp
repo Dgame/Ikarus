@@ -38,7 +38,7 @@ public:
         return (_stc & StorageClass.REFERENCE) != 0;
     }
 
-    VariableDeclaration* child(Expression*) const override;
+    VariableDeclaration* descendant(Expression*) const override;
 
     void eval(std::ostream&);
 };

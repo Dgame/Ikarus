@@ -6,7 +6,7 @@ VariableDeclaration::VariableDeclaration(const std::string& name, size_t id, Exp
 
 VariableDeclaration::VariableDeclaration(const std::string& name, Expression* exp) : Declaration(exp), _name(name) { }
 
-VariableDeclaration* VariableDeclaration::child(Expression* exp) const {
+VariableDeclaration* VariableDeclaration::descendant(Expression* exp) const {
     return new VariableDeclaration(this->getName(), this->getId(), exp);
 }
 

@@ -148,7 +148,7 @@ namespace Frontend {
             exp = new IndexAssignExpression(vde, index, exp);
         }
 
-        auto vd = vde->child(exp);
+        auto vd = vde->descendant(exp);
         if (is(index)) {
             _scope->add(vd);
         } else {

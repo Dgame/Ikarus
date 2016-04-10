@@ -16,6 +16,10 @@ public:
     void visit(ArrayExpression*) override {
         _cmd = "append";
     }
+
+    void visit(IndexAssignExpression*) override {
+        _cmd = "emplace";
+    }
 };
 
 #endif

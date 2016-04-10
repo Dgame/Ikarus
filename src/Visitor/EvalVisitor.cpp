@@ -65,6 +65,8 @@ void EvalVisitor::visit(VariableExpression* exp) {
 void EvalVisitor::visit(IndexAssignExpression* exp) {
     MathEvalVisitor mev(_out);
     exp->accept(mev);
+
+    exp->getValueExpression()->accept(*this);
 }
 
 void EvalVisitor::visit(IndexAccessExpression* exp) {

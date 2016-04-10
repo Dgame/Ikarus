@@ -35,7 +35,7 @@ public:
         return _expr.get();
     }
 
-    virtual Declaration* child(Expression*) const = 0;
+    virtual Declaration* descendant(Expression*) const = 0;
 };
 
 #endif //IKARUS_DECLARATION_HPP
