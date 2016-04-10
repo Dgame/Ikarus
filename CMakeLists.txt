@@ -79,8 +79,6 @@ set(SOURCE_FILES
         include/Location.hpp
         src/Location.cpp
         include/Frontend/Operator.hpp
-        include/Backend/VM/Code.hpp
-        src/Backend/VM/Code.cpp
         include/Statement/Statement.hpp
         src/Statement/WhileStatement.cpp
         include/Statement/WhileStatement.hpp

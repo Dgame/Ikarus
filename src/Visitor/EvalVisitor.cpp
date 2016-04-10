@@ -17,13 +17,11 @@
 #include "EqualExpression.hpp"
 #include "NotEqualExpression.hpp"
 #include "MathEvalVisitor.hpp"
-#include "NotExpression.hpp"
-#include "NegateExpression.hpp"
 #include "Backend/VM/Value.hpp"
 #include "Backend/VM/Variable.hpp"
 #include "Backend/VM/Offset.hpp"
 
-EvalVisitor::EvalVisitor(std::ostream& out) : _code(out), _out(out) { }
+EvalVisitor::EvalVisitor(std::ostream& out) : _out(out) { }
 
 void EvalVisitor::eval(Expression* exp) {
     MathEvalVisitor mev(_out);

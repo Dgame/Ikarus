@@ -10,7 +10,6 @@
 #include "types.hpp"
 #include "Visitor.hpp"
 #include "Backend/VM/Operand.hpp"
-#include "Backend/VM/Code.hpp"
 
 class BinaryExpression;
 
@@ -19,8 +18,6 @@ class UnaryExpression;
 class EvalVisitor : public Visitor {
 private:
     std::vector<std::unique_ptr<Backend::Operand>> _operands;
-
-    Backend::Code _code;
     std::ostream& _out;
 
     void eval(Expression*);
