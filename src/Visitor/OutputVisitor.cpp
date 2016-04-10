@@ -6,7 +6,7 @@
 OutputVisitor::OutputVisitor(std::ostream& out) : _out(out) { }
 
 void OutputVisitor::visit(NumericExpression* exp) {
-    _out << exp->getNumber();
+    _out << exp->getValue();
 }
 
 void OutputVisitor::visit(StringExpression* exp) {
@@ -15,7 +15,7 @@ void OutputVisitor::visit(StringExpression* exp) {
 
 void OutputVisitor::visit(ArrayExpression* exp) {
     _out << '[';
-    for (u32_t i = 0; i < exp->getAmount(); i++) {
+    for (u32_t i = 0; i < exp->getLength(); i++) {
         Expression* item = exp->fetch(i);
         if (item) {
             item->accept(*this);
@@ -23,7 +23,7 @@ void OutputVisitor::visit(ArrayExpression* exp) {
             _out << "NULL";
         }
 
-        if ((i + 1) < exp->getAmount()) {
+        if ((i + 1) < exp->getLength()) {
             _out << ", ";
         }
     }
@@ -35,5 +35,5 @@ void print(Expression* exp, bool nl) {
     exp->accept(ov);
 
     if (nl)
-        std::cout << std::endl;
+        std::cout << '\n';
 }

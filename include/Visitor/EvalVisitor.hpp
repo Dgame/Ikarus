@@ -1,37 +1,34 @@
-#ifndef IKARUS_EVALVISITOR_HPP
-#define IKARUS_EVALVISITOR_HPP
+#ifndef IKARUS_EVAL_VISITOR_HPP
+#define IKARUS_EVAL_VISITOR_HPP
 
 #include <iostream>
+#include <memory>
+#include <vector>
+#include <Expression/Expression.hpp>
 #include "types.hpp"
 #include "Visitor.hpp"
+#include "Backend/VM/Operand.hpp"
 #include "Backend/VM/Code.hpp"
 
-class VariableDeclaration;
 class BinaryExpression;
+
 class UnaryExpression;
-class WhileStatement;
 
 class EvalVisitor : public Visitor {
 private:
-    enum State {
-        NONE = 0,
-        VARIABLE = 1,
-    };
-
-    size_t _vid = 0;
-    u32_t _state = NONE;
-    u32_t _stack_offset = 0;
+    std::vector<std::unique_ptr<Backend::Operand>> _operands;
 
     Backend::Code _code;
-
     std::ostream& _out;
 
-    virtual void math(const std::string&, BinaryExpression*);
-
-    virtual void math(const std::string&, UnaryExpression*);
+    void eval(Expression*);
 
 public:
     explicit EvalVisitor(std::ostream&);
+
+    auto& getOperands() const {
+        return _operands;
+    }
 
     void visit(MultiplyExpression*) override;
 
@@ -68,10 +65,6 @@ public:
     void visit(NumericExpression*) override;
 
     void visit(ArrayExpression*) override;
-
-    void visit(VariableDeclaration*) override;
-
-    void visit(WhileStatement*) override;
 };
 
-#endif //IKARUS_EVALVISITOR_HPP
+#endif //IKARUS_EVAL_VISITOR_HPP

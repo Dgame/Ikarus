@@ -10,11 +10,10 @@
 #include "IncrementExpression.hpp"
 #include "DecrementExpression.hpp"
 
-#include "util.hpp"
 #include <cmath>
 
 void MathVisitor::visit(NumericExpression* exp) {
-    _value = exp->getNumber();
+    _value = exp->getValue();
 }
 
 void MathVisitor::visit(NotExpression* exp) {

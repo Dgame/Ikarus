@@ -8,8 +8,8 @@ class WhileStatement : public Statement {
 public:
     using Statement::Statement;
 
-    void accept(EvalVisitor& ev) {
-        ev.visit(this);
+    void eval(std::ostream&) {
+
     }
 };
 

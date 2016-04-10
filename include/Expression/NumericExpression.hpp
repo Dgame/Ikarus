@@ -12,7 +12,7 @@ private:
 public:
     explicit NumericExpression(f32_t value) : _value(value) { }
 
-    f32_t getNumber() const {
+    f32_t getValue() const {
         return _value;
     }
 

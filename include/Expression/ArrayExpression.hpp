@@ -21,7 +21,7 @@ public:
         return _values.at(index).get();
     }
 
-    u32_t getAmount() const {
+    size_t getLength() const {
         return _values.size();
     }
 

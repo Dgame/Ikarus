@@ -28,9 +28,7 @@ VariableDeclaration* Scope::findVariable(const std::string& name) {
 }
 
 void Scope::eval(std::ostream& out) {
-    EvalVisitor eval(out);
-
     for (auto& e : _evals) {
-        e->accept(eval);
+        e->eval(out);
     }
 }

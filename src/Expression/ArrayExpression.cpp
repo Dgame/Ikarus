@@ -1,7 +1,7 @@
 #include "ArrayExpression.hpp"
 
 void ArrayExpression::emplace(u32_t index, Expression* exp) {
-    if (index >= this->getAmount()) {
+    if (index >= this->getLength()) {
         _values.resize(index + 1);
     }
 

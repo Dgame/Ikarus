@@ -8,10 +8,14 @@
 
 class Declaration : public Evaluable {
 private:
-    static size_t ID;
-
     const size_t _id = 0;
     std::unique_ptr<Expression> _expr;
+
+    static size_t& ID() {
+        static size_t id = 0;
+
+        return id;
+    }
 
 protected:
     explicit Declaration(size_t, Expression*);

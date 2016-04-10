@@ -16,14 +16,21 @@ namespace Backend {
     public:
         explicit Code(std::ostream&);
 
-        void gen(const std::string&, const Operand&, bool nl = true);
+        Code& end() {
+            _out << '\n';
 
-        void gen(const std::string&, const Operand&, const Operand&);
+            return *this;
+        }
 
-        void gen(const std::string&, const std::string&);
+        Code& gen(const std::string&, const Operand&);
 
-        void genLabel(const std::string&);
-        void genLabel(size_t);
+        Code& gen(const std::string&, const Operand&, const Operand&);
+
+        Code& gen(const std::string&, const std::string&);
+
+        Code& genLabel(const std::string&);
+
+        Code& genLabel(size_t);
 
         std::string label(size_t);
     };

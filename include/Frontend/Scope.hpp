@@ -8,7 +8,7 @@
 
 class VariableDeclaration;
 
-class Scope {
+class Scope : public Evaluable {
 private:
     Scope* _predecessor = nullptr;
     std::map<std::string, VariableDeclaration*> _variables;

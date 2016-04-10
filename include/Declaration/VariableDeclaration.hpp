@@ -38,9 +38,9 @@ public:
         return (_stc & StorageClass.REFERENCE) != 0;
     }
 
-    void accept(EvalVisitor&) override;
-
     VariableDeclaration* child(Expression*) const override;
+
+    void eval(std::ostream&);
 };
 
 #endif //IKARUS_VARIABLEDECLARATION_HPP

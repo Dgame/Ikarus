@@ -2,7 +2,7 @@
 #define TEST 1
 #define INTERPRET 0
 
-#define EVAL INTERPRET
+#define EVAL COMPILE
 
 #include <fstream>
 #include <sstream>
@@ -34,7 +34,7 @@ using Frontend::Parser;
 int main() {
 #if EVAL == COMPILE
     try {
-        std::ifstream is("C:/Users/Bjarne/Documents/GitHub/Ikarus.git/main.ik");
+        std::ifstream is("D:/Github/Ikarus/main.ik");
         if (!is.good())
             throw "Unable to open file";
         /*
@@ -113,7 +113,7 @@ int main() {
     vd6->accept(ev);
 #elif EVAL == INTERPRET
     try {
-        std::ifstream is("C:/Users/Bjarne/Documents/GitHub/Ikarus.git/test_main.ik");
+        std::ifstream is("D:/Github/Ikarus/test_main.ik");
         if (!is.good())
             throw "Unable to open file";
 

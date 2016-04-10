@@ -7,7 +7,7 @@
 
 template <typename T>
 void writeln(const T& val) {
-    std::cout << val << std::endl;
+    std::cout << val << '\n';
 }
 
 template <typename T, typename ...Args>

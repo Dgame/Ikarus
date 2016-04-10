@@ -2,37 +2,28 @@
 #define IKARUS_OPERAND_HPP
 
 #include "types.hpp"
-#include <ostream>
+#include <iostream>
 
 namespace Backend {
     class Operand {
     public:
-        enum Type {
-            NONE,
+        enum {
+            VALUE,
             OFFSET,
-            VARIABLE,
-            NUMBER
+            VARIABLE
         };
 
     private:
-        Type _type;
-
-        union {
-            size_t _offset;
-            size_t _vid;
-            f32_t _number;
-        };
+        u16_t _type;
 
     public:
-        explicit Operand(Type type) : _type(type) { }
+        explicit Operand(u16_t type) : _type(type) { }
 
-        static Operand Number(f32_t);
+        u16_t getType() const {
+            return _type;
+        }
 
-        static Operand Offset(size_t);
-
-        static Operand Variable(size_t);
-
-        void print(std::ostream&) const;
+        virtual void print(std::ostream&) const = 0;
     };
 }
 

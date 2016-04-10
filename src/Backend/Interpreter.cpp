@@ -211,7 +211,7 @@ namespace Backend {
             exp->accept(ov);
         }
 
-        std::cout << std::endl;
+        std::cout << '\n';
     }
 
     void Interpreter::assign(Instruction* instruction) {
@@ -270,7 +270,7 @@ namespace Backend {
         enforce(instruction->getOperandAmount() == 1, "fetch_dim need exactly one operands");
 
         Expression* exp = this->resolveVariable(instruction->getOperand(0));
-        const u32_t dim = exp->is<ArrayExpression>().ensure("Can only fetch dimension of an array")->getAmount();
+        const u32_t dim = exp->is<ArrayExpression>().ensure("Can only fetch dimension of an array")->getLength();
 
         this->pushStack(new NumericExpression(dim));
     }
@@ -310,8 +310,8 @@ namespace Backend {
         Expression* lhs = this->resolveExpression(instruction->getOperand(0));
         Expression* rhs = this->resolveExpression(instruction->getOperand(1));
 
-        const f32_t lhs_num = lhs->is<NumericExpression>().ensure("Invalid left hand side expression")->getNumber();
-        const f32_t rhs_num = rhs->is<NumericExpression>().ensure("Invalid right hand side expression")->getNumber();
+        const f32_t lhs_num = lhs->is<NumericExpression>().ensure("Invalid left hand side expression")->getValue();
+        const f32_t rhs_num = rhs->is<NumericExpression>().ensure("Invalid right hand side expression")->getValue();
 
         const i32_t result = lhs_num < rhs_num;
         debug("IS LOWER ", result);
@@ -326,8 +326,8 @@ namespace Backend {
         Expression* lhs = this->resolveExpression(instruction->getOperand(0));
         Expression* rhs = this->resolveExpression(instruction->getOperand(1));
 
-        const f32_t lhs_num = lhs->is<NumericExpression>().ensure("Invalid left hand side expression")->getNumber();
-        const f32_t rhs_num = rhs->is<NumericExpression>().ensure("Invalid right hand side expression")->getNumber();
+        const f32_t lhs_num = lhs->is<NumericExpression>().ensure("Invalid left hand side expression")->getValue();
+        const f32_t rhs_num = rhs->is<NumericExpression>().ensure("Invalid right hand side expression")->getValue();
 
         const i32_t result = std::fabs(lhs_num - rhs_num) < std::numeric_limits<f32_t>::epsilon();
         this->pushStack(new NumericExpression(result));

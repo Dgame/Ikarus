@@ -80,14 +80,18 @@ set(SOURCE_FILES
         src/Location.cpp
         include/Frontend/Operator.hpp
         include/Backend/VM/Code.hpp
-        src/Backend/VM/Operand.cpp
-        include/Backend/VM/Operand.hpp src/Backend/VM/Code.cpp include/Statement/Statement.hpp src/Statement/WhileStatement.cpp include/Statement/WhileStatement.hpp src/Statement/Statement.cpp)
+        src/Backend/VM/Code.cpp
+        include/Statement/Statement.hpp
+        src/Statement/WhileStatement.cpp
+        include/Statement/WhileStatement.hpp
+        src/Statement/Statement.cpp
+        include/Backend/VM/Operand.hpp
+        include/Backend/VM/Value.hpp include/Backend/VM/Offset.hpp include/Backend/VM/Variable.hpp include/Visitor/AssignmentVisitor.hpp include/Visitor/MathEvalVisitor.cpp include/Visitor/MathEvalVisitor.hpp)
 
 include_directories("include")
 include_directories("include/Expression")
 include_directories("include/Declaration")
 include_directories("include/Statement")
-include_directories("include/Frontend/EvalVisitor")
 include_directories("include/Visitor")
 
 add_executable(Ikarus ${SOURCE_FILES})
