@@ -46,6 +46,14 @@ public:
     void visit(IndexAssignExpression*) override;
 
     void visit(IndexAccessExpression*) override;
+
+    void visit(LowerExpression*) override;
+
+    void visit(LowerEqualExpression*) override;
+
+    void visit(EqualExpression*) override;
+
+    void visit(NotEqualExpression*) override;
 };
 
 #endif //IKARUS_MATHEVALVISITOR_HPP

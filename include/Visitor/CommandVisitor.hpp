@@ -4,12 +4,12 @@
 #include "Visitor.hpp"
 #include <string>
 
-class AssignmentVisitor : public Visitor {
+class CommandVisitor : public Visitor {
 private:
     std::string _cmd = "assign";
 
 public:
-    const std::string& getAssignmentCommand() const {
+    const std::string& getCommand() const {
         return _cmd;
     }
 

@@ -5,6 +5,8 @@
 #include <memory>
 #include <vector>
 #include <Expression/Expression.hpp>
+#include <Expression/NotExpression.hpp>
+#include <Expression/NegateExpression.hpp>
 #include "types.hpp"
 #include "Visitor.hpp"
 #include "Backend/VM/Operand.hpp"
@@ -65,6 +67,10 @@ public:
     void visit(NumericExpression*) override;
 
     void visit(ArrayExpression*) override;
+
+    void visit(NotExpression*) override;
+
+    void visit(NegateExpression*) override;
 };
 
 #endif //IKARUS_EVAL_VISITOR_HPP

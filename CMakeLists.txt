@@ -86,7 +86,12 @@ set(SOURCE_FILES
         include/Statement/WhileStatement.hpp
         src/Statement/Statement.cpp
         include/Backend/VM/Operand.hpp
-        include/Backend/VM/Value.hpp include/Backend/VM/Offset.hpp include/Backend/VM/Variable.hpp include/Visitor/AssignmentVisitor.hpp include/Visitor/MathEvalVisitor.cpp include/Visitor/MathEvalVisitor.hpp)
+        include/Backend/VM/Value.hpp
+        include/Backend/VM/Offset.hpp
+        include/Backend/VM/Variable.hpp
+        include/Visitor/CommandVisitor.hpp
+        src/Visitor/MathEvalVisitor.cpp
+        include/Visitor/MathEvalVisitor.hpp)
 
 include_directories("include")
 include_directories("include/Expression")

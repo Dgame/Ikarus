@@ -17,6 +17,8 @@
 #include "EqualExpression.hpp"
 #include "NotEqualExpression.hpp"
 #include "MathEvalVisitor.hpp"
+#include "NotExpression.hpp"
+#include "NegateExpression.hpp"
 #include "Backend/VM/Value.hpp"
 #include "Backend/VM/Variable.hpp"
 #include "Backend/VM/Offset.hpp"
@@ -87,28 +89,23 @@ void EvalVisitor::visit(ArrayExpression* exp) {
 }
 
 void EvalVisitor::visit(LowerExpression* exp) {
-//    this->binary(exp);
+    this->eval(exp);
 }
 
 void EvalVisitor::visit(GreaterExpression* exp) {
-//    _reversed = true;
-    // reverse ordering
-//    auto e = std::make_unique<LowerEqualExpression>(exp->getLeftExpression()->clone(),
-//                                                    exp->getRightExpression()->clone());
-//    e->accept(*this);
-//    this->binary(exp);
+    auto leq = new LowerEqualExpression(exp->getRightExpression()->clone(), exp->getLeftExpression()->clone());
+    auto rexp = std::make_unique<NotExpression>(leq);
+    rexp->accept(*this);
 }
 
 void EvalVisitor::visit(LowerEqualExpression* exp) {
-//    this->binary(exp);
+    this->eval(exp);
 }
 
 void EvalVisitor::visit(GreaterEqualExpression* exp) {
-//    _reversed = true;
-    // reverse ordering
-//    auto e = std::make_unique<LowerExpression>(exp->getLeftExpression()->clone(), exp->getRightExpression()->clone());
-//    e->accept(*this);
-//    this->binary(exp);
+    auto lower = new LowerExpression(exp->getRightExpression()->clone(), exp->getLeftExpression()->clone());
+    auto rexp = std::make_unique<NotExpression>(lower);
+    rexp->accept(*this);
 }
 
 void EvalVisitor::visit(EqualExpression* exp) {
@@ -116,5 +113,13 @@ void EvalVisitor::visit(EqualExpression* exp) {
 }
 
 void EvalVisitor::visit(NotEqualExpression* exp) {
+    this->eval(exp);
+}
+
+void EvalVisitor::visit(NotExpression* exp) {
+    this->eval(exp);
+}
+
+void EvalVisitor::visit(NegateExpression* exp) {
     this->eval(exp);
 }

@@ -17,6 +17,7 @@
 #include "LowerEqualExpression.hpp"
 #include "GreaterEqualExpression.hpp"
 #include "EqualExpression.hpp"
+#include "NotEqualExpression.hpp"
 #include "Backend/VM/Offset.hpp"
 #include "Backend/VM/Value.hpp"
 #include "Backend/VM/Variable.hpp"
@@ -64,9 +65,9 @@ void MathEvalVisitor::unary(const std::string& cmd, UnaryExpression* exp) {
     if (!e->isAtomic()) {
         std::cout << cmd << ' ';
         Backend::Offset().print(_out);
-    } else {
-        _out << '\n';
     }
+
+    _out << '\n';
 }
 
 void MathEvalVisitor::visit(NumericExpression* exp) {
@@ -113,7 +114,6 @@ void MathEvalVisitor::visit(DecrementExpression* exp) {
     this->unary("dec", exp);
 }
 
-// TODO
 void MathEvalVisitor::visit(IndexAssignExpression* exp) {
     auto index = exp->getIndexExpression();
 
@@ -151,3 +151,18 @@ void MathEvalVisitor::visit(IndexAccessExpression* exp) {
     }
 }
 
+void MathEvalVisitor::visit(LowerExpression* exp) {
+    this->binary("is_lower", exp);
+}
+
+void MathEvalVisitor::visit(LowerEqualExpression* exp) {
+    this->binary("is_lower_or_equal", exp);
+}
+
+void MathEvalVisitor::visit(EqualExpression* exp) {
+    this->binary("is_equal", exp);
+}
+
+void MathEvalVisitor::visit(NotEqualExpression* exp) {
+    this->binary("is_not_equal", exp);
+}
