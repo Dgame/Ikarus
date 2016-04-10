@@ -84,7 +84,7 @@
       <sourceFolder url="file://$MODULE_DIR$/include/Visitor/Visitor.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Visitor/RevelationVisitor.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Visitor/MathVisitor.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/Visitor/CommandVisitor.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/Visitor/AssignmentCommandVisitor.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Statement/Statement.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Statement/WhileStatement.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />

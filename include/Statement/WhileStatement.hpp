@@ -8,9 +8,7 @@ class WhileStatement : public Statement {
 public:
     using Statement::Statement;
 
-    void eval(std::ostream&) {
-
-    }
+    void eval(std::ostream&);
 };
 
 #endif //IKARUS_WHILESTATEMENT_HPP

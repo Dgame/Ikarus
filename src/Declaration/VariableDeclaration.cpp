@@ -1,6 +1,6 @@
 #include <Visitor/EvalVisitor.hpp>
 #include "VariableDeclaration.hpp"
-#include "CommandVisitor.hpp"
+#include "AssignmentCommandVisitor.hpp"
 
 VariableDeclaration::VariableDeclaration(const std::string& name, size_t id, Expression* exp) : Declaration(id, exp), _name(name) { }
 
@@ -11,14 +11,14 @@ VariableDeclaration* VariableDeclaration::descendant(Expression* exp) const {
 }
 
 void VariableDeclaration::eval(std::ostream& out) {
-    CommandVisitor cv;
+    AssignmentCommandVisitor cv;
     this->getExpression()->accept(cv);
 
     EvalVisitor ev(out);
     this->getExpression()->accept(ev);
 
     for (auto& op : ev.getOperands()) {
-        out << cv.getCommand() << " &" << this->getId() << ", ";
+        out << cv.getAssignmentCommand() << " &" << this->getId() << ", ";
         op->print(std::cout);
         std::cout << '\n';
     }

@@ -87,7 +87,7 @@ set(SOURCE_FILES
         include/Backend/VM/Value.hpp
         include/Backend/VM/Offset.hpp
         include/Backend/VM/Variable.hpp
-        include/Visitor/CommandVisitor.hpp
+        include/Visitor/AssignmentCommandVisitor.hpp
         src/Visitor/MathEvalVisitor.cpp
         include/Visitor/MathEvalVisitor.hpp)
 
